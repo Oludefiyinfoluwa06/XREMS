@@ -1,18 +1,18 @@
 import { Stack } from 'expo-router';
 
-const RootLayout = () => {
+const AuthLayout = () => {
     return (
         <Stack>
             <Stack.Screen
-                name='index'
+                name='sign-up'
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name='(auth)'
+                name='sign-in'
                 options={{ headerShown: false }}
             />
         </Stack>
     );
 }
 
-export default RootLayout;
+export default AuthLayout;
