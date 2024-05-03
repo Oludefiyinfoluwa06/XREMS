@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { useEffect } from 'react';
-import { Image } from 'react-native';
+import { Image, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Home = () => {
@@ -19,6 +19,7 @@ const Home = () => {
                 resizeMode='contain'
                 className='w-[200px] h-[200px]'
             />
+            <TouchableOpacity onPress={() => router.replace('sign-up')}><Text>Signup</Text></TouchableOpacity>
         </SafeAreaView>
     );
 }
