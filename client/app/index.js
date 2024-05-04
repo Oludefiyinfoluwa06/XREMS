@@ -7,7 +7,7 @@ import { logo } from '../constants';
 const SplashScreen = () => {
     useEffect(() => {
         setTimeout(() => {
-            router.replace('/sign-up');
+            router.replace('/welcome');
         }, 3000);
     }, []);
 
@@ -18,7 +18,6 @@ const SplashScreen = () => {
                 resizeMode='contain'
                 className='w-[200px] h-[200px]'
             />
-            <TouchableOpacity onPress={() => router.replace('sign-up')}><Text>Signup</Text></TouchableOpacity>
         </SafeAreaView>
     );
 }
