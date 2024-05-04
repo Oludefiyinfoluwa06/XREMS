@@ -1,29 +1,32 @@
-import { Text, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState } from 'react';
 
-import Button from '../components/Button';
+import { View } from 'react-native';
+import { router } from 'expo-router';
+
+import WelcomeComp from '../components/Welcome';
+import { welcomeImgOne, welcomeImgThree, welcomeImgTwo } from '../constants';
 
 const Welcome = () => {
+    const [step, setStep] = useState(1);
+
+    const handleNextStep = () => {
+        if (step === 3) {
+            router.push('/sign-up');
+        } else {
+            setStep((prevStep) => prevStep + 1);
+        }
+    }
+
     return (
-        <SafeAreaView className='relative'>
-            <View className='p-4'>
-                <Text className='text-blue font-bold text-2xl w-40 text-center'>Let's find your dream house</Text>
-                <Text className='my-3 text-black w-80'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita quos quis sequi ipsam voluptatibus nemo omnis ab dolor quasi rerum.</Text>
-
-                <View className='flex-row items-center justify-center gap-2'>
-                    <View />
-                    <View />
-                    <View />
-                </View>
-
-                <View className='space-y-3'>
-                    <TouchableOpacity className='w-full p-3 rounded-[50px] bg-transparent'>
-                        <Text>Skip</Text>
-                    </TouchableOpacity>
-                    <Button title='Next' />
-                </View>
-            </View>
-        </SafeAreaView>
+        <View className='flex-1 h-screen'>
+            {step === 1 ? (
+                <WelcomeComp bg={welcomeImgOne} title="Let's find your dream house" text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita quos quis sequi ipsam voluptatibus nemo omnis ab dolor quasi rerum.' step={step} setStep={handleNextStep} />
+            ) : step === 2 ? (
+                <WelcomeComp bg={welcomeImgTwo} title="We focus on providing a comfortable place for you" text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita quos quis sequi ipsam voluptatibus nemo omnis ab dolor quasi rerum.' step={step} setStep={handleNextStep} />
+            ) : (
+                <WelcomeComp bg={welcomeImgThree} title="Find your beloved family's dream house" text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita quos quis sequi ipsam voluptatibus nemo omnis ab dolor quasi rerum.' step={step} setStep={handleNextStep} />
+            )}
+        </View>
     );
 }
 
