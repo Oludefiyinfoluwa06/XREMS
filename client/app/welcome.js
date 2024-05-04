@@ -5,6 +5,7 @@ import { router } from 'expo-router';
 
 import WelcomeComp from '../components/Welcome';
 import { welcomeImgOne, welcomeImgThree, welcomeImgTwo } from '../constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Welcome = () => {
     const [step, setStep] = useState(1);
