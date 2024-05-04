@@ -1,9 +1,8 @@
 import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 
 import Button from '../components/Button';
-import { router } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const WelcomeComp = ({ bg, title, text, step, setStep }) => {
     return (
