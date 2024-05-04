@@ -2,20 +2,19 @@ import { router } from 'expo-router';
 import { useEffect } from 'react';
 import { Image, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { logo } from '../constants';
 
-const Home = () => {
+const SplashScreen = () => {
     useEffect(() => {
-        const timer = setTimeout(() => {
-            router.replace('/sign-in');
+        setTimeout(() => {
+            router.replace('/sign-up');
         }, 3000);
-
-        return () => clearTimeout(timer);
     }, []);
 
     return (
         <SafeAreaView className='items-center justify-center min-h-screen'>
             <Image
-                source={require('../assets/images/logo.png')}
+                source={logo}
                 resizeMode='contain'
                 className='w-[200px] h-[200px]'
             />
@@ -24,4 +23,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default SplashScreen;
