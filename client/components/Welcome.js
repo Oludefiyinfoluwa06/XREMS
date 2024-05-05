@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 
 import Button from '../components/Button';
 
-const WelcomeComp = ({ bg, title, text, step, setStep }) => {
+const WelcomeComp = ({ bg, title, text, step, setStep, handleNextStep }) => {
     return (
         <SafeAreaView className="relative h-screen w-full">
             <ImageBackground
@@ -12,23 +12,29 @@ const WelcomeComp = ({ bg, title, text, step, setStep }) => {
                 resizeMode='cover'
                 className='flex-1'
             >
-                <View className='p-4 absolute bottom-[-1px] left-0 rounded-t-[50px] bg-white w-full pt-[30px] h-[300px]'>
+                <View className='p-4 absolute bottom-[-1px] left-0 rounded-t-[50px] bg-white w-full pt-[30px] h-[320px]'>
                     <Text className='text-blue font-bold text-2xl w-[80%] text-center mx-auto'>{title}</Text>
                     <Text className='my-3 text-black w-80 text-center mx-auto leading-[24px]'>{text}</Text>
 
                     <View className='flex-row items-center justify-center gap-2 my-2'>
-                        <View className={`p-[3px] rounded-full ${step === 1 ? 'bg-blue' : 'bg-lightBlue'}`} />
-                        <View className={`p-[3px] rounded-full ${step === 2 ? 'bg-blue' : 'bg-lightBlue'}`} />
-                        <View className={`p-[3px] rounded-full ${step === 3 ? 'bg-blue' : 'bg-lightBlue'}`} />
+                        <TouchableOpacity onPress={() => setStep(1)}>
+                            <View className={`p-[3px] rounded-full ${step === 1 ? 'bg-blue' : 'bg-lightBlue'}`} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setStep(2)}>
+                            <View className={`p-[3px] rounded-full ${step === 2 ? 'bg-blue' : 'bg-lightBlue'}`} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setStep(3)}>
+                            <View className={`p-[3px] rounded-full ${step === 3 ? 'bg-blue' : 'bg-lightBlue'}`} />
+                        </TouchableOpacity>
                     </View>
 
                     <View className='space-y-3'>
-                        <TouchableOpacity className='w-full p-3 mb-3 rounded-[50px] bg-transparent' onPress={() => {
+                        <TouchableOpacity className='w-full my-3 rounded-[50px] bg-transparent' onPress={() => {
                             router.replace('/sign-up');
                         }}>
                             <Text className='text-center'>Skip</Text>
                         </TouchableOpacity>
-                        <Button title='Next' onClick={setStep} />
+                        <Button title='Next' onClick={handleNextStep} />
                     </View>
                 </View>
             </ImageBackground>
