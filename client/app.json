@@ -8,6 +8,11 @@
       "expo-router"
     ],
     "name": "rems",
-    "slug": "rems"
+    "slug": "rems",
+    "android": {
+      "permissions": [
+        "INTERNET"
+      ]
+    }
   }
 }

@@ -9,12 +9,17 @@ import { router } from 'expo-router';
 import Button from '../../components/Button';
 import AuthButton from '../../components/AuthButton';
 import { facebook, google, logo, logo2 } from '../../constants';
+import { useAuth } from '../../contexts/AuthContext';
 
 const SignIn = () => {
     const [checked, setChecked] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const handleSignIn = () => {
-        router.push('/home');
+    const { signIn } = useAuth();
+
+    const handleSignIn = async () => {
+        await signIn(email, password);
     }
 
     return (
@@ -40,12 +45,17 @@ const SignIn = () => {
                     <TextInput
                         placeholder='Email'
                         className='p-[5px] px-[10px] w-full border border-gray rounded-[50px]'
+                        value={email}
+                        onChangeText={(value) => setEmail(value)}
                     />
 
                     <Text className="text-blue ml-[10px] mt-[15px] mb-[8px] text-[15px] font-bold">Password:</Text>
                     <TextInput
                         placeholder='Password'
                         className='p-[5px] px-[10px] w-full border border-gray rounded-[50px]'
+                        secureTextEntry
+                        value={password}
+                        onChangeText={(value) => setPassword(value)}
                     />
 
                     <CheckBox
