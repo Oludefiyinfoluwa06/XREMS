@@ -1,9 +1,26 @@
 const connection = require('../config/dbConnect');
 const bcrypt = require('bcrypt');
+const validator = require('validator');
 
 const signup = async (req, res) => {
     try {
         const { email, password } = req.body;
+
+        if (email === '') {
+            return res.json({ error: 'Enter an email address' });
+        }
+
+        if (!validator.isEmail(email)) {
+            return res.json({ error: 'Enter a valid email' })
+        }
+
+        if (password === '') {
+            return res.json({ error: 'Enter a password' });
+        }
+
+        if (password.length < 8) {
+            return res.json({ error: 'Password length must be more than 8 characters' });
+        }
 
         const emailExists = 'SELECT * FROM users WHERE email = ?';
 
@@ -11,7 +28,7 @@ const signup = async (req, res) => {
             if (err) throw err;
 
             if (result.length > 0) {
-                return res.status(400).json({ message: 'Email exists already' });
+                return res.json({ error: 'Email exists already' });
             }
 
             const salt = await bcrypt.genSalt(10);
@@ -21,12 +38,12 @@ const signup = async (req, res) => {
             connection.query(insertUserQuery, [email, hash], (err, result) => {
                 if (err) throw err;
 
-                res.status(201).json({ message: 'Signup successful' });
+                res.json({ message: 'Signup successful' });
             });
         })
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        res.json({ error: 'Server error' });
     }
 }
 
@@ -34,29 +51,36 @@ const signin = async (req, res) => {
     try {
         const { email, password } = req.body;
 
+        if (email === '') {
+            return res.json({ error: 'Enter an email address' });
+        }
+
+        if (password === '') {
+            return res.json({ error: 'Enter a password' });
+        }
+
         const emailExists = 'SELECT * FROM users WHERE email = ?';
 
         connection.query(emailExists, [email], async (err, result) => {
             if (err) throw err;
 
             if (result.length === 0) {
-                return res.status(400).json({ message: 'User does not exist' });
+                return res.json({ error: 'User does not exist' });
             }
-
 
             const user = result[0];
 
             const passwordMatch = await bcrypt.compare(password, user.password);
 
             if (!passwordMatch) {
-                return res.status(400).json({ message: 'Incorrect password' });
+                return res.json({ error: 'Incorrect password' });
             }
 
-            res.status(200).json({ message: 'Sign in successful' });
+            res.json({ message: 'Sign in successful' });
         })
     } catch (error) {
         console.error(err);
-        res.status(500).json({ message: 'Server error' });
+        res.json({ error: 'Server error' });
     }
 }
 

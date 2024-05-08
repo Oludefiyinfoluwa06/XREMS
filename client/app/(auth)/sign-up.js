@@ -16,7 +16,7 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { signUp } = useAuth();
+    const { signUp, error, setError } = useAuth();
 
     const handleSignup = async () => {
         await signUp(email, password);
@@ -40,13 +40,20 @@ const SignUp = () => {
 
                 <Text className='font-bold text-[22px] leading-[16px] p-2 text-blue text-center'>Signup for free</Text>
 
+                {error && <View className='w-full p-3 rounded-[50px] bg-errorBg mt-2'>
+                    <Text className='text-errorText'>{error}</Text>
+                </View>}
+
                 <View>
                     <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-bold">Email:</Text>
                     <TextInput
                         placeholder='Email'
                         className='p-[5px] px-[10px] w-full border border-gray rounded-[50px]'
                         value={email}
-                        onChangeText={(value) => setEmail(value)}
+                        onChangeText={(value) => {
+                            setEmail(value);
+                            setError('');
+                        }}
                     />
 
                     <Text className="text-blue ml-[10px] mt-[15px] mb-[8px] text-[15px] font-bold">Password:</Text>
@@ -55,7 +62,10 @@ const SignUp = () => {
                         className='p-[5px] px-[10px] w-full border border-gray rounded-[50px]'
                         secureTextEntry
                         value={password}
-                        onChangeText={(value) => setPassword(value)}
+                        onChangeText={(value) => {
+                            setPassword(value);
+                            setError('');
+                        }}
                     />
 
                     <CheckBox
