@@ -5,13 +5,20 @@ import { router } from 'expo-router';
 
 import WelcomeComp from '../components/Welcome';
 import { welcomeImgOne, welcomeImgThree, welcomeImgTwo } from '../constants';
+import { useAuth } from '../contexts/AuthContext';
 
 const Welcome = () => {
     const [step, setStep] = useState(1);
 
+    const { isLoggedIn, currentUser } = useAuth();
+
     const handleNextStep = () => {
         if (step === 3) {
-            router.push('/sign-up');
+            if (isLoggedIn && currentUser !== null) {
+                return router.replace('/home');
+            }
+
+            return router.push('/sign-up');
         } else {
             setStep((prevStep) => prevStep + 1);
         }

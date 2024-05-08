@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CheckBox } from '@rneui/themed';
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
@@ -16,7 +16,13 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { signUp, error, setError } = useAuth();
+    const { signUp, error, setError, isLoggedIn, currentUser, loading } = useAuth();
+
+    useEffect(() => {
+        if (isLoggedIn && currentUser !== null) {
+            return router.replace('/home');
+        }
+    }, [isLoggedIn, currentUser]);
 
     const handleSignup = async () => {
         await signUp(email, password);
@@ -81,7 +87,7 @@ const SignUp = () => {
                         textStyle={{ color: '#191641' }}
                     />
 
-                    <Button title='Sign up' onClick={handleSignup} />
+                    <Button title='Sign up' onClick={handleSignup} loading={loading} />
 
                     <View className='flex-row items-center justify-center w-full my-4'>
                         <View className='h-[2px] w-[96px] bg-blue' />

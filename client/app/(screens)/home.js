@@ -1,29 +1,30 @@
 import { useEffect, useState } from 'react';
 
-import { useLocalSearchParams } from 'expo-router';
-import { View, Text } from 'react-native';
+import { router } from 'expo-router';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useAuth } from '../../contexts/AuthContext';
+
 const Home = () => {
-    const [successMsg, setsuccessMsg] = useState('');
-    const { message } = useLocalSearchParams();
+    const { currentUser, logout } = useAuth();
 
     useEffect(() => {
-        setsuccessMsg(message);
-
-        const timer = setTimeout(() => {
-            setsuccessMsg('');
-        }, 2000);
-
-        return () => clearTimeout(timer);
+        if (currentUser === null) {
+            return router.replace('sign-in');
+        }
     }, []);
+
+    const handleLogout = async () => {
+        await logout();
+    }
 
     return (
         <SafeAreaView>
-            {successMsg && <View className='bg-green-500 p-2 absolute top-[30px] left-0 w-full z-10'>
-                <Text className='text-white'>{successMsg}</Text>
-            </View>}
-            <Text className='text-3xl'>Home</Text>
+            <Text className='text-xl'>Hi, {currentUser}</Text>
+            <TouchableOpacity onPress={handleLogout} className='mt-[200px] ml-[100px]'>
+                <Text>Logout</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 }

@@ -16,7 +16,7 @@ const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { signIn, error, setError } = useAuth();
+    const { signIn, error, setError, loading } = useAuth();
 
     const handleSignIn = async () => {
         await signIn(email, password);
@@ -81,11 +81,15 @@ const SignIn = () => {
                         textStyle={{ color: '#191641' }}
                     />
 
-                    <Button title='Sign in' onClick={handleSignIn} />
+                    <Button title='Sign in' onClick={handleSignIn} loading={loading} />
+
+                    <TouchableOpacity className='w-full mt-3' onPress={() => router.push('/forgot-password')}>
+                        <Text className='text-blue text-center font-bold'>Forgot your password?</Text>
+                    </TouchableOpacity>
 
                     <View className='flex-row items-center justify-center w-full my-4'>
                         <View className='h-[2px] w-[96px] bg-blue' />
-                        <Text className='px-3'>Or continue with</Text>
+                        <Text className='px-3 text-blue'>Or continue with</Text>
                         <View className='h-[2px] w-[96px] bg-blue' />
                     </View>
 
