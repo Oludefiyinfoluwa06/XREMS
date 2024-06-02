@@ -9,7 +9,7 @@ import { logo } from '../constants';
 const SplashScreen = () => {
     useEffect(() => {        
         setTimeout(() => {
-            router.replace('/welcome');
+            router.replace('/sign-in');
         }, 3000);
     }, []);
 

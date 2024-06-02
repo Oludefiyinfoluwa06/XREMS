@@ -14,7 +14,11 @@ export const AuthProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://192.168.132.68:5000/auth/sign-up', { email, password });
+            const response = await axios.post('http://10.0.2.2:5000/auth/sign-up', { email, password }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
 
             if (response.data.error) {
                 return setError(response.data.error);
@@ -34,7 +38,11 @@ export const AuthProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://192.168.132.68:5000/auth/sign-in', { email, password });
+            const response = await axios.post('http://10.0.2.2:5000/auth/sign-in', { email, password }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
 
             if (response.data.error) {
                 return setError(response.data.error);

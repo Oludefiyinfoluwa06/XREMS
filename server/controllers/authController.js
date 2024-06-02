@@ -1,6 +1,6 @@
-const connection = require('../config/dbConnect');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
+const User = require('../models/user');
 
 const signup = async (req, res) => {
     try {
@@ -22,25 +22,18 @@ const signup = async (req, res) => {
             return res.json({ error: 'Password length must be more than 8 characters' });
         }
 
-        const emailExists = 'SELECT * FROM users WHERE email = ?';
+        const emailExists = await User.findOne({ email });
 
-        connection.query(emailExists, [email], async (err, result) => {
-            if (err) throw err;
+        if (emailExists) return res.json({ error: 'Email exists already' });
 
-            if (result.length > 0) {
-                return res.json({ error: 'Email exists already' });
-            }
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(password, salt);
 
-            const salt = await bcrypt.genSalt(10);
-            const hash = await bcrypt.hash(password, salt);
+        const user = await User.create({ email, password: hash });
 
-            const insertUserQuery = 'INSERT INTO users (email, password) VALUES (?, ?)';
-            connection.query(insertUserQuery, [email, hash], (err, result) => {
-                if (err) throw err;
+        return res.json({ message: 'Registration successful', user: user._id });
 
-                res.json({ message: 'Signup successful' });
-            });
-        })
+
     } catch (error) {
         console.error(error);
         res.json({ error: 'Server error' });
@@ -59,25 +52,16 @@ const signin = async (req, res) => {
             return res.json({ error: 'Enter a password' });
         }
 
-        const emailExists = 'SELECT * FROM users WHERE email = ?';
+        const user = await User.findOne({ email });
 
-        connection.query(emailExists, [email], async (err, result) => {
-            if (err) throw err;
+        if (!user) return res.json({ error: 'Email does not exist' });
 
-            if (result.length === 0) {
-                return res.json({ error: 'User does not exist' });
-            }
+        const passwordMatch = await bcrypt.compare(password, user.password);
 
-            const user = result[0];
+        if (!passwordMatch) return res.json({ error: 'Enter a correct password' });
 
-            const passwordMatch = await bcrypt.compare(password, user.password);
+        return res.json({ message: 'Login successful', user: user._id });
 
-            if (!passwordMatch) {
-                return res.json({ error: 'Incorrect password' });
-            }
-
-            res.json({ message: 'Sign in successful' });
-        })
     } catch (error) {
         console.error(err);
         res.json({ error: 'Server error' });
