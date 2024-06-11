@@ -1,6 +1,15 @@
 const bcrypt = require('bcrypt');
 const validator = require('validator');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+
+const maxAge = 60 * 60 * 24 * 3;
+
+const createToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: maxAge
+    });
+}
 
 const signup = async (req, res) => {
     try {
@@ -31,8 +40,9 @@ const signup = async (req, res) => {
 
         const user = await User.create({ email, password: hash });
 
-        return res.json({ message: 'Registration successful', user: user._id });
+        const token = createToken(user._id);
 
+        return res.json({ message: 'Registration successful', token, user: user._id });
 
     } catch (error) {
         console.error(error);
@@ -60,10 +70,12 @@ const signin = async (req, res) => {
 
         if (!passwordMatch) return res.json({ error: 'Enter a correct password' });
 
-        return res.json({ message: 'Login successful', user: user._id });
+        const token = createToken(user._id);
+
+        return res.json({ message: 'Login successful', token, user: user._id });
 
     } catch (error) {
-        console.error(err);
+        console.error(error);
         res.json({ error: 'Server error' });
     }
 }

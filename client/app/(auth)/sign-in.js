@@ -23,7 +23,7 @@ const SignIn = () => {
     }
 
     return (
-        <SafeAreaView>
+        <SafeAreaView className='bg-white'>
             <ScrollView className='p-[25px]'>
                 <View className='flex items-center justify-center gap-2 mb-5'>
                     <Image
@@ -83,9 +83,9 @@ const SignIn = () => {
 
                     <Button title='Sign in' onClick={handleSignIn} loading={loading} />
 
-                    <TouchableOpacity className='w-full mt-3' onPress={() => router.push('/forgot-password')}>
+                    {/* <TouchableOpacity className='w-full mt-3' onPress={() => router.push('/forgot-password')}>
                         <Text className='text-blue text-center font-bold'>Forgot your password?</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                     <View className='flex-row items-center justify-center w-full my-4'>
                         <View className='h-[2px] w-[96px] bg-blue' />

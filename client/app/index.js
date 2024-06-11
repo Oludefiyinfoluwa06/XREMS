@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,14 +8,26 @@ import { router } from 'expo-router';
 import { logo } from '../constants';
 
 const SplashScreen = () => {
-    useEffect(() => {        
-        setTimeout(() => {
-            router.replace('/sign-in');
-        }, 3000);
+    useEffect(() => {
+        const checkAuth = async () => {
+            const token = await AsyncStorage.getItem('token');
+            const user = await AsyncStorage.getItem('user');
+
+            setTimeout(() => {
+                if (!user == '' && !token) {
+                    return router.replace('/welcome');
+                }
+                
+                return router.replace('/home');
+                
+            }, 3000);
+        }
+
+        checkAuth();
     }, []);
 
     return (
-        <SafeAreaView className='items-center justify-center min-h-screen'>
+        <SafeAreaView className='items-center justify-center min-h-screen bg-white'>
             <Image
                 source={logo}
                 resizeMode='contain'

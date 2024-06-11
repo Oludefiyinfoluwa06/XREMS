@@ -2,23 +2,24 @@ import { useState } from 'react';
 
 import { View } from 'react-native';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import WelcomeComp from '../components/Welcome';
 import { welcomeImgOne, welcomeImgThree, welcomeImgTwo } from '../constants';
-import { useAuth } from '../contexts/AuthContext';
 
 const Welcome = () => {
     const [step, setStep] = useState(1);
 
-    const { isLoggedIn, currentUser } = useAuth();
-
-    const handleNextStep = () => {
+    const handleNextStep = async () => {
         if (step === 3) {
-            if (isLoggedIn && currentUser !== null) {
-                return router.replace('/home');
-            }
+            const token = await AsyncStorage.getItem('token');
+            const user = await AsyncStorage.getItem('user');
 
-            return router.push('/sign-up');
+            if (!user == '' && !token) {
+                return router.push('/sign-up');
+            }
+            
+            return router.replace('/home');
         } else {
             setStep((prevStep) => prevStep + 1);
         }

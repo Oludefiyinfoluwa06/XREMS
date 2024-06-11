@@ -1,13 +1,13 @@
 import { createContext, useContext, useState } from "react";
-import axios from 'axios';
 import { router } from "expo-router";
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [error, setError] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const signUp = async (email, password) => {
@@ -23,8 +23,9 @@ export const AuthProvider = ({ children }) => {
             if (response.data.error) {
                 return setError(response.data.error);
             } else {
-                setIsLoggedIn(true);
-                setCurrentUser(email);
+                await AsyncStorage.setItem('token', response.data.token);
+                await AsyncStorage.setItem('user', response.data.user);
+                
                 router.replace('/home');
             }
         } catch (error) {
@@ -47,8 +48,9 @@ export const AuthProvider = ({ children }) => {
             if (response.data.error) {
                 return setError(response.data.error);
             } else {
-                setIsLoggedIn(true);
-                setCurrentUser(email);
+                await AsyncStorage.setItem('token', response.data.token);
+                await AsyncStorage.setItem('user', response.data.user);
+
                 router.replace('/home');
             }
         } catch (error) {
@@ -58,8 +60,10 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const logout = () => {
-        setCurrentUser(null);
+    const logout = async () => {
+        await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('user');
+        
         router.replace('/sign-in');
     }
     
@@ -68,8 +72,6 @@ export const AuthProvider = ({ children }) => {
         signIn,
         error,
         setError,
-        currentUser,
-        isLoggedIn,
         loading,
         logout
     }

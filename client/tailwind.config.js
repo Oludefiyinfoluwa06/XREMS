@@ -6,6 +6,7 @@ module.exports = {
       colors: {
         blue: "#191641",
         lightBlue: '#1916414D',
+        tabIconBg: '#EFF4FB',
         gray: "#9CA3AF",
         errorText: '#721c24',
         errorBg: '#f8d7da'
