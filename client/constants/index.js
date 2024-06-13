@@ -28,5 +28,9 @@ import support from '../assets/icons/support.png';
 import helpCenter from '../assets/icons/help_center.png';
 import termsAndConditions from '../assets/icons/terms_and_conditions.png';
 import aboutUs from '../assets/icons/about_us.png';
+import security from '../assets/icons/security.png';
+import payment from '../assets/icons/payment.png';
+import bookmark from '../assets/icons/bookmark.png';
+import logout from '../assets/icons/logout.png';
 
-export { logo, logo2, google, facebook, welcomeImgOne, welcomeImgTwo, welcomeImgThree, lightHome, darkHome, lightMessage, darkMessage, lightSearch, darkSearch, lightSettings, darkSettings, user, notification, angleBack, angleRight, globe, language, support, helpCenter, termsAndConditions, aboutUs };
+export { logo, logo2, google, facebook, welcomeImgOne, welcomeImgTwo, welcomeImgThree, lightHome, darkHome, lightMessage, darkMessage, lightSearch, darkSearch, lightSettings, darkSettings, user, notification, angleBack, angleRight, globe, language, support, helpCenter, termsAndConditions, aboutUs, security, payment, bookmark, logout };

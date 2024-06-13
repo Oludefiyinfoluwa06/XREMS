@@ -36,7 +36,7 @@ const Home = () => {
     return (
         <SafeAreaView className='p-[20px] bg-white'>
             <View className='flex items-center justify-between flex-row'>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => router.push('profile')}>
                     <Image
                         source={user}
                         resizeMode='contain'
