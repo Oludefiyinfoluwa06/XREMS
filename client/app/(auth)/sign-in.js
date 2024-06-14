@@ -20,6 +20,7 @@ const SignIn = () => {
 
     const handleSignIn = async () => {
         await signIn(email, password);
+        router.replace('/home');
     }
 
     return (
@@ -99,7 +100,7 @@ const SignIn = () => {
                     </View>
 
                     <View className='flex-row items-center justify-center mt-5 gap-2'>
-                        <Text className='text-blue text-lg'>Already have an account?</Text>
+                        <Text className='text-blue text-lg'>Don't have an account?</Text>
                         <TouchableOpacity onPress={() => router.push('/sign-up')}>
                             <Text className='font-bold text-blue text-lg'>Sign up</Text>
                         </TouchableOpacity>

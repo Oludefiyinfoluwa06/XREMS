@@ -26,6 +26,7 @@ const SignUp = () => {
 
     const handleSignup = async () => {
         await signUp(email, password);
+        router.replace('/home');
     }
 
     return (

@@ -1,6 +1,7 @@
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { lightSettings } from '../../constants';
+import { angleBack, lightSettings } from '../../constants';
 import ProfileInfo from '../../components/profile/ProfileInfo';
 import MyAccount from '../../components/profile/MyAccount';
 
@@ -14,9 +15,9 @@ const Profile = () => {
                         onPress={() => router.back()}
                     >
                         <Image
-                        source={angleBack}
-                        resizeMode='contain'
-                        className='w-[24px] h-[24px]'
+                            source={angleBack}
+                            resizeMode='contain'
+                            className='w-[24px] h-[24px]'
                         />
                     </TouchableOpacity>
 
@@ -24,9 +25,9 @@ const Profile = () => {
 
                     <TouchableOpacity onPress={() => router.push('settings')}>
                         <Image
-                        source={lightSettings}
-                        resizeMode='contain'
-                        className='w-[30px] h-[30px]'
+                            source={lightSettings}
+                            resizeMode='contain'
+                            className='w-[30px] h-[30px]'
                         />
                     </TouchableOpacity>
                 </View>

@@ -23,12 +23,12 @@ const TabLayout = () => {
                 tabBarShowLabel: false,
                 tabBarActiveTintColor: '#191641',
                 tabBarInactiveTintColor: '#808080',
+                tabBarHideOnKeyboard: true,
                 tabBarStyle: {
                     height: 70,
                     paddingHorizontal: 10,
                     borderTopEndRadius: 34,
                     borderTopStartRadius: 34,
-                    backgroundColor: '#FFFFFF'
                 }
             }}
         >

@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router';
 import { AuthProvider } from '../contexts/AuthContext';
+import { StatusBar } from 'react-native';
 
 const RootLayout = () => {
     return (
@@ -26,6 +27,8 @@ const RootLayout = () => {
                     options={{ headerShown: false }}
                 />
             </Stack>
+
+            <StatusBar backgroundColor='#FFFFFF' />
         </AuthProvider>
     );
 }

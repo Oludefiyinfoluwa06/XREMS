@@ -1,5 +1,7 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { angleRight, bookmark, logout, payment, security } from '../../constants';
+import { useAuth } from '../../contexts/AuthContext';
+import { router } from "expo-router";
 
 const settings = [
     {
@@ -26,15 +28,22 @@ const settings = [
         title: 'Logout',
         route: ''
     },
-]
+];
 
 const MyAccount = () => {
+    const { logout } = useAuth();
+    
+    const handleLogout = async () => {
+        await logout();
+        router.replace('/home');
+    }
+    
     return (
         <View className='mt-[30px] bg-white shadow-lg p-[18px] rounded-[10px]'>
             <Text className='text-[25px]'>My Account</Text>
 
             {settings.map(item => (
-                <View key={item.id} className='flex items-center justify-between flex-row'>
+                <TouchableOpacity key={item.id} className='flex items-center justify-between flex-row' onPress={item.route === '' ? handleLogout() : router.push(item.route)}>
                     <View className='flex items-center justify-start flex-row gap-2 mt-3'>
                         <Image
                             source={item.icon}
@@ -44,15 +53,15 @@ const MyAccount = () => {
                         <Text className='text-lg'>{item.title}</Text>
                     </View>
                     {item.route !== '' && (
-                        <TouchableOpacity className='flex items-center justify-end flex-row gap-2 mt-3'>
+                        <View className='flex items-center justify-end flex-row gap-2 mt-3'>
                             <Image
                                 source={angleRight}
                                 resizeMode='contain'
                                 className='w-[13px] h-[13px]'
                             />
-                        </TouchableOpacity>
+                        </View>
                     )}
-                </View>
+                </TouchableOpacity>
             ))}
         </View>
     );
