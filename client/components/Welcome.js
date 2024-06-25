@@ -13,8 +13,8 @@ const WelcomeComp = ({ bg, title, text, step, setStep, handleNextStep }) => {
                 className='flex-1'
             >
                 <View className='p-4 absolute bottom-[-1px] left-0 rounded-t-[50px] bg-white w-full pt-[30px] h-[320px]'>
-                    <Text className='text-blue font-bold text-2xl w-[80%] text-center mx-auto'>{title}</Text>
-                    <Text className='my-3 text-black w-80 text-center mx-auto leading-[24px]'>{text}</Text>
+                    <Text className='font-rregular text-blue font-bold text-2xl w-[80%] text-center mx-auto'>{title}</Text>
+                    <Text className='font-rregular my-3 text-black w-80 text-center mx-auto leading-[24px]'>{text}</Text>
 
                     <View className='flex-row items-center justify-center gap-2 my-2'>
                         <TouchableOpacity onPress={() => setStep(1)}>
@@ -32,7 +32,7 @@ const WelcomeComp = ({ bg, title, text, step, setStep, handleNextStep }) => {
                         <TouchableOpacity className='w-full my-3 rounded-[50px] bg-transparent' onPress={() => {
                             router.replace('/sign-up');
                         }}>
-                            <Text className='text-center'>Skip</Text>
+                            <Text className='font-rregular text-center'>Skip</Text>
                         </TouchableOpacity>
                         <Button title='Next' onClick={handleNextStep} />
                     </View>

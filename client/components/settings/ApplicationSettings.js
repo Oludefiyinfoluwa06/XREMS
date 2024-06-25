@@ -31,7 +31,7 @@ const settings = [
 const ApplicationSettings = () => {
     return (
         <View className='mt-[30px] bg-white shadow-lg p-[18px] rounded-[10px]'>
-            <Text className='text-[25px]'>Application Settings</Text>
+            <Text className='font-rregular text-[25px]'>Application Settings</Text>
 
             {settings.map(item => (
                 <View key={item.id} className='flex items-center justify-between flex-row'>
@@ -41,7 +41,7 @@ const ApplicationSettings = () => {
                             resizeMode='contain'
                             className='w-[23px] h-[23px]'
                         />
-                        <Text className='text-lg'>{item.title}</Text>
+                        <Text className='font-rregular text-lg'>{item.title}</Text>
                     </View>
                     <TouchableOpacity className='flex items-center justify-end flex-row gap-2 mt-3'>
                         <Image

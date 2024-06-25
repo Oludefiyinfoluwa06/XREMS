@@ -11,14 +11,14 @@ const ProfileInfo = () => {
                     className='w-[50px] h-[50px]'
                 />
                 <View>
-                    <Text className='text-[20px] font-bold'>Olusegun Samuel</Text>
+                    <Text className='font-rregular text-[20px] font-bold'>Olusegun Samuel</Text>
                     <Text>olusegunsam@gmail.com</Text>
                 </View>
             </View>
             <TouchableOpacity
                 className='flex items-center justify-content flex-row gap-2'
             >
-                <Text className='text-[15px]'>Edit</Text>
+                <Text className='font-rregular text-[15px]'>Edit</Text>
                 <Image
                     source={angleRight}
                     resizeMode='contain'

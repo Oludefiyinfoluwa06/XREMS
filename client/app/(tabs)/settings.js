@@ -21,9 +21,9 @@ const Settings = () => {
             />
           </TouchableOpacity>
 
-          <Text className='text-xl'>Settings</Text>
+          <Text className='font-rregular text-xl'>Settings</Text>
 
-          <TouchableOpacity onPress={() => router.push('profile')}>
+          <TouchableOpacity onPress={() => router.push('/profile')}>
             <Image
               source={user}
               resizeMode='contain'

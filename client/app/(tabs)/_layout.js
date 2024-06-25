@@ -10,7 +10,7 @@ const TabIcon = ({ lightIcon, darkIcon, color, focused, name }) => (
             tintColor={color}
             className='w-[25px] h-[25px]'
         />
-        <Text className={`text-blue ${focused ? 'ml-2' : 'ml-0'}`}>
+        <Text className={`text-blue ${focused ? 'ml-2' : 'ml-0'} font-rbold`}>
             {focused ? name : ''}
         </Text>
     </View>

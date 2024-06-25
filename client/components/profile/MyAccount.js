@@ -40,7 +40,7 @@ const MyAccount = () => {
     
     return (
         <View className='mt-[30px] bg-white shadow-lg p-[18px] rounded-[10px]'>
-            <Text className='text-[25px]'>My Account</Text>
+            <Text className='font-rregular text-[25px]'>My Account</Text>
 
             {settings.map(item => (
                 <TouchableOpacity key={item.id} className='flex items-center justify-between flex-row' onPress={item.route === '' ? handleLogout() : router.push(item.route)}>
@@ -50,7 +50,7 @@ const MyAccount = () => {
                             resizeMode='contain'
                             className='w-[23px] h-[23px]'
                         />
-                        <Text className='text-lg'>{item.title}</Text>
+                        <Text className='font-rregular text-lg'>{item.title}</Text>
                     </View>
                     {item.route !== '' && (
                         <View className='flex items-center justify-end flex-row gap-2 mt-3'>

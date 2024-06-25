@@ -45,10 +45,10 @@ const SignUp = () => {
                     />
                 </View>
 
-                <Text className='font-bold text-[22px] leading-[16px] p-2 text-blue text-center'>Signup for free</Text>
+                <Text className='font-rbold text-[22px] leading-[16px] p-2 text-blue text-center'>Signup for free</Text>
 
                 {error && <View className='w-full p-3 rounded-[50px] bg-errorBg mt-2'>
-                    <Text className='text-errorText'>{error}</Text>
+                    <Text className='font-rregular text-errorText'>{error}</Text>
                 </View>}
 
                 <View>
@@ -92,7 +92,7 @@ const SignUp = () => {
 
                     <View className='flex-row items-center justify-center w-full my-4'>
                         <View className='h-[2px] w-[96px] bg-blue' />
-                        <Text className='px-3'>Or continue with</Text>
+                        <Text className='font-rregular px-3'>Or continue with</Text>
                         <View className='h-[2px] w-[96px] bg-blue' />
                     </View>
 
@@ -102,9 +102,9 @@ const SignUp = () => {
                     </View>
 
                     <View className='flex-row items-center justify-center mt-5 gap-2'>
-                        <Text className='text-blue text-lg'>Already have an account?</Text>
+                        <Text className='font-rregular text-blue text-lg'>Already have an account?</Text>
                         <TouchableOpacity onPress={() => router.push('/sign-in')}>
-                            <Text className='font-bold text-blue text-lg'>Sign in</Text>
+                            <Text className='font-rregular font-bold text-blue text-lg'>Sign in</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

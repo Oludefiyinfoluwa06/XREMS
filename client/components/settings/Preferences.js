@@ -4,7 +4,7 @@ import { angleRight, globe, language } from '../../constants';
 const Preferences = () => {
     return (
         <View className='mt-[30px] bg-white shadow-lg p-[18px] rounded-[10px]'>
-            <Text className='text-[25px]'>Preferences</Text>
+            <Text className='font-rregular text-[25px]'>Preferences</Text>
 
             <View className='flex items-center justify-between flex-row'>
                 <View className='flex items-center justify-start flex-row gap-2 mt-3'>
@@ -13,10 +13,10 @@ const Preferences = () => {
                         resizeMode='contain'
                         className='w-[25px] h-[25px]'
                     />
-                    <Text className='text-xl'>Country</Text>
+                    <Text className='font-rregular text-xl'>Country</Text>
                 </View>
                 <TouchableOpacity className='flex items-center justify-end flex-row gap-2 mt-3'>
-                    <Text className='text-sm'>Nigeria</Text>
+                    <Text className='font-rregular text-sm'>Nigeria</Text>
                     <Image
                         source={angleRight}
                         resizeMode='contain'
@@ -31,10 +31,10 @@ const Preferences = () => {
                         resizeMode='contain'
                         className='w-[25px] h-[25px]'
                     />
-                    <Text className='text-xl'>Language</Text>
+                    <Text className='font-rregular text-xl'>Language</Text>
                 </View>
                 <TouchableOpacity className='flex items-center justify-end flex-row gap-2 mt-3'>
-                    <Text className='text-sm'>English</Text>
+                    <Text className='font-rregular text-sm'>English</Text>
                     <Image
                         source={angleRight}
                         resizeMode='contain'

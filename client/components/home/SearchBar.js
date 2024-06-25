@@ -11,7 +11,7 @@ const SearchBar = () => {
                 value={searchText}
                 onChangeText={(value) => setSearchText(value)}
                 placeholder='Search for an apartment'
-                className='basis-[90%]'
+                className='basis-[90%] font-rregular'
             />
 
             <TouchableOpacity onPress={() => console.log('Search results for ' + searchText)}>

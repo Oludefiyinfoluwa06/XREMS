@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const Search = () => {
   return (
     <SafeAreaView className='p-[20px]'>
-      <Text>Search</Text>
+      <Text className='font-rregular'>Search</Text>
     </SafeAreaView>
   );
 }

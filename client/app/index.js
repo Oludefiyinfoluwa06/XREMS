@@ -9,9 +9,9 @@ import { logo } from '../constants';
 
 const SplashScreen = () => {
     useEffect(() => {
-        const checkAuth = async () => {
-            const token = await AsyncStorage.getItem('token');
-            const user = await AsyncStorage.getItem('user');
+        const checkAuth = () => {
+            const token = AsyncStorage.getItem('token');
+            const user = AsyncStorage.getItem('user');
 
             setTimeout(() => {
                 if (!user == '' && !token) {

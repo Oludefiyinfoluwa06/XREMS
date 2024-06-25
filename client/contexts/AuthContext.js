@@ -22,8 +22,8 @@ export const AuthProvider = ({ children }) => {
             if (response.data.error) {
                 return setError(response.data.error);
             } else {
-                await AsyncStorage.setItem('token', response.data.token);
-                await AsyncStorage.setItem('user', response.data.user);
+                AsyncStorage.setItem('token', response.data.token);
+                AsyncStorage.setItem('user', response.data.user);
             }
         } catch (error) {
             console.log(error);
@@ -45,8 +45,8 @@ export const AuthProvider = ({ children }) => {
             if (response.data.error) {
                 return setError(response.data.error);
             } else {
-                await AsyncStorage.setItem('token', response.data.token);
-                await AsyncStorage.setItem('user', response.data.user);
+                AsyncStorage.setItem('token', response.data.token);
+                AsyncStorage.setItem('user', response.data.user);
             }
         } catch (error) {
             console.log(error);
@@ -55,9 +55,9 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const logout = async () => {
-        await AsyncStorage.removeItem('token');
-        await AsyncStorage.removeItem('user');
+    const logout = () => {
+        AsyncStorage.removeItem('token');
+        AsyncStorage.removeItem('user');
     }
     
     const values = {

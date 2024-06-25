@@ -1,9 +1,13 @@
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { router } from 'expo-router';
 
-const SectionHeader = () => {
+const SectionHeader = ({ title, route }) => {
     return (
-        <View>
-            <Text>SectionHeader</Text>
+        <View className='flex flex-row items-center justify-between my-2'>
+            <Text className='font-rbold text-xl'>{title}</Text>
+            <TouchableOpacity onPress={() => router.push(`/${route}`)}>
+                <Text className='font-rregular'>See all</Text>
+            </TouchableOpacity>
         </View>
     );
 }

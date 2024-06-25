@@ -7,6 +7,10 @@ const ScreensLayout = () => {
                 name='profile'
                 options={{ headerShown: false }}
             />
+            <Stack.Screen
+                name='featured-units'
+                options={{ headerShown: false }}
+            />
         </Stack>
     );
 }

@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const Message = () => {
   return (
     <SafeAreaView className='p-[20px]'>
-      <Text>Message</Text>
+      <Text className='font-rregular'>Message</Text>
     </SafeAreaView>
   );
 }

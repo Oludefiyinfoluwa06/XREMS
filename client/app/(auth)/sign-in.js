@@ -39,10 +39,10 @@ const SignIn = () => {
                     />
                 </View>
 
-                <Text className='font-bold text-[22px] leading-[16px] p-2 text-blue text-center'>Sign in to your account</Text>
+                <Text className='font-rbold text-[22px] leading-[16px] p-2 text-blue text-center'>Sign in to your account</Text>
 
                 {error && <View className='w-full p-3 rounded-[50px] bg-errorBg mt-2'>
-                    <Text className='text-errorText'>{error}</Text>
+                    <Text className='font-rregular text-errorText'>{error}</Text>
                 </View>}
 
                 <View>
@@ -85,12 +85,12 @@ const SignIn = () => {
                     <Button title='Sign in' onClick={handleSignIn} loading={loading} />
 
                     {/* <TouchableOpacity className='w-full mt-3' onPress={() => router.push('/forgot-password')}>
-                        <Text className='text-blue text-center font-bold'>Forgot your password?</Text>
+                        <Text className='font-rregular text-blue text-center font-bold'>Forgot your password?</Text>
                     </TouchableOpacity> */}
 
                     <View className='flex-row items-center justify-center w-full my-4'>
                         <View className='h-[2px] w-[96px] bg-blue' />
-                        <Text className='px-3 text-blue'>Or continue with</Text>
+                        <Text className='font-rregular px-3 text-blue'>Or continue with</Text>
                         <View className='h-[2px] w-[96px] bg-blue' />
                     </View>
 
@@ -100,9 +100,9 @@ const SignIn = () => {
                     </View>
 
                     <View className='flex-row items-center justify-center mt-5 gap-2'>
-                        <Text className='text-blue text-lg'>Don't have an account?</Text>
+                        <Text className='font-rregular text-blue text-lg'>Don't have an account?</Text>
                         <TouchableOpacity onPress={() => router.push('/sign-up')}>
-                            <Text className='font-bold text-blue text-lg'>Sign up</Text>
+                            <Text className='font-rregular font-bold text-blue text-lg'>Sign up</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
