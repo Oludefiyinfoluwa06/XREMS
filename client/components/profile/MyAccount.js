@@ -35,15 +35,18 @@ const MyAccount = () => {
     
     const handleLogout = async () => {
         await logout();
-        router.replace('/home');
     }
     
     return (
         <View className='mt-[30px] bg-white shadow-lg p-[18px] rounded-[10px]'>
-            <Text className='font-rregular text-[25px]'>My Account</Text>
+            <Text className='font-rbold text-[25px]'>My Account</Text>
 
             {settings.map(item => (
-                <TouchableOpacity key={item.id} className='flex items-center justify-between flex-row' onPress={item.route === '' ? handleLogout() : router.push(item.route)}>
+                <TouchableOpacity
+                    key={item.id}
+                    className='flex items-center justify-between flex-row'
+                    onPress={item.route === '' ? () => handleLogout() : () => router.push(item.route)}
+                >
                     <View className='flex items-center justify-start flex-row gap-2 mt-3'>
                         <Image
                             source={item.icon}

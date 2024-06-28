@@ -31,7 +31,7 @@ const settings = [
 const ApplicationSettings = () => {
     return (
         <View className='mt-[30px] bg-white shadow-lg p-[18px] rounded-[10px]'>
-            <Text className='font-rregular text-[25px]'>Application Settings</Text>
+            <Text className='font-rbold text-[25px]'>Application Settings</Text>
 
             {settings.map(item => (
                 <View key={item.id} className='flex items-center justify-between flex-row'>

@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const FeaturedUnits = () => {
+const Notifications = () => {
     return (
         <SafeAreaView>
-            <Text className='font-rbold'>FeaturedUnits</Text>
+            <Text className='font-rbold'>Notifications</Text>
         </SafeAreaView>
     );
 }
 
-export default FeaturedUnits;
+export default Notifications;

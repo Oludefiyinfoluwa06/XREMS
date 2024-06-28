@@ -20,7 +20,6 @@ const SignIn = () => {
 
     const handleSignIn = async () => {
         await signIn(email, password);
-        router.replace('/home');
     }
 
     return (

@@ -32,5 +32,48 @@ import security from '../assets/icons/security.png';
 import payment from '../assets/icons/payment.png';
 import bookmark from '../assets/icons/bookmark.png';
 import logout from '../assets/icons/logout.png';
+import heart from '../assets/icons/heart.png';
+import redHeart from '../assets/icons/red-heart.png';
+import location from '../assets/icons/location.png';
 
-export { logo, logo2, google, facebook, welcomeImgOne, welcomeImgTwo, welcomeImgThree, lightHome, darkHome, lightMessage, darkMessage, lightSearch, darkSearch, lightSettings, darkSettings, user, notification, angleBack, angleRight, globe, language, support, helpCenter, termsAndConditions, aboutUs, security, payment, bookmark, logout };
+import featured1 from '../assets/images/home/featured1.png';
+import featured2 from '../assets/images/home/featured2.png';
+import featured3 from '../assets/images/home/featured3.png';
+
+export { 
+    logo, 
+    logo2, 
+    google, 
+    facebook, 
+    welcomeImgOne, 
+    welcomeImgTwo, 
+    welcomeImgThree, 
+    lightHome, 
+    darkHome, 
+    lightMessage, 
+    darkMessage, 
+    lightSearch, 
+    darkSearch, 
+    lightSettings, 
+    darkSettings, 
+    user, 
+    notification, 
+    angleBack, 
+    angleRight, 
+    globe, 
+    language, 
+    support, 
+    helpCenter, 
+    termsAndConditions, 
+    aboutUs, 
+    security, 
+    payment, 
+    bookmark, 
+    logout,
+    heart,
+    redHeart,
+    location,
+    featured1,
+    featured2,
+    featured3
+};

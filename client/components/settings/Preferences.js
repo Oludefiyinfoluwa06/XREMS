@@ -4,7 +4,7 @@ import { angleRight, globe, language } from '../../constants';
 const Preferences = () => {
     return (
         <View className='mt-[30px] bg-white shadow-lg p-[18px] rounded-[10px]'>
-            <Text className='font-rregular text-[25px]'>Preferences</Text>
+            <Text className='font-rbold text-[25px]'>Preferences</Text>
 
             <View className='flex items-center justify-between flex-row'>
                 <View className='flex items-center justify-start flex-row gap-2 mt-3'>

@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 
 import { router } from 'expo-router';
-import { View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, TouchableOpacity, Image, ScrollView, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { notification, user } from '../../constants';
 import SearchBar from '../../components/home/SearchBar';
 import FeaturedUnits from '../../components/home/FeaturedUnits';
+import TopPlace from '../../components/home/TopPlace';
 
 const Home = () => {
     useEffect(() => {
@@ -29,7 +30,9 @@ const Home = () => {
         <SafeAreaView>
             <ScrollView className='p-[20px] h-full bg-white'>
                 <View className='flex items-center justify-between flex-row'>
-                    <TouchableOpacity onPress={() => router.push('/profile')}>
+                    <TouchableOpacity
+                        onPress={() => router.push('/profile')}
+                    >
                         <Image
                             source={user}
                             resizeMode='contain'
@@ -51,7 +54,10 @@ const Home = () => {
 
                 <SearchBar />
                 <FeaturedUnits />
+                <TopPlace />
             </ScrollView>
+
+            <StatusBar backgroundColor={`#FFF`} />
         </SafeAreaView>
     );
 }

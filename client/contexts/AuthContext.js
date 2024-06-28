@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
+import { router } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
@@ -24,6 +25,7 @@ export const AuthProvider = ({ children }) => {
             } else {
                 AsyncStorage.setItem('token', response.data.token);
                 AsyncStorage.setItem('user', response.data.user);
+                router.replace('/home');
             }
         } catch (error) {
             console.log(error);
@@ -47,6 +49,7 @@ export const AuthProvider = ({ children }) => {
             } else {
                 AsyncStorage.setItem('token', response.data.token);
                 AsyncStorage.setItem('user', response.data.user);
+                router.replace('/home');
             }
         } catch (error) {
             console.log(error);
@@ -58,6 +61,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         AsyncStorage.removeItem('token');
         AsyncStorage.removeItem('user');
+        router.replace('/sign-in');
     }
     
     const values = {
