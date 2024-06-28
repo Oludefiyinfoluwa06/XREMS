@@ -4,28 +4,28 @@ import SectionHeader from './SectionHeader';
 
 import { featured1, featured2 } from '../../constants';
 
-const topPlace = [
-    {
-        id: 1,
-        img: featured1,
-        location: 'Abuja, Nigeria',
-        owner: "Sammy's Property",
-    },
-    {
-        id: 2,
-        img: featured2,
-        location: 'Abuja, Nigeria',
-        owner: 'Oftotech Property',
-    },
-    {
-        id: 3,
-        img: featured1,
-        location: 'Abuja, Nigeria',
-        owner: 'Xceloft Property',
-    },
-];
-
 const TopPlace = () => {
+    const topPlace = [
+        {
+            id: 1,
+            img: featured1,
+            location: 'Abuja, Nigeria',
+            owner: "Sammy's Property",
+        },
+        {
+            id: 2,
+            img: featured2,
+            location: 'Abuja, Nigeria',
+            owner: 'Oftotech Property',
+        },
+        {
+            id: 3,
+            img: featured1,
+            location: 'Abuja, Nigeria',
+            owner: 'Xceloft Property',
+        },
+    ];
+
     return (
         <View>
             <SectionHeader title='Top Place' route='top-place' />
@@ -37,7 +37,7 @@ const TopPlace = () => {
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         className='relative h-[170px] w-[160px] bg-white'
-                        onPress={() => router.push(`/properties/${id}`)}>
+                        onPress={() => router.push(`/properties/${item.id}`)}>
                         <Image 
                             source={item.img}
                             resizeMode='contain'
@@ -50,8 +50,6 @@ const TopPlace = () => {
                     </TouchableOpacity>
                 )}
             />
-
-            <View className='mt-[20px]' />
         </View>
     );
 }

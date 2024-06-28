@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { notification, user } from '../../constants';
-import SearchBar from '../../components/home/SearchBar';
+import SearchBar from '../../components/SearchBar';
 import FeaturedUnits from '../../components/home/FeaturedUnits';
 import TopPlace from '../../components/home/TopPlace';
 
@@ -55,6 +55,7 @@ const Home = () => {
                 <SearchBar />
                 <FeaturedUnits />
                 <TopPlace />
+                <View className='mt-[20px]' />
             </ScrollView>
 
             <StatusBar backgroundColor={`#FFF`} />

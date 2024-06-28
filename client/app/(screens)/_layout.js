@@ -15,6 +15,10 @@ const ScreensLayout = () => {
                 name='notifications'
                 options={{ headerShown: false }}
             />
+            <Stack.Screen
+                name='properties/[id]'
+                options={{ headerShown: false }}
+            />
         </Stack>
     );
 }

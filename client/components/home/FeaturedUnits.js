@@ -4,37 +4,37 @@ import SectionHeader from './SectionHeader';
 
 import { featured1, featured2, heart, location } from '../../constants';
 
-const featuredProperties = [
-    {
-        id: 1,
-        img: featured1,
-        price: 100000,
-        type: 'Duplex',
-        location: 'Abuja, Nigeria',
-        rating: 3,
-        reviews: 1000,
-    },
-    {
-        id: 2,
-        img: featured2,
-        price: 900000,
-        type: 'Bungalow',
-        location: 'Abuja, Nigeria',
-        rating: 4.5,
-        reviews: 3,
-    },
-    {
-        id: 3,
-        img: featured1,
-        price: 850000,
-        type: 'Twin house',
-        location: 'Abuja, Nigeria',
-        rating: 2.2,
-        reviews: 10,
-    },
-];
-
 const FeaturedUnits = () => {
+    const featuredProperties = [
+        {
+            id: 1,
+            img: featured1,
+            price: 100000,
+            type: 'Duplex',
+            location: 'Abuja, Nigeria',
+            rating: 3,
+            reviews: 1000,
+        },
+        {
+            id: 2,
+            img: featured2,
+            price: 900000,
+            type: 'Bungalow',
+            location: 'Abuja, Nigeria',
+            rating: 4.5,
+            reviews: 3,
+        },
+        {
+            id: 3,
+            img: featured1,
+            price: 850000,
+            type: 'Twin house',
+            location: 'Abuja, Nigeria',
+            rating: 2.2,
+            reviews: 10,
+        },
+    ];
+
     return (
         <View>
             <SectionHeader title='Featured Units' route='featured-units' />

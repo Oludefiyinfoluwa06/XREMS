@@ -4,6 +4,8 @@ import logo2 from '../assets/images/logo2.png';
 import welcomeImgOne from '../assets/images/welcomeImgOne.jpg';
 import welcomeImgTwo from '../assets/images/welcomeImgTwo.jpg';
 import welcomeImgThree from '../assets/images/welcomeImgThree.jpg';
+import noSearch from '../assets/images/no-search.png';
+import noNotification from '../assets/images/no-notification.png';
 
 // icons
 import google from '../assets/icons/google.png';
@@ -35,6 +37,8 @@ import logout from '../assets/icons/logout.png';
 import heart from '../assets/icons/heart.png';
 import redHeart from '../assets/icons/red-heart.png';
 import location from '../assets/icons/location.png';
+import star from '../assets/icons/star.png';
+import chat from '../assets/icons/chat.png';
 
 import featured1 from '../assets/images/home/featured1.png';
 import featured2 from '../assets/images/home/featured2.png';
@@ -73,6 +77,10 @@ export {
     heart,
     redHeart,
     location,
+    star,
+    noSearch,
+    noNotification,
+    chat,
     featured1,
     featured2,
     featured3

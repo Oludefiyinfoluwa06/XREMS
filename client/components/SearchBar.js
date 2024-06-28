@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Image, TextInput, TouchableOpacity, View } from 'react-native';
-import { lightSearch } from '../../constants';
+import { lightSearch } from '../constants';
 
 const SearchBar = () => {
     const [searchText, setSearchText] = useState('');

@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
   theme: {
@@ -7,7 +6,7 @@ module.exports = {
         blue: "#191641",
         lightBlue: '#1916414D',
         tabIconBg: '#EFF4FB',
-        gray: "#9CA3AF",
+        gray: "#808080",
         errorText: '#721c24',
         errorBg: '#f8d7da'
       },
