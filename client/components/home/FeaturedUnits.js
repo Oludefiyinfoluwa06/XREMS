@@ -2,7 +2,7 @@ import { View, Text, FlatList, TouchableHighlight, Image } from 'react-native';
 import { router } from 'expo-router';
 import SectionHeader from './SectionHeader';
 
-import { featured1, featured2, heart, location } from '../../constants';
+import { featured1, featured2, heart, location, star } from '../../constants';
 
 const FeaturedUnits = () => {
     const featuredProperties = [
@@ -81,8 +81,12 @@ const FeaturedUnits = () => {
                             </View>
 
                             <View className='flex flex-row gap-2 justify-between items-center mt-1'>
-                                <View className='flex flex-row gap-2 mt-1'>
-                                    
+                                <View className='flex flex-row items-center justify-center gap-2 mt-1'>
+                                    <Image
+                                        source={star}
+                                        resizeMode='contain'
+                                        className='w-[20px] h-[20px]'
+                                    />
                                     <Text className='font-rbold text-lg'>{item.rating}</Text>
                                 </View>
                                 <View>
