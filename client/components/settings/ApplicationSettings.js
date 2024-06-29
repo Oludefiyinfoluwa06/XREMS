@@ -1,30 +1,37 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { aboutUs, angleRight, helpCenter, support, termsAndConditions } from '../../constants';
+import { router } from 'expo-router';
 
 const settings = [
     {
         id: 1,
         icon: support,
-        title: 'Support',
-        route: '/support'
+        title: 'Support us',
+        route: 'support-us'
     },
     {
         id: 2,
         icon: helpCenter,
         title: 'Help center',
-        route: '/help-center'
+        route: 'help-center'
     },
     {
         id: 3,
         icon: termsAndConditions,
-        title: 'Terms & conditions',
-        route: '/terms-and-conditions'
+        title: 'Privacy policy',
+        route: 'privacy-policy'
     },
     {
         id: 4,
+        icon: termsAndConditions,
+        title: 'Terms & conditions',
+        route: 'terms-and-conditions'
+    },
+    {
+        id: 5,
         icon: aboutUs,
         title: 'About us',
-        route: '/about-us'
+        route: 'about-us'
     },
 ]
 
@@ -34,7 +41,7 @@ const ApplicationSettings = () => {
             <Text className='font-rbold text-[25px]'>Application Settings</Text>
 
             {settings.map(item => (
-                <View key={item.id} className='flex items-center justify-between flex-row'>
+                <TouchableOpacity key={item.id} className='flex items-center justify-between flex-row' onPress={() => router.push(`/${item.route}`)}>
                     <View className='flex items-center justify-start flex-row gap-2 mt-3'>
                         <Image
                             source={item.icon}
@@ -43,14 +50,14 @@ const ApplicationSettings = () => {
                         />
                         <Text className='font-rregular text-lg'>{item.title}</Text>
                     </View>
-                    <TouchableOpacity className='flex items-center justify-end flex-row gap-2 mt-3'>
+                    <View className='flex items-center justify-end flex-row gap-2 mt-3'>
                         <Image
                             source={angleRight}
                             resizeMode='contain'
                             className='w-[13px] h-[13px]'
                         />
-                    </TouchableOpacity>
-                </View>
+                    </View>
+                </TouchableOpacity>
             ))}
         </View>
     );

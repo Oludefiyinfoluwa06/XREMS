@@ -8,11 +8,15 @@ const ScreensLayout = () => {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name='featured-units'
+                name='notifications'
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name='notifications'
+                name='saved'
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name='properties/all-properties'
                 options={{ headerShown: false }}
             />
             <Stack.Screen

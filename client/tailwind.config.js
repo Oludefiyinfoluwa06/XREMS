@@ -7,6 +7,7 @@ module.exports = {
         lightBlue: '#1916414D',
         tabIconBg: '#EFF4FB',
         gray: "#808080",
+        lightGray: "#efefef",
         errorText: '#721c24',
         errorBg: '#f8d7da'
       },

@@ -1,6 +1,7 @@
 import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { featured1, featured2, location, noSearch, star } from '../../constants';
+import EmptyList from '../EmptyList';
 
 const SearchResults = () => {
     const results = [
@@ -30,24 +31,15 @@ const SearchResults = () => {
     return (
         <View>
             <View className="flex flex-row items-center justify-between my-[20px]">
-                <Text className="font-rbold text-blue">Results for "Apartment"</Text>
-                <Text className="font-rbold text-blue">160 found</Text>
+                <Text className="font-rbold text-blue">Results for ""</Text>
+                <Text className="font-rbold text-blue">0 found</Text>
             </View>
 
             <FlatList
                 data={results}
                 keyExtractor={(item) => item.id}
                 horizontal={false}
-                ListEmptyComponent={() => (
-                    <View className='flex items-center justify-center min-h-screen mt-[-120px]'>
-                        <Image
-                            source={noSearch}
-                            resizeMode='cover'
-                            className='w-[230px] h-[230px]'
-                        />
-                        <Text className='font-rbold text-[30px] text-blue'>No results</Text>
-                    </View>
-                )}
+                ListEmptyComponent={<EmptyList icon={noSearch} text='No results' />}
                 renderItem={({ item }) => (
                     <TouchableOpacity className='mb-[20px] flex flex-row justify-start items-center'>
                         <View className='mr-[10px]'>

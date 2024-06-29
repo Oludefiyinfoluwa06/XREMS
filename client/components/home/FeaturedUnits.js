@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableHighlight, Image } from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import SectionHeader from './SectionHeader';
 
@@ -37,7 +37,7 @@ const FeaturedUnits = () => {
 
     return (
         <View>
-            <SectionHeader title='Featured Units' route='featured-units' />
+            <SectionHeader title='Featured Units' />
 
             <FlatList
                 data={featuredProperties}
@@ -45,7 +45,7 @@ const FeaturedUnits = () => {
                 horizontal={true}
                 renderItem={({ item }) => (
                     <View className='relative h-[290px]'>
-                        <TouchableHighlight
+                        <TouchableOpacity
                             key={item.id}
                             onPress={() => router.push(`/properties/${item.id}`)}
                             className='w-[300px] h-[200px]'
@@ -55,18 +55,18 @@ const FeaturedUnits = () => {
                                 resizeMode='contain'
                                 className='w-full h-full'
                             />
-                        </TouchableHighlight>
+                        </TouchableOpacity>
 
                         <View className='absolute bg-white rounded-lg p-3 top-[120px] w-[80%] left-[10%] shadow-xl'>
                             <View className='flex flex-row justify-between'>
                                 <Text className='font-rbold text-lg'>₦ {item.price}</Text>
-                                <TouchableHighlight>
+                                <TouchableOpacity>
                                     <Image
                                         source={heart}
                                         resizeMode='contain'
                                         className='w-[24px] h-[24px]'
                                     />
-                                </TouchableHighlight>
+                                </TouchableOpacity>
                             </View>
 
                             <Text className='font-rbold text-lg mt-[1px]'>{item.type}</Text>

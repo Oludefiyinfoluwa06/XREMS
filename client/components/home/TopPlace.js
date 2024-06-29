@@ -28,7 +28,7 @@ const TopPlace = () => {
 
     return (
         <View>
-            <SectionHeader title='Top Place' route='top-place' />
+            <SectionHeader title='Top Place' />
 
             <FlatList
                 data={topPlace}

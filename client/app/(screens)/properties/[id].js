@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { angleBack, chat, featured1, heart, location, star, user } from '../../../constants';
+import { angleBack, bookmark, chat, featured1, heart, location, star, user } from '../../../constants';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import Button from '../../../components/Button';
@@ -55,7 +55,16 @@ const HouseDetails = () => {
                         className='w-full h-[300px]'
                     />
 
-                    <Text className='font-rbold text-lg mt-[-20px] text-blue'>{houseDetails.type}</Text>
+                    <View className='flex flex-row items-center justify-between'>
+                        <Text className='font-rbold text-lg mt-[-20px] mr-2 text-blue'>{houseDetails.type}</Text>
+                        <TouchableOpacity>
+                            <Image
+                                source={bookmark}
+                                resizeMode='contain'
+                                className='w-[23px] h-[23px]'
+                            />
+                        </TouchableOpacity>
+                    </View>
                     <View className='flex flex-row items-center justify-start mt-[10px]'>
                         <Image
                             source={location}
@@ -102,7 +111,7 @@ const HouseDetails = () => {
                                     <Text className='text-blue font-rregular'>House owner</Text>
                                 </View>
                             </View>
-                            <View className='bg-gray p-3 rounded-lg'>
+                            <View className='bg-lightGray p-3 rounded-lg'>
                                 <Image
                                     source={chat}
                                     resizeMode='cover'

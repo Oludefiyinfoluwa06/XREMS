@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Image, TextInput, TouchableOpacity, View } from 'react-native';
 import { lightSearch } from '../constants';
 
-const SearchBar = () => {
+const SearchBar = ({ placeholder='Search for an apartment' }) => {
     const [searchText, setSearchText] = useState('');
 
     return (
@@ -10,7 +10,7 @@ const SearchBar = () => {
             <TextInput
                 value={searchText}
                 onChangeText={(value) => setSearchText(value)}
-                placeholder='Search for an apartment'
+                placeholder={placeholder}
                 className='basis-[90%] font-rregular'
             />
 

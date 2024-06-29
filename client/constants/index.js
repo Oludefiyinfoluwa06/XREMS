@@ -6,6 +6,8 @@ import welcomeImgTwo from '../assets/images/welcomeImgTwo.jpg';
 import welcomeImgThree from '../assets/images/welcomeImgThree.jpg';
 import noSearch from '../assets/images/no-search.png';
 import noNotification from '../assets/images/no-notification.png';
+import noSavedItems from '../assets/images/no-saved-items.png';
+import noMessages from '../assets/images/no-messages.png';
 
 // icons
 import google from '../assets/icons/google.png';
@@ -81,6 +83,8 @@ export {
     noSearch,
     noNotification,
     chat,
+    noSavedItems,
+    noMessages,
     featured1,
     featured2,
     featured3

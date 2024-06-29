@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity, Image, FlatList } from 'react
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { angleBack, logo, noNotification, user } from '../../constants';
+import EmptyList from '../../components/EmptyList';
 
 const Notifications = () => {
     const notification = [
@@ -42,16 +43,7 @@ const Notifications = () => {
                 data={notification}
                 keyExtractor={item => item.id}
                 horizontal={false}
-                ListEmptyComponent={() => (
-                    <View className='flex items-center justify-center min-h-screen mt-[-100px]'>
-                        <Image
-                            source={noNotification}
-                            resizeMode='cover'
-                            className='w-[230px] h-[230px]'
-                        />
-                        <Text className='font-rbold text-[30px] text-blue'>No notifications</Text>
-                    </View>
-                )}
+                ListEmptyComponent={<EmptyList icon={noNotification} text='No notifications' />}
                 renderItem={({ item }) => (
                     <TouchableOpacity className='flex flex-row items-center justify-start mt-4'>
                         <Image
