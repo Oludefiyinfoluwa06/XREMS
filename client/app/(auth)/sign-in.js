@@ -83,9 +83,9 @@ const SignIn = () => {
 
                     <Button title='Sign in' onClick={handleSignIn} loading={loading} />
 
-                    {/* <TouchableOpacity className='w-full mt-3' onPress={() => router.push('/forgot-password')}>
+                    <TouchableOpacity className='w-full mt-3' onPress={() => router.push('/forgot-password')}>
                         <Text className='font-rregular text-blue text-center font-bold'>Forgot your password?</Text>
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
 
                     <View className='flex-row items-center justify-center w-full my-4'>
                         <View className='h-[2px] w-[96px] bg-blue' />

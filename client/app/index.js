@@ -15,8 +15,8 @@ const SplashScreen = () => {
             const firstTime = await AsyncStorage.getItem('first-time');
 
             setTimeout(() => {
-                if (firstTime === null) { 
-                    return router.replace('/welcome');
+                if (firstTime !== null) { 
+                    return router.replace('/sign-in');
                 }
 
                 if (userData === null && token === null) {

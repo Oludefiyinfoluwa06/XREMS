@@ -15,6 +15,10 @@ const AuthLayout = () => {
                 name='forgot-password'
                 options={{ headerShown: false }}
             />
+            <Stack.Screen
+                name='reset-password'
+                options={{ headerShown: false }}
+            />
         </Stack>
     );
 }
