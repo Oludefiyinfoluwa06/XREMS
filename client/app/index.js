@@ -9,12 +9,17 @@ import { logo } from '../constants';
 
 const SplashScreen = () => {
     useEffect(() => {
-        const checkAuth = () => {
-            const token = AsyncStorage.getItem('token');
-            const user = AsyncStorage.getItem('user');
+        const checkAuth = async () => {
+            const token = await AsyncStorage.getItem('token');
+            const userData = await AsyncStorage.getItem('user');
+            const firstTime = await AsyncStorage.getItem('first-time');
 
             setTimeout(() => {
-                if (!user == '' && !token) {
+                if (firstTime === null) { 
+                    return router.replace('/welcome');
+                }
+
+                if (userData === null && token === null) {
                     return router.replace('/welcome');
                 }
                 

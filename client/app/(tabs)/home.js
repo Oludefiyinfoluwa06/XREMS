@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { router } from 'expo-router';
-import { View, TouchableOpacity, Image, ScrollView, StatusBar } from 'react-native';
+import { View, TouchableOpacity, Image, ScrollView, StatusBar, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -12,11 +12,11 @@ import TopPlace from '../../components/home/TopPlace';
 
 const Home = () => {
     useEffect(() => {
-        const checkAuth = () => {
-            const token = AsyncStorage.getItem('token');
-            const user = AsyncStorage.getItem('user');
+        const checkAuth = async () => {
+            const token = await AsyncStorage.getItem('token');
+            const userData = await AsyncStorage.getItem('user');
 
-            if (!user == '' && !token) {
+            if (userData === null && token === null) {
                 return router.replace('/sign-in');
             }
 

@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://10.0.2.2:5000/auth/sign-up', { email, password }, {
+            const response = await axios.post('http://192.168.239.68:5000/auth/sign-up', { email, password }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -23,8 +23,8 @@ export const AuthProvider = ({ children }) => {
             if (response.data.error) {
                 return setError(response.data.error);
             } else {
-                AsyncStorage.setItem('token', response.data.token);
-                AsyncStorage.setItem('user', response.data.user);
+                await AsyncStorage.setItem('token', response.data.token);
+                await AsyncStorage.setItem('user', JSON.stringify(response.data.user));
                 router.replace('/home');
             }
         } catch (error) {
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://10.0.2.2:5000/auth/sign-in', { email, password }, {
+            const response = await axios.post('http://192.168.239.68:5000/auth/sign-in', { email, password }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -47,8 +47,8 @@ export const AuthProvider = ({ children }) => {
             if (response.data.error) {
                 return setError(response.data.error);
             } else {
-                AsyncStorage.setItem('token', response.data.token);
-                AsyncStorage.setItem('user', response.data.user);
+                await AsyncStorage.setItem('token', response.data.token);
+                await AsyncStorage.setItem('user', JSON.stringify(response.data.user));
                 router.replace('/home');
             }
         } catch (error) {
@@ -58,9 +58,9 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const logout = () => {
-        AsyncStorage.removeItem('token');
-        AsyncStorage.removeItem('user');
+    const logout = async () => {
+        await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('user');
         router.replace('/sign-in');
     }
     

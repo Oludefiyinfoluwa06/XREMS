@@ -1,5 +1,6 @@
 import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 
 import Button from '../components/Button';
@@ -29,7 +30,8 @@ const WelcomeComp = ({ bg, title, text, step, setStep, handleNextStep }) => {
                     </View>
 
                     <View className='space-y-3'>
-                        <TouchableOpacity className='w-full my-3 rounded-[50px] bg-transparent' onPress={() => {
+                        <TouchableOpacity className='w-full my-3 rounded-[50px] bg-transparent' onPress={async () => {
+                            await AsyncStorage.setItem('first-time', 'False');
                             router.replace('/sign-up');
                         }}>
                             <Text className='font-rregular text-center'>Skip</Text>

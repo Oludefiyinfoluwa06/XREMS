@@ -15,10 +15,11 @@ const Welcome = () => {
             const token = await AsyncStorage.getItem('token');
             const user = await AsyncStorage.getItem('user');
 
-            if (!user == '' && !token) {
+            if (user === null && token === null) {
                 return router.push('/sign-up');
             }
             
+            await AsyncStorage.setItem('first-time', 'False');
             return router.replace('/home');
         } else {
             setStep((prevStep) => prevStep + 1);
