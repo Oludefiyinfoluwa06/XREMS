@@ -1,32 +1,9 @@
-import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import { featured1, featured2, location, noSearch, star } from '../../constants';
 import EmptyList from '../EmptyList';
 
 const SearchResults = () => {
-    const results = [
-        // {
-        //     id: 1,
-        //     img: featured1,
-        //     title: '2 Bedroom apartment',
-        //     location: 'Army Estate, Kurudu, Abuja',
-        //     rating: 5,
-        // },
-        // {
-        //     id: 2,
-        //     img: featured2,
-        //     title: 'Duplex apartment',
-        //     location: 'Police Estate, Kurudu, Abuja',
-        //     rating: 4,
-        // },
-        // {
-        //     id: 3,
-        //     img: featured1,
-        //     title: 'Self-contain apartment',
-        //     location: 'Maitama, Abuja',
-        //     rating: 5,
-        // },
-    ];
+    const results = [];
 
     return (
         <View>

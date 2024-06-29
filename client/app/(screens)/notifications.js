@@ -5,14 +5,7 @@ import { angleBack, logo, noNotification, user } from '../../constants';
 import EmptyList from '../../components/EmptyList';
 
 const Notifications = () => {
-    const notification = [
-        // {
-        //     id: 1,
-        //     title: 'Payment succesful',
-        //     content: 'Monthly payment of your house is successfully completed',
-        //     time: '04:50 PM'
-        // },
-    ];
+    const notification = [];
 
     return (
         <SafeAreaView className='p-[20px] bg-white h-full'>

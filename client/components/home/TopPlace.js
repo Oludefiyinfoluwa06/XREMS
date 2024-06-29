@@ -37,7 +37,8 @@ const TopPlace = () => {
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         className='relative h-[170px] w-[160px] bg-white'
-                        onPress={() => router.push(`/properties/${item.id}`)}>
+                        onPress={() => router.push(`/properties/${item.id}`)}
+                    >
                         <Image 
                             source={item.img}
                             resizeMode='contain'
