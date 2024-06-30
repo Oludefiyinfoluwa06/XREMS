@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import { useFonts } from 'expo-font';
 
 import { AuthProvider } from '../contexts/AuthContext';
@@ -47,10 +47,6 @@ const RootLayout = () => {
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                    name='welcome'
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
                     name='(auth)'
                     options={{ headerShown: false }}
                 />
@@ -67,7 +63,7 @@ const RootLayout = () => {
                     options={{ headerShown: false }}
                 />
             </Stack>
-
+            
             <StatusBar backgroundColor='#FFFFFF' />
         </AuthProvider>
     );

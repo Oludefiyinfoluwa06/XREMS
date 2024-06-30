@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { angleBack, lightSettings } from '../../constants';
 import ProfileInfo from '../../components/profile/ProfileInfo';
 import MyAccount from '../../components/profile/MyAccount';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Profile = () => {
     return (

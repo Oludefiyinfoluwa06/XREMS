@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { CheckBox } from '@rneui/themed';
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
@@ -6,29 +6,20 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { router } from 'expo-router';
 
-import Button from '../../components/Button';
-import AuthButton from '../../components/AuthButton';
-import { facebook, google, logo, logo2 } from '../../constants';
-import { useAuth } from '../../contexts/AuthContext';
+import Button from '../../../components/Button';
+import AuthButton from '../../../components/AuthButton';
+import { facebook, google, logo, logo2 } from '../../../constants';
+import { useAuth } from '../../../contexts/AuthContext';
 
-const SignUp = () => {
+const SignIn = () => {
     const [checked, setChecked] = useState(false);
-    const [fullname, setFullname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { signUp, error, setError, isLoggedIn, currentUser, loading } = useAuth();
+    const { signIn, error, setError, loading } = useAuth();
 
-    const isAdmin = false;
-
-    useEffect(() => {
-        if (isLoggedIn && currentUser !== null) {
-            return router.replace('/home');
-        }
-    }, [isLoggedIn, currentUser]);
-
-    const handleSignup = async () => {
-        await signUp(fullname, email, password, isAdmin);
+    const handleSignIn = async () => {
+        await signIn(email, password);
     }
 
     return (
@@ -47,24 +38,13 @@ const SignUp = () => {
                     />
                 </View>
 
-                <Text className='font-rbold text-[22px] leading-[16px] p-2 text-blue text-center'>Signup for free</Text>
+                <Text className='font-rbold text-[22px] leading-[16px] p-2 text-blue text-center'>Sign in to your account</Text>
 
                 {error && <View className='w-full p-3 rounded-[50px] bg-errorBg mt-2'>
                     <Text className='font-rregular text-errorText'>{error}</Text>
                 </View>}
 
                 <View>
-                    <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-bold">Full name:</Text>
-                    <TextInput
-                        placeholder='Full name'
-                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px]'
-                        value={fullname}
-                        onChangeText={(value) => {
-                            setFullname(value);
-                            setError('');
-                        }}
-                    />
-
                     <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-bold">Email:</Text>
                     <TextInput
                         placeholder='Email'
@@ -74,7 +54,6 @@ const SignUp = () => {
                             setEmail(value);
                             setError('');
                         }}
-                        keyboardType='email-address'
                     />
 
                     <Text className="text-blue ml-[10px] mt-[15px] mb-[8px] text-[15px] font-bold">Password:</Text>
@@ -102,11 +81,15 @@ const SignUp = () => {
                         textStyle={{ color: '#191641' }}
                     />
 
-                    <Button title='Sign up' onClick={handleSignup} loading={loading} />
+                    <Button title='Sign in' onClick={handleSignIn} loading={loading} />
+
+                    <TouchableOpacity className='w-full mt-3' onPress={() => router.push('/admin/forgot-password')}>
+                        <Text className='font-rregular text-blue text-center font-bold'>Forgot your password?</Text>
+                    </TouchableOpacity>
 
                     <View className='flex-row items-center justify-center w-full my-4'>
                         <View className='h-[2px] w-[96px] bg-blue' />
-                        <Text className='font-rregular px-3'>Or continue with</Text>
+                        <Text className='font-rregular px-3 text-blue'>Or continue with</Text>
                         <View className='h-[2px] w-[96px] bg-blue' />
                     </View>
 
@@ -116,9 +99,9 @@ const SignUp = () => {
                     </View>
 
                     <View className='flex-row items-center justify-center mt-5 gap-2'>
-                        <Text className='font-rregular text-blue text-lg'>Already have an account?</Text>
-                        <TouchableOpacity onPress={() => router.push('/sign-in')}>
-                            <Text className='font-rregular font-bold text-blue text-lg'>Sign in</Text>
+                        <Text className='font-rregular text-blue text-lg'>Don't have an account?</Text>
+                        <TouchableOpacity onPress={() => router.push('/admin/sign-up')}>
+                            <Text className='font-rregular font-bold text-blue text-lg'>Sign up</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -129,4 +112,4 @@ const SignUp = () => {
     );
 }
 
-export default SignUp;
+export default SignIn;

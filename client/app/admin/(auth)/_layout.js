@@ -1,26 +1,26 @@
 import { Stack } from 'expo-router';
-import { StatusBar } from 'react-native';
 
-const AdminLayout = () => {    
+const AdminAuthLayout = () => {
     return (
         <Stack>
             <Stack.Screen
-                name='(auth)'
+                name='sign-up'
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name='(drawer)'
+                name='sign-in'
                 options={{ headerShown: false }}
             />
             {/* <Stack.Screen
-                name='(screens)'
+                name='forgot-password'
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name='reset-password'
                 options={{ headerShown: false }}
             /> */}
-            
-            <StatusBar backgroundColor='#FFFFFF' />
         </Stack>
-            
     );
 }
 
-export default AdminLayout;
+export default AdminAuthLayout;

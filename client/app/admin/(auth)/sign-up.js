@@ -6,10 +6,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { router } from 'expo-router';
 
-import Button from '../../components/Button';
-import AuthButton from '../../components/AuthButton';
-import { facebook, google, logo, logo2 } from '../../constants';
-import { useAuth } from '../../contexts/AuthContext';
+import Button from '../../../components/Button';
+import AuthButton from '../../../components/AuthButton';
+import { facebook, google, logo, logo2 } from '../../../constants';
+import { useAuth } from '../../../contexts/AuthContext';
 
 const SignUp = () => {
     const [checked, setChecked] = useState(false);
@@ -19,7 +19,7 @@ const SignUp = () => {
 
     const { signUp, error, setError, isLoggedIn, currentUser, loading } = useAuth();
 
-    const isAdmin = false;
+    const isAdmin = true;
 
     useEffect(() => {
         if (isLoggedIn && currentUser !== null) {
@@ -117,7 +117,7 @@ const SignUp = () => {
 
                     <View className='flex-row items-center justify-center mt-5 gap-2'>
                         <Text className='font-rregular text-blue text-lg'>Already have an account?</Text>
-                        <TouchableOpacity onPress={() => router.push('/sign-in')}>
+                        <TouchableOpacity onPress={() => router.push('/admin/sign-in')}>
                             <Text className='font-rregular font-bold text-blue text-lg'>Sign in</Text>
                         </TouchableOpacity>
                     </View>

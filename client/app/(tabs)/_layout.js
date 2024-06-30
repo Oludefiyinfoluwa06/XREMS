@@ -1,4 +1,4 @@
-import { Tabs, Redirect } from 'expo-router';
+import { Tabs } from 'expo-router';
 import { Image, Text, View } from 'react-native';
 import { darkHome, darkMessage, darkSearch, lightHome, lightMessage, lightSearch, lightSettings } from '../../constants';
 

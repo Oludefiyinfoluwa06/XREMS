@@ -41,6 +41,7 @@ import redHeart from '../assets/icons/red-heart.png';
 import location from '../assets/icons/location.png';
 import star from '../assets/icons/star.png';
 import chat from '../assets/icons/chat.png';
+import briefcase from '../assets/icons/briefcase.png';
 
 import featured1 from '../assets/images/home/featured1.png';
 import featured2 from '../assets/images/home/featured2.png';
@@ -85,6 +86,7 @@ export {
     chat,
     noSavedItems,
     noMessages,
+    briefcase,
     featured1,
     featured2,
     featured3

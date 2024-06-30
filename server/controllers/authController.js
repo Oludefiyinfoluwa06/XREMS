@@ -13,7 +13,11 @@ const createToken = (id) => {
 
 const signup = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { fullname, email, password, isAdmin } = req.body;
+
+        if (fullname === '') {
+            return res.json({ error: 'Enter your full name' });
+        }
 
         if (email === '') {
             return res.json({ error: 'Enter an email address' });
@@ -38,11 +42,13 @@ const signup = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
 
-        const user = await User.create({ email, password: hash });
+        const user = await User.create({ fullname, email, password: hash, isAdmin, profileImg: '' });
 
         const token = createToken(user._id);
 
-        return res.json({ message: 'Registration successful', token, user });
+        const { password: _, ...userWithoutPassword } = user.toObject();
+
+        return res.json({ message: 'Registration successful', token, user: userWithoutPassword });
 
     } catch (error) {
         console.error(error);

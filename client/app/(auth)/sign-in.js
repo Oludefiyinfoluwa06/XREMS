@@ -105,6 +105,8 @@ const SignIn = () => {
                         </TouchableOpacity>
                     </View>
                 </View>
+
+                <View className='mt-[40px]' />
             </ScrollView>
         </SafeAreaView>
     );

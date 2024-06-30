@@ -10,11 +10,11 @@ export const AuthProvider = ({ children }) => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const signUp = async (email, password) => {
+    const signUp = async (fullname, email, password, country, isAdmin) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://192.168.239.68:5000/auth/sign-up', { email, password }, {
+            const response = await axios.post('http://192.168.97.68:5000/auth/sign-up', { fullname, email, password, country, isAdmin }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -25,7 +25,12 @@ export const AuthProvider = ({ children }) => {
             } else {
                 await AsyncStorage.setItem('token', response.data.token);
                 await AsyncStorage.setItem('user', JSON.stringify(response.data.user));
-                router.replace('/home');
+
+                if (response.data.user.isAdmin === false) {
+                    router.replace('/home');
+                } else {
+                    router.replace('/admin/dashboard');
+                }
             }
         } catch (error) {
             console.log(error);
@@ -38,7 +43,7 @@ export const AuthProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://192.168.239.68:5000/auth/sign-in', { email, password }, {
+            const response = await axios.post('http://192.168.97.68:5000/auth/sign-in', { email, password }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -49,7 +54,12 @@ export const AuthProvider = ({ children }) => {
             } else {
                 await AsyncStorage.setItem('token', response.data.token);
                 await AsyncStorage.setItem('user', JSON.stringify(response.data.user));
-                router.replace('/home');
+                
+                if (response.data.user.isAdmin === false) {
+                    router.replace('/home');
+                } else {
+                    router.replace('/admin/dashboard');
+                }
             }
         } catch (error) {
             console.log(error);
@@ -61,7 +71,7 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         await AsyncStorage.removeItem('token');
         await AsyncStorage.removeItem('user');
-        router.replace('/sign-in');
+        router.replace('/choose');
     }
     
     const values = {
@@ -70,7 +80,7 @@ export const AuthProvider = ({ children }) => {
         error,
         setError,
         loading,
-        logout
+        logout,
     }
 
     return (
