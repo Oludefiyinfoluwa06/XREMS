@@ -13,13 +13,8 @@ const SplashScreen = () => {
             const token = await AsyncStorage.getItem('token');
             const userData = await AsyncStorage.getItem('user');
             const userInfo = JSON.parse(userData);
-            const firstTime = await AsyncStorage.getItem('first-time');
 
             setTimeout(() => {
-                if (firstTime !== null) {
-                    return router.replace('/choose');
-                }
-
                 if (userData === null && token === null) {
                     return router.replace('/choose');
                 }

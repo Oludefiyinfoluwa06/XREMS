@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
 const authRoute = require('./routes/authRoute');
+const propertyRoute = require('./routes/propertyRoute');
 
 const port = process.env.PORT || 5000;
 dotenv.config();
@@ -23,3 +24,4 @@ mongoose.connect(process.env.dbURI)
 app.get('/', (req, res) => res.send('Hello World!'));
 
 app.use('/auth', authRoute);
+app.use('/property', propertyRoute);
