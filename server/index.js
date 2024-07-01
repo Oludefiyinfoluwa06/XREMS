@@ -1,18 +1,19 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 
 const authRoute = require('./routes/authRoute');
 const propertyRoute = require('./routes/propertyRoute');
 
 const port = process.env.PORT || 5000;
-dotenv.config();
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 mongoose.connect(process.env.dbURI)
     .then(() => {
