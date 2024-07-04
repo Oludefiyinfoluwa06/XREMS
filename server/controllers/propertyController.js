@@ -8,11 +8,11 @@ const uploadProperty = async (req, res) => {
         const { price, type, location, description } = req.body;
 
         if (!price || !type || !location || !description) {
-            return res.status(400).json({ error: 'Input fields cannot be empty' });
+            return res.json({ error: 'Input fields cannot be empty' });
         }
 
         if (!req.file) {
-            return res.status(400).json({ error: 'File upload unsuccessful' });
+            return res.json({ error: 'File upload unsuccessful' });
         }
         
         const newProperty = new Property({
@@ -27,10 +27,10 @@ const uploadProperty = async (req, res) => {
         });
 
         const property = await newProperty.save();
-        return res.status(200).json({ message: 'Property uploaded successfully', property });
+        return res.json({ message: 'Property uploaded successfully', property });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error: 'Error uploading property details' });
+        res.json({ error: 'Error uploading property details' });
     }
 }
 
@@ -39,7 +39,7 @@ const getAllProperties = async (req, res) => {
         const properties = await Property.find();
 
         if (!properties || properties.length === 0) {
-            return res.status(404).json({ error: 'No properties' });
+            return res.json({ error: 'No properties' });
         }
 
         const propertiesWithImages = await Promise.all(properties.map(async (property) => {
@@ -47,10 +47,10 @@ const getAllProperties = async (req, res) => {
             return { ...property.toObject(), img };
         }));
 
-        return res.status(200).json({ propertiesWithImages });
+        return res.json({ propertiesWithImages });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error: 'Error occurred while getting all properties' });
+        res.json({ error: 'Error occurred while getting all properties' });
     }
 }
 
@@ -59,15 +59,15 @@ const getPropertyDetails = async (req, res) => {
         const property = await Property.findById(req.params.propertyId);
 
         if (!property) {
-            return res.status(404).json({ error: 'Property not found' });
+            return res.json({ error: 'Property not found' });
         }
 
         const img = await getPictures(getPropertyBucket(), property.img);
 
-        return res.status(200).json({ property, img });
+        return res.json({ property, img });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error: 'Error occurred while getting property details' });
+        res.json({ error: 'Error occurred while getting property details' });
     }
 }
 
@@ -77,7 +77,7 @@ const getMyProperties = async (req, res) => {
         const properties = await Property.find({ owner: new ObjectId(userId) });
 
         if (!properties || properties.length === 0) {
-            return res.status(404).json({ error: 'No properties' });
+            return res.json({ error: 'No properties' });
         }
 
         const propertiesWithImages = await Promise.all(properties.map(async (property) => {
@@ -85,10 +85,10 @@ const getMyProperties = async (req, res) => {
             return { ...property.toObject(), img };
         }));
 
-        return res.status(200).json({ propertiesWithImages });
+        return res.json({ propertiesWithImages });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error: 'Error occurred while getting all properties' });
+        res.json({ error: 'Error occurred while getting all properties' });
     }
 }
 
@@ -97,15 +97,15 @@ const getMyPropertyDetails = async (req, res) => {
         const property = await Property.findById(req.params.propertyId);
 
         if (!property) {
-            return res.status(404).json({ error: 'Property not found' });
+            return res.json({ error: 'Property not found' });
         }
 
         const img = await getPictures(getPropertyBucket(), property.img);
 
-        return res.status(200).json({ property, img });
+        return res.json({ property, img });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error: 'Error occurred while getting property details' });
+        res.json({ error: 'Error occurred while getting property details' });
     }
 }
 
