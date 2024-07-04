@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     password: String,
     isAdmin: Boolean,
     profileImg: String,
+    amount: Number,
 });
 
 const User = mongoose.model('users', userSchema);

@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 
 const authRoute = require('./routes/authRoute');
 const propertyRoute = require('./routes/propertyRoute');
+const walletRoute = require('./routes/walletRoute');
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -26,3 +27,4 @@ app.get('/', (req, res) => res.send('Hello World!'));
 
 app.use('/auth', authRoute);
 app.use('/property', propertyRoute);
+app.use('/wallet', walletRoute);

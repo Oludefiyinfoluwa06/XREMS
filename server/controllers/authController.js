@@ -42,7 +42,7 @@ const signup = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
 
-        const user = await User.create({ fullname, email, password: hash, isAdmin, profileImg: '' });
+        const user = await User.create({ fullname, email, password: hash, isAdmin, profileImg: '', amount: 0 });
 
         const token = createToken(user._id);
 
