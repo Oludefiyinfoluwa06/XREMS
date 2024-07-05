@@ -1,24 +1,28 @@
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { View, Image } from 'react-native';
 
-import { logo } from '../../assets/images/admin';
+import { logo, logo2 } from '../../constants';
 
 const CustomDrawerContent = (props) => {
-    const { top, bottom } = useSafeAreaInsets();
-
     return (
-        <View className='flex-1'>
-            <View>
-                <Image
-                    source={logo}
-                />
-            </View>
+        <View style={{ flex: 1 }}>
 
             <DrawerContentScrollView
                 {...props} 
                 scrollEnabled={false}
             >
+                <View className='flex flex-row items-center justify-start gap-2 my-2 pl-2'>
+                    <Image
+                        source={logo}
+                        resizeMode='contain'
+                        className='w-[60px] h-[60px]'
+                    />
+                    <Image
+                        source={logo2}
+                        resizeMode='contain'
+                        className='w-[100px] h-[30px]'
+                    />
+                </View>
                 <DrawerItemList {...props} />
             </DrawerContentScrollView>
         </View>
