@@ -94,7 +94,7 @@ const SignIn = () => {
                     </View>
 
                     <View className='flex-row items-center justify-around mt-2 mb-3'>
-                        <AuthButton icon={facebook} title='Facebook' />
+                        {/* <AuthButton icon={facebook} title='Facebook' /> */}
                         <AuthButton icon={google} title='Google' />
                     </View>
 

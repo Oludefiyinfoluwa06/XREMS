@@ -12,12 +12,13 @@ const SplashScreen = () => {
         const checkAuth = async () => {
             const token = await AsyncStorage.getItem('token');
             const userData = await AsyncStorage.getItem('user');
-            const userInfo = JSON.parse(userData);
-
+            
             setTimeout(() => {
                 if (userData === null && token === null) {
                     return router.replace('/choose');
                 }
+                
+                const userInfo = JSON.parse(userData);
 
                 if (userInfo.isAdmin === false) {
                     return router.replace('/home');

@@ -35,7 +35,7 @@ import aboutUs from '../assets/icons/about_us.png';
 import security from '../assets/icons/security.png';
 import payment from '../assets/icons/payment.png';
 import bookmark from '../assets/icons/bookmark.png';
-import logout from '../assets/icons/logout.png';
+import logOut from '../assets/icons/logout.png';
 import heart from '../assets/icons/heart.png';
 import redHeart from '../assets/icons/red-heart.png';
 import location from '../assets/icons/location.png';
@@ -76,7 +76,7 @@ export {
     security, 
     payment, 
     bookmark, 
-    logout,
+    logOut,
     heart,
     redHeart,
     location,

@@ -9,7 +9,8 @@ module.exports = {
         gray: "#808080",
         lightGray: "#efefef",
         errorText: '#721c24',
-        errorBg: '#f8d7da'
+        errorBg: '#f8d7da',
+        transparentBlack: 'rgba(0,0,0,0.65)'
       },
       fontFamily: {
         rthin: ["Raleway-Thin", "sans-serif"],

@@ -1,41 +1,34 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { angleRight, bookmark, logout, payment, security } from '../../constants';
-import { useAuth } from '../../contexts/AuthContext';
+import { angleRight, bookmark, logOut, payment, security } from '../../constants';
 import { router } from "expo-router";
 
-const settings = [
-    {
-        id: 1,
-        icon: security,
-        title: 'Security',
-        route: '/security'
-    },
-    {
-        id: 2,
-        icon: payment,
-        title: 'Payment',
-        route: '/payment'
-    },
-    {
-        id: 3,
-        icon: bookmark,
-        title: 'Saved',
-        route: '/saved'
-    },
-    {
-        id: 4,
-        icon: logout,
-        title: 'Logout',
-        route: ''
-    },
-];
-
-const MyAccount = () => {
-    const { logout } = useAuth();
-    
-    const handleLogout = async () => {
-        await logout();
-    }
+const MyAccount = ({ setShowLogoutModal }) => {
+    const settings = [
+        {
+            id: 1,
+            icon: security,
+            title: 'Security',
+            route: '/security'
+        },
+        {
+            id: 2,
+            icon: payment,
+            title: 'Payment',
+            route: '/payment'
+        },
+        {
+            id: 3,
+            icon: bookmark,
+            title: 'Saved',
+            route: '/saved'
+        },
+        {
+            id: 4,
+            icon: logOut,
+            title: 'Logout',
+            route: ''
+        },
+    ];    
     
     return (
         <View className='mt-[30px] bg-white shadow-lg p-[18px] rounded-[10px]'>
@@ -45,7 +38,7 @@ const MyAccount = () => {
                 <TouchableOpacity
                     key={item.id}
                     className='flex items-center justify-between flex-row'
-                    onPress={item.route === '' ? () => handleLogout() : () => router.push(item.route)}
+                    onPress={item.route === '' ? () => setShowLogoutModal(true) : () => router.push(item.route)}
                 >
                     <View className='flex items-center justify-start flex-row gap-2 mt-3'>
                         <Image

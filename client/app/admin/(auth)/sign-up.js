@@ -8,7 +8,7 @@ import { router } from 'expo-router';
 
 import Button from '../../../components/Button';
 import AuthButton from '../../../components/AuthButton';
-import { facebook, google, logo, logo2 } from '../../../constants';
+import { google, logo, logo2 } from '../../../constants';
 import { useAuth } from '../../../contexts/AuthContext';
 
 const SignUp = () => {
@@ -111,7 +111,7 @@ const SignUp = () => {
                     </View>
 
                     <View className='flex-row items-center justify-around mt-2 mb-3'>
-                        <AuthButton icon={facebook} title='Facebook' />
+                        {/* <AuthButton icon={facebook} title='Facebook' /> */}
                         <AuthButton icon={google} title='Google' />
                     </View>
 

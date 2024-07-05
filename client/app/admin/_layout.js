@@ -1,5 +1,4 @@
 import { Stack } from 'expo-router';
-import { StatusBar } from 'react-native';
 
 const AdminLayout = () => {    
     return (
@@ -16,8 +15,6 @@ const AdminLayout = () => {
                 name='(screens)'
                 options={{ headerShown: false }}
             /> */}
-            
-            <StatusBar backgroundColor='#FFFFFF' />
         </Stack>
             
     );
