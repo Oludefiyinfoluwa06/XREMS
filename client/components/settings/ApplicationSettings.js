@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { aboutUs, angleRight, helpCenter, support, termsAndConditions } from '../../constants';
+import { aboutUs, angleRight, helpCenter, privacyPolicy, support, termsAndConditions } from '../../constants';
 import { router } from 'expo-router';
 
 const settings = [
@@ -17,7 +17,7 @@ const settings = [
     },
     {
         id: 3,
-        icon: termsAndConditions,
+        icon: privacyPolicy,
         title: 'Privacy policy',
         route: 'privacy-policy'
     },
