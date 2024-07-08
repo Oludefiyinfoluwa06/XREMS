@@ -14,13 +14,16 @@ const Header = ({ title }) => {
 
     return (
         <View className='flex flex-row items-center justify-between p-[30px] bg-white'>
-            <TouchableOpacity onPress={openSidebar}>
-                <Image
-                    source={menuIcon}
-                    resizeMode='contain'
-                    className='w-[25px] h-[25px]'
-                />
-            </TouchableOpacity>
+            <View className='flex items-center justify-start flex-row'>
+                <TouchableOpacity onPress={openSidebar}>
+                    <Image
+                        source={menuIcon}
+                        resizeMode='contain'
+                        className='w-[25px] h-[25px] mr-2'
+                    />
+                </TouchableOpacity>
+                <Text className='text-2xl text-blue font-rbold'>{title}</Text>
+            </View>
             <TouchableOpacity onPress={() => router.push('/admin/profile')}>
                 <Image
                     source={user}
