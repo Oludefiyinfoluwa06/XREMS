@@ -19,9 +19,9 @@ const Dashboard = () => {
 
     return (
         <SafeAreaView>
-            <Header title='Dashboard' />
-
             <ScrollView>
+                <Header title='Dashboard' />
+
                 <View className='bg-blue h-[170px] rounded-b-[20px] p-[25px]'>
                     <Text className='text-white text-3xl font-rbold'>Hello, {user ? user.fullname.split(' ')[1] : 'Agent'}</Text>
                     <Text className='text-white font-rregular text-lg'>Welcome to your dashboard</Text>

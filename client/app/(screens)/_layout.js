@@ -16,6 +16,10 @@ const ScreensLayout = () => {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
+                name='wallet'
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
                 name='properties/all-properties'
                 options={{ headerShown: false }}
             />

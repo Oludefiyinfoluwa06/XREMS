@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar, View } from 'react-native';
+import { StatusBar } from 'react-native';
 import { useFonts } from 'expo-font';
 
 import { AuthProvider } from '../contexts/AuthContext';
+import { WalletProvider } from '../contexts/WalletContext';
+import { PropertyProvider } from '../contexts/PropertyContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -33,38 +35,42 @@ const RootLayout = () => {
     
     return (
         <AuthProvider>
-            <Stack>
-                <Stack.Screen
-                    name='index'
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name='welcome'
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name='choose'
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name='(auth)'
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name='(tabs)'
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name='(screens)'
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name='admin'
-                    options={{ headerShown: false }}
-                />
-            </Stack>
-            
-            <StatusBar backgroundColor='#FFFFFF' />
+            <PropertyProvider>
+                <WalletProvider>
+                    <Stack>
+                        <Stack.Screen
+                            name='index'
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name='welcome'
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name='choose'
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name='(auth)'
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name='(tabs)'
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name='(screens)'
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name='admin'
+                            options={{ headerShown: false }}
+                        />
+                    </Stack>
+                    
+                    <StatusBar backgroundColor='#FFFFFF' />
+                </WalletProvider>
+            </PropertyProvider>
         </AuthProvider>
     );
 }

@@ -111,13 +111,13 @@ const HouseDetails = () => {
                                     <Text className='text-blue font-rregular'>House owner</Text>
                                 </View>
                             </View>
-                            <View className='bg-lightGray p-3 rounded-lg'>
+                            <TouchableOpacity className='bg-lightGray p-3 rounded-lg' onPress={() => router.push('messages')}>
                                 <Image
                                     source={chat}
                                     resizeMode='cover'
                                     className='w-[24px] h-[24px]'
                                 />
-                            </View>
+                            </TouchableOpacity>
                         </View>
                     </View>
 

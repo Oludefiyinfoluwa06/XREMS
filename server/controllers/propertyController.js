@@ -92,27 +92,27 @@ const getMyProperties = async (req, res) => {
     }
 }
 
-const getMyPropertyDetails = async (req, res) => {
-    try {
-        const property = await Property.findById(req.params.propertyId);
+// const getMyPropertyDetails = async (req, res) => {
+//     try {
+//         const property = await Property.findById(req.params.propertyId);
 
-        if (!property) {
-            return res.json({ error: 'Property not found' });
-        }
+//         if (!property) {
+//             return res.json({ error: 'Property not found' });
+//         }
 
-        const img = await getPictures(getPropertyBucket(), property.img);
+//         const img = await getPictures(getPropertyBucket(), property.img);
 
-        return res.json({ property, img });
-    } catch (error) {
-        console.log(error);
-        res.json({ error: 'Error occurred while getting property details' });
-    }
-}
+//         return res.json({ property, img });
+//     } catch (error) {
+//         console.log(error);
+//         res.json({ error: 'Error occurred while getting property details' });
+//     }
+// }
 
 module.exports = {
     uploadProperty,
     getAllProperties,
     getPropertyDetails,
     getMyProperties,
-    getMyPropertyDetails
+    // getMyPropertyDetails
 }

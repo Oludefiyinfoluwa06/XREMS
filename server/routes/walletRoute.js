@@ -6,6 +6,6 @@ const router = require('express').Router();
 router.post('/topup', authenticate, walletTopup);
 router.post('/payment', authenticate, payment);
 router.post('/withdrawal', authenticate, walletWithdrawal);
-router.post('/get-sales', authenticate, getTotalSales);
+router.get('/get-sales', authenticate, getTotalSales);
 
 module.exports = router;

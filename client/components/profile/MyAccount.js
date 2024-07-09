@@ -13,8 +13,8 @@ const MyAccount = ({ setShowLogoutModal }) => {
         {
             id: 2,
             icon: payment,
-            title: 'Payment',
-            route: '/payment'
+            title: 'Wallet',
+            route: '/wallet'
         },
         {
             id: 3,
