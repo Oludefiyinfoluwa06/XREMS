@@ -3,14 +3,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../../components/admin/Header';
 import { ScrollView } from 'react-native-gesture-handler';
 
-const Customers = () => {
-
+const Messages = () => {
     return (
         <SafeAreaView>
-            <Header title='Customers' />
+            <Header title='Messages' />
 
             <ScrollView className='px-[30px]'>
-                <Text>Customers</Text>
+                <Text>Messages</Text>
             </ScrollView>
             
             <StatusBar backgroundColor='#FFFFFF' />
@@ -18,4 +17,4 @@ const Customers = () => {
     );
 }
 
-export default Customers;
+export default Messages;

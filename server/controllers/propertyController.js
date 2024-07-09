@@ -1,6 +1,6 @@
 const Property = require('../models/property');
-const { getPropertyBucket } = require('../utils/getBuckets');
-const { getPictures } = require('../utils/getPictures');
+const { getPropertyBucket } = require('../helpers/getBuckets');
+const { getPictures } = require('../helpers/getPictures');
 const { ObjectId } = require('mongoose').Types;
 
 const uploadProperty = async (req, res) => {

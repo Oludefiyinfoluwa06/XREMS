@@ -2,9 +2,10 @@ import 'react-native-gesture-handler';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
-import { customers, dashboard, profile, properties, settings, wallet } from '../../../assets/icons/admin';
 import { Image } from 'react-native';
 import CustomDrawerContent from '../../../components/admin/CustomDrawerContent';
+import { dashboard, profile, properties, settings, wallet } from '../../../assets/icons/admin';
+import { chat } from '../../../constants';
 
 const DrawerIcon = ({ icon, color }) => (
     <Image
@@ -70,14 +71,14 @@ const DrawerLayout = () => {
                     }}
                 />
                 <Drawer.Screen
-                    name="customers"
+                    name="messages"
                     options={{
-                        drawerLabel: 'Customers',
-                        title: 'customers',
+                        drawerLabel: 'Messages',
+                        title: 'messages',
                         headerShown: false,
                         drawerIcon: ({ color }) => (
                             <DrawerIcon
-                                icon={customers}
+                                icon={chat}
                                 color={color}
                             />
                         )
