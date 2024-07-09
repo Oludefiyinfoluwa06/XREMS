@@ -8,12 +8,12 @@ const authenticate = async (req, res, next) => {
         jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
             if (err) { 
                 console.log(err.message);
-                return res.status(401).json('Please, authenticate');
+                return res.json('Please, authenticate');
             } else {
                 const user = await User.findById(decodedToken.id);
 
                 if (!user) {
-                    return res.status(404).json({ error: 'No user' });
+                    return res.json({ error: 'No user' });
                 }
 
                 req.token = token;
@@ -22,7 +22,7 @@ const authenticate = async (req, res, next) => {
             }
         })
     } else {
-        return res.status(401).json('Please, authenticate');
+        return res.json('Please, authenticate');
     }
 
 }
