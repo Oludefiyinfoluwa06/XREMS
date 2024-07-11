@@ -1,12 +1,30 @@
+import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import EmptyList from '../../components/EmptyList';
 import { angleBack, noMessages, user } from '../../constants';
 import SearchBar from '../../components/SearchBar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Messages = () => {
+  const [ws, setWs] = useState(null);
   const messages = [];
+
+  useEffect(() => {
+    const connectWebSocket = async () => {
+      const token = await AsyncStorage.getItem('token');
+
+      const ws = new WebSocket(`ws://192.168.18.68:5000?token=${token}`);
+      setWs(ws);
+  
+      ws.addEventListener('message', (e) => {
+        console.log('new message', e);
+      });
+    }
+
+    connectWebSocket();
+  }, []);
 
   return (
     <SafeAreaView className='bg-white h-full'>

@@ -3,6 +3,7 @@ import { createContext, useContext, useState } from "react";
 import { router } from "expo-router";
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { config } from "../config";
 
 const PropertyContext = createContext();
 
@@ -20,7 +21,7 @@ export const PropertyProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://192.168.55.68:5000/property/upload', formData, {
+            const response = await axios.post('${config.backendUrl}/property/upload', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${getToken()}`
@@ -42,7 +43,7 @@ export const PropertyProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://192.168.55.68:5000/property/all', {
+            const response = await axios.post(`${config.backendUrl}/property/all`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${getToken()}`
@@ -62,7 +63,7 @@ export const PropertyProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post(`http://192.168.55.68:5000/property/all/${propertyId}`, {
+            const response = await axios.post(`${config.backendUrl}/property/all/${propertyId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${getToken()}`
@@ -83,7 +84,7 @@ export const PropertyProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post(`http://192.168.55.68:5000/property/my`, {
+            const response = await axios.post(`${config.backendUrl}/property/my`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${getToken()}`

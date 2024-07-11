@@ -3,6 +3,7 @@ import { createContext, useContext, useState } from "react";
 import { router } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { config } from "../config";
 
 const AuthContext = createContext();
 
@@ -14,7 +15,7 @@ export const AuthProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://192.168.55.68:5000/auth/sign-up', { fullname, email, password, isAdmin }, {
+            const response = await axios.post(`${config.backendUrl}/auth/sign-up`, { fullname, email, password, isAdmin }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -43,7 +44,7 @@ export const AuthProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://192.168.55.68:5000/auth/sign-in', { email, password }, {
+            const response = await axios.post(`${config.backendUrl}/auth/sign-in`, { email, password }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }

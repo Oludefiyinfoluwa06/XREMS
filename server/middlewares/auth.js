@@ -6,7 +6,7 @@ const authenticate = async (req, res, next) => {
 
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
-            if (err) { 
+            if (err) {
                 console.log(err.message);
                 return res.json('Please, authenticate');
             } else {
@@ -20,7 +20,7 @@ const authenticate = async (req, res, next) => {
                 req.user = user;
                 next();
             }
-        })
+        });
     } else {
         return res.json('Please, authenticate');
     }

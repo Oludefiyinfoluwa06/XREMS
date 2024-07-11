@@ -3,11 +3,12 @@ import { createContext, useContext, useState } from "react";
 import { router } from "expo-router";
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { config } from "../config";
 
 const WalletContext = createContext();
 
 export const WalletProvider = ({ children }) => {
-    const [properties, setProperties] = useState(null);
+    const [balance, setBalance] = useState(0);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -20,7 +21,7 @@ export const WalletProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://192.168.55.68:5000/wallet/topup', { amount, cardDetails }, {
+            const response = await axios.post(`${config.backendUrl}/wallet/topup`, { amount, cardDetails }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${getToken()}`
@@ -42,7 +43,7 @@ export const WalletProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://192.168.55.68:5000/wallet/payment', formData, {
+            const response = await axios.post(`${config.backendUrl}/wallet/payment`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${getToken()}`
@@ -64,7 +65,7 @@ export const WalletProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://192.168.55.68:5000/wallet/withdrawal', { amount, bankDetails }, {
+            const response = await axios.post(`${config.backendUrl}/wallet/withdrawal`, { amount, bankDetails }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${getToken()}`
@@ -86,7 +87,7 @@ export const WalletProvider = ({ children }) => {
         setLoading(true);
 
         try {
-            const response = await axios.get('http://192.168.55.68:5000/wallet/get-sales', {
+            const response = await axios.get(`${config.backendUrl}/wallet/get-sales`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${getToken()}`
@@ -112,9 +113,9 @@ export const WalletProvider = ({ children }) => {
     }
 
     return (
-        <PropertyContext.Provider value={values}>
+        <WalletContext.Provider value={values}>
             {children}
-        </PropertyContext.Provider>
+        </WalletContext.Provider>
     );
 }
 
