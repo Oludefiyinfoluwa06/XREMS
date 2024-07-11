@@ -8,6 +8,7 @@ import menuIcon from './menuIcon.png';
 import pencil from './pencil.png';
 import camera from './camera.png';
 import profile2 from './user.png';
+import bgUser from './bg-user.png';
 
 export {
     dashboard,
@@ -20,4 +21,5 @@ export {
     pencil,
     camera,
     profile2,
+    bgUser,
 }

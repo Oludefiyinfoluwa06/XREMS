@@ -20,6 +20,10 @@ const ScreensLayout = () => {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
+                name='chat/[chat]'
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
                 name='properties/all-properties'
                 options={{ headerShown: false }}
             />

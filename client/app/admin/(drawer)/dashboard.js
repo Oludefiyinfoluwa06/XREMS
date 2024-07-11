@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, StatusBar, TouchableOpacity, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -22,11 +22,16 @@ const Dashboard = () => {
             <ScrollView>
                 <Header title='Dashboard' />
 
-                <View className='bg-blue h-[170px] rounded-b-[20px] p-[25px]'>
-                    <Text className='text-white text-3xl font-rbold'>Hello, {user ? user.fullname.split(' ')[1] : 'Agent'}</Text>
-                    <Text className='text-white font-rregular text-lg'>Welcome to your dashboard</Text>
-                </View>
-
+                <ImageBackground
+                    source={require('../../../assets/images/bg-1.png')}
+                    resizeMode='stretch'
+                    className='w-full h-[170px]'
+                >
+                    <View className='h-full p-[25px]'>
+                        <Text className='text-white text-3xl font-rbold'>Hello, {user ? user.fullname.split(' ')[1] : 'Agent'}</Text>
+                        <Text className='text-white font-rregular text-lg'>Welcome to your dashboard</Text>
+                    </View>
+                </ImageBackground>
                 <View className='p-[25px] mt-[-80px]'>
                     <View className='bg-white rounded-xl p-[20px] shadow-lg mb-4'>
                         <Text className='font-rbold text-blue text-xl'>Total Properties</Text>

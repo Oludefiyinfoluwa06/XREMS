@@ -1,16 +1,9 @@
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import { View, Image, TouchableOpacity, Text } from 'react-native';
+import { View, Image } from 'react-native';
 
-import { logo, logo2, logOut } from '../../constants';
-import { useAuth } from '../../contexts/AuthContext';
+import { logo, logo2 } from '../../constants';
 
 const CustomDrawerContent = (props) => {
-    const { logout } = useAuth();
-    
-    const handleLogout = async () => {
-        await logout();
-    }
-
     return (
         <View style={{ flex: 1, height: '100vh' }}>
             <DrawerContentScrollView
@@ -32,18 +25,6 @@ const CustomDrawerContent = (props) => {
                 <DrawerItemList {...props} />
 
             </DrawerContentScrollView>
-
-            <TouchableOpacity 
-                className='flex flex-row items-center justify-start absolute left-[15px] bottom-[20px] w-full' 
-                onPress={handleLogout}
-            >
-                <Image
-                    source={logOut}
-                    resizeMode='contain'
-                    className='w-[30px] h-[30px] mr-2'
-                />
-                <Text>Logout</Text>
-            </TouchableOpacity>
         </View>
     );
 }

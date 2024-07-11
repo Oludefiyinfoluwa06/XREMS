@@ -1,4 +1,5 @@
 const Property = require('../models/property');
+const User = require('../models/user');
 const { getPropertyBucket } = require('../helpers/getBuckets');
 const { getPictures } = require('../helpers/getPictures');
 const { ObjectId } = require('mongoose').Types;
@@ -14,6 +15,11 @@ const uploadProperty = async (req, res) => {
         if (!req.file) {
             return res.json({ error: 'File upload unsuccessful' });
         }
+
+        const agentId = req.user.id;
+        const agent = await User.findById(agentId);
+
+        const { password, ...agentWithoutPassword } = agent.toObject();
         
         const newProperty = new Property({
             img: req.file.id,
@@ -23,7 +29,7 @@ const uploadProperty = async (req, res) => {
             description,
             rating: 0,
             reviews: [],
-            owner: req.user.id
+            agent: agentWithoutPassword,
         });
 
         const property = await newProperty.save();

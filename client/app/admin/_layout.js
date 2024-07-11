@@ -11,10 +11,10 @@ const AdminLayout = () => {
                 name='(drawer)'
                 options={{ headerShown: false }}
             />
-            {/* <Stack.Screen
+            <Stack.Screen
                 name='(screens)'
                 options={{ headerShown: false }}
-            /> */}
+            />
         </Stack>
             
     );

@@ -9,17 +9,22 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Messages = () => {
   const [ws, setWs] = useState(null);
-  const messages = [];
+  const [connectedUsers, setConnectedUsers] = useState([]);
 
   useEffect(() => {
     const connectWebSocket = async () => {
       const token = await AsyncStorage.getItem('token');
 
-      const ws = new WebSocket(`ws://192.168.18.68:5000?token=${token}`);
+      const ws = new WebSocket(`ws://192.168.204.68:5000?token=${token}`);
       setWs(ws);
   
       ws.addEventListener('message', (e) => {
-        console.log('new message', e);
+        try {
+          const users = JSON.parse(e.data);
+          setConnectedUsers(users);
+        } catch (err) {
+          console.error('Failed to parse WebSocket message', err);
+        }
       });
     }
 
@@ -29,8 +34,8 @@ const Messages = () => {
   return (
     <SafeAreaView className='bg-white h-full'>
       <FlatList
-        data={messages}
-        keyExtractor={item => item.id}
+        data={connectedUsers}
+        keyExtractor={item => item._id}
         horizontal={false}
         ListEmptyComponent={<EmptyList icon={noMessages} text='No messages' />}
         ListHeaderComponent={() => (
@@ -64,7 +69,7 @@ const Messages = () => {
           </View>
         )}
         renderItem={({ item }) => (
-          <TouchableOpacity className='p-[20px] flex flex-row items-center justify-start'>
+          <TouchableOpacity className='p-[20px] flex flex-row items-center justify-start' onPress={() => router.push(`/chat/${item._id}`)}>
             <View className='mr-2'>
               <Image
                 source={item.img}
@@ -74,7 +79,7 @@ const Messages = () => {
             </View>
             <View>
               <View className='flex flex-row items-center justify-between w-[91%] mb-2'>
-                <Text className='font-rbold text-blue'>{item.name}</Text>
+                <Text className='font-rbold text-blue'>{item.fullname}</Text>
                 <Text className='font-rregular text-blue'>{item.time}</Text>
               </View>
               <View className='flex flex-row items-center justify-between w-[91%]'>

@@ -20,7 +20,10 @@ const HouseDetails = () => {
         rating: 4.6,
         reviews: 3577,
         price: 1450000,
-        owner: 'Pyotr Kodzhebash',
+        agent: {
+            _id: 1,
+            fullname: 'Pyotr Kodzhebash'
+        },
         description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem corporis, consequuntur numquam dolores esse unde, nulla, quisquam accusamus excepturi blanditiis deserunt sapiente quaerat quas laboriosam nisi. In corporis veritatis nam dolor quo voluptates, perspiciatis deleniti, blanditiis odit corrupti at fuga voluptatum quidem eaque! Aut aliquam consequatur quibusdam obcaecati ex. Incidunt numquam, nisi placeat rem dicta harum illo cupiditate! Ipsa accusamus illum ea, porro repudiandae aperiam. Veniam obcaecati velit ea vero explicabo laudantium repellendus saepe fuga? Porro dolores est ipsa corrupti iure id voluptatum quidem, ipsum vitae ex. Laboriosam ab dignissimos, aliquid est, tempore laudantium, hic quaerat natus voluptatibus dolor vel',
     };
     
@@ -107,11 +110,11 @@ const HouseDetails = () => {
                                     className='w-[30px] h-[30px] mr-2'
                                 />
                                 <View>
-                                    <Text className='text-blue font-rbold text-lg'>{houseDetails.owner}</Text>
-                                    <Text className='text-blue font-rregular'>House owner</Text>
+                                    <Text className='text-blue font-rbold text-lg'>{houseDetails.agent.fullname}</Text>
+                                    <Text className='text-blue font-rregular'>Agent</Text>
                                 </View>
                             </View>
-                            <TouchableOpacity className='bg-lightGray p-3 rounded-lg' onPress={() => router.push('messages')}>
+                            <TouchableOpacity className='bg-lightGray p-3 rounded-lg' onPress={() => router.push(`chat/${houseDetails.agent._id}`)}>
                                 <Image
                                     source={chat}
                                     resizeMode='cover'

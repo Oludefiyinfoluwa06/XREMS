@@ -11,6 +11,7 @@ const authRoute = require('./routes/authRoute');
 const propertyRoute = require('./routes/propertyRoute');
 const walletRoute = require('./routes/walletRoute');
 const User = require('./models/user');
+const Chat = require('./models/chat');
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -34,16 +35,40 @@ mongoose.connect(process.env.dbURI)
                 if (err) {
                     console.log(err.message);
                     return res.json('Please, authenticate');
-                } else {
-                    console.log(decodedToken);
-                    const user = await User.findById(decodedToken.id);
-
-                    if (!user) {
-                        return res.json({ error: 'No user' });
-                    }
-
-                    console.log(user);
                 }
+
+                const user = await User.findById(decodedToken.id);
+
+                if (!user) {
+                    return res.json({ error: 'No user' });
+                }
+
+                const { password: _, ...userWithoutPassword } = user.toObject();
+
+                connection.user = userWithoutPassword;
+
+                const chats = await Chat.find({ 
+                    $or: [
+                        { user1: userWithoutPassword._id }, 
+                        { user2: userWithoutPassword._id }
+                    ]
+                }).populate('user1 user2');
+
+                const uniqueUsers = new Set();
+                chats.forEach(chat => {
+                    if (chat.user1._id.toString() !== user._id.toString()) {
+                        uniqueUsers.add(chat.user1);
+                    }
+                    if (chat.user2._id.toString() !== user._id.toString()) {
+                        uniqueUsers.add(chat.user2);
+                    }
+                });
+
+                connection.send(JSON.stringify([...uniqueUsers]));
+
+                // [...wss.clients].forEach(client => {
+                //     client.send(JSON.stringify([...wss.clients].map(c => (c))));
+                // });
             });
         });
     })

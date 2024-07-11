@@ -8,6 +8,8 @@ import noSearch from '../assets/images/no-search.png';
 import noNotification from '../assets/images/no-notification.png';
 import noSavedItems from '../assets/images/no-saved-items.png';
 import noMessages from '../assets/images/no-messages.png';
+import bg1 from '../assets/images/bg-1.png';
+import bg2 from '../assets/images/bg-2.png';
 
 // icons
 import google from '../assets/icons/google.png';
@@ -43,6 +45,7 @@ import star from '../assets/icons/star.png';
 import chat from '../assets/icons/chat.png';
 import briefcase from '../assets/icons/briefcase.png';
 import privacyPolicy from '../assets/icons/privacy_policy.png';
+import sendMessage from '../assets/icons/send-message.png';
 
 import featured1 from '../assets/images/home/featured1.png';
 import featured2 from '../assets/images/home/featured2.png';
@@ -89,6 +92,7 @@ export {
     noMessages,
     briefcase,
     privacyPolicy,
+    sendMessage,
     featured1,
     featured2,
     featured3
