@@ -8,8 +8,6 @@ import noSearch from '../assets/images/no-search.png';
 import noNotification from '../assets/images/no-notification.png';
 import noSavedItems from '../assets/images/no-saved-items.png';
 import noMessages from '../assets/images/no-messages.png';
-import bg1 from '../assets/images/bg-1.png';
-import bg2 from '../assets/images/bg-2.png';
 
 // icons
 import google from '../assets/icons/google.png';
@@ -37,6 +35,7 @@ import aboutUs from '../assets/icons/about_us.png';
 import security from '../assets/icons/security.png';
 import payment from '../assets/icons/payment.png';
 import bookmark from '../assets/icons/bookmark.png';
+import transparentBookmark from '../assets/icons/transparent-bookmark.png';
 import logOut from '../assets/icons/logout.png';
 import heart from '../assets/icons/heart.png';
 import redHeart from '../assets/icons/red-heart.png';
@@ -80,6 +79,7 @@ export {
     security, 
     payment, 
     bookmark, 
+    transparentBookmark,
     logOut,
     heart,
     redHeart,

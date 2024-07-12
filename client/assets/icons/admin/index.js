@@ -9,6 +9,9 @@ import pencil from './pencil.png';
 import camera from './camera.png';
 import profile2 from './user.png';
 import bgUser from './bg-user.png';
+import bgEnvelope from './bg-envelope.png';
+import whiteMenuIcon from './white-menu-icon.png';
+import bgPencil from './bg-pencil.png';
 
 export {
     dashboard,
@@ -22,4 +25,7 @@ export {
     camera,
     profile2,
     bgUser,
+    bgEnvelope,
+    whiteMenuIcon,
+    bgPencil,
 }
