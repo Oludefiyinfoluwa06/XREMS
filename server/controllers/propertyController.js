@@ -2,6 +2,7 @@ const Property = require('../models/property');
 const User = require('../models/user');
 const { getPropertyBucket } = require('../helpers/getBuckets');
 const { getPictures } = require('../helpers/getPictures');
+const getDateAMonthAgo = require('../helpers/getDateAMonthAgo');
 const { ObjectId } = require('mongoose').Types;
 
 const uploadProperty = async (req, res) => {
@@ -17,9 +18,6 @@ const uploadProperty = async (req, res) => {
         }
 
         const agentId = req.user.id;
-        const agent = await User.findById(agentId);
-
-        const { password, ...agentWithoutPassword } = agent.toObject();
         
         const newProperty = new Property({
             img: req.file.id,
@@ -29,7 +27,7 @@ const uploadProperty = async (req, res) => {
             description,
             rating: 0,
             reviews: [],
-            agent: agentWithoutPassword,
+            agent: agentId,
         });
 
         const property = await newProperty.save();
@@ -79,11 +77,11 @@ const getPropertyDetails = async (req, res) => {
 
 const getMyProperties = async (req, res) => {
     try {
-        const userId = req.user.id;
-        const properties = await Property.find({ owner: new ObjectId(userId) });
+        const agentId = req.user.id;
+        const properties = await Property.find({ agent: new ObjectId(agentId) });
 
         if (!properties || properties.length === 0) {
-            return res.json({ error: 'No properties' });
+            return res.json({ error: 'No properties', totalProperties: 0 });
         }
 
         const propertiesWithImages = await Promise.all(properties.map(async (property) => {
@@ -91,7 +89,12 @@ const getMyProperties = async (req, res) => {
             return { ...property.toObject(), img };
         }));
 
-        return res.json({ propertiesWithImages });
+        const totalPropertiesAddedPastMonth = await Property.countDocuments({
+            agentId: new ObjectId(agentId),
+            createdAt: { $gte: getDateAMonthAgo() }
+        });
+
+        return res.json({ propertiesWithImages, totalProperties: propertiesWithImages.length, totalPropertiesAddedPastMonth });
     } catch (error) {
         console.log(error);
         res.json({ error: 'Error occurred while getting all properties' });

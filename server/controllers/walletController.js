@@ -113,7 +113,7 @@ const walletWithdrawal = async (req, res) => {
     }
 }
 
-const getTotalSales = async () => {
+const getTotalSales = async (req, res) => {
     try {
         const agentId = req.user.id;
         
@@ -127,17 +127,17 @@ const getTotalSales = async () => {
         const { startOfPreviousWeek, endOfPreviousWeek } = getPreviousWeekDates();
 
         const pastMonthRevenue = await Sale.aggregate([
-            { $match: { agentId: mongoose.Types.ObjectId(agentId), saleDate: { $gte: dateAMonthAgo } } },
+            { $match: { agentId: new mongoose.Types.ObjectId(agentId), saleDate: { $gte: dateAMonthAgo } } },
             { $group: { _id: null, totalSales: { $sum: '$amount' } } }
         ]);
 
         const overallSales = await Sale.aggregate([
-            { $match: { agentId: mongoose.Types.ObjectId(agentId) } },
+            { $match: { agentId: new mongoose.Types.ObjectId(agentId) } },
             { $group: { _id: null, totalSales: { $sum: '$amount' } } }
         ]);
 
         const previousWeekSales = await Sale.aggregate([
-            { $match: { agentId: mongoose.Types.ObjectId(agentId), saleDate: { $gte: startOfPreviousWeek, $lte: endOfPreviousWeek } } },
+            { $match: { agentId: new mongoose.Types.ObjectId(agentId), saleDate: { $gte: startOfPreviousWeek, $lte: endOfPreviousWeek } } },
             { $group: { _id: null, totalSales: { $sum: '$amount' } } }
         ]);
 

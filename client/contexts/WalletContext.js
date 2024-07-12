@@ -10,21 +10,20 @@ const WalletContext = createContext();
 export const WalletProvider = ({ children }) => {
     const [balance, setBalance] = useState(0);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
-
-    const getToken = async () => {
-        const token = await AsyncStorage.getItem('token');
-        return token;
-    }
+    const [walletLoading, setWalletLoading] = useState(false);
+    const [overallSales, setOverallSales] = useState(0);
+    const [pastMonthRevenue, setPastMonthRevenue] = useState(0);
+    const [pastWeekSales, setPastWeekSales] = useState(0);
 
     const fundWallet = async (amount, cardDetails) => {
-        setLoading(true);
+        setWalletLoading(true);
 
         try {
+            const token = await AsyncStorage.getItem('token');
             const response = await axios.post(`${config.backendUrl}/wallet/topup`, { amount, cardDetails }, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${getToken()}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
@@ -35,18 +34,19 @@ export const WalletProvider = ({ children }) => {
         } catch (error) {
             console.log(error);
         } finally {
-            setLoading(false);
+            setWalletLoading(false);
         }
     }
 
     const pay = async (formData) => {
-        setLoading(true);
+        setWalletLoading(true);
 
         try {
+            const token = await AsyncStorage.getItem('token');
             const response = await axios.post(`${config.backendUrl}/wallet/payment`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${getToken()}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
@@ -57,18 +57,19 @@ export const WalletProvider = ({ children }) => {
         } catch (error) {
             console.log(error);
         } finally {
-            setLoading(false);
+            setWalletLoading(false);
         }
     }
 
     const withdraw = async (amount, bankDetails) => {
-        setLoading(true);
+        setWalletLoading(true);
 
         try {
+            const token = await AsyncStorage.getItem('token');
             const response = await axios.post(`${config.backendUrl}/wallet/withdrawal`, { amount, bankDetails }, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${getToken()}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
@@ -79,29 +80,31 @@ export const WalletProvider = ({ children }) => {
         } catch (error) {
             console.log(error);
         } finally {
-            setLoading(false);
+            setWalletLoading(false);
         }
     }
 
     const getTotalSales = async () => {
-        setLoading(true);
+        setWalletLoading(true);
 
         try {
+            const token = await AsyncStorage.getItem('token');
             const response = await axios.get(`${config.backendUrl}/wallet/get-sales`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${getToken()}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
-            console.log(response);
-            // if (response.data.error) return setError(response.data.error);
+            if (response.data.error) return setError(response.data.error);
 
-            // router.push('/admin/dashboard');
+            setOverallSales(response.data.overallSales);
+            setPastMonthRevenue(response.data.pastMonthRevenue);
+            setPastWeekSales(response.data.previousWeekSales);
         } catch (error) {
             console.log(error);
         } finally {
-            setLoading(false);
+            setWalletLoading(false);
         }
     }
     
@@ -109,7 +112,11 @@ export const WalletProvider = ({ children }) => {
         fundWallet,
         pay,
         withdraw,
-        getTotalSales
+        getTotalSales,
+        overallSales,
+        pastMonthRevenue,
+        pastWeekSales,
+        walletLoading,
     }
 
     return (

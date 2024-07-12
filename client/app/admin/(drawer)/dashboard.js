@@ -1,12 +1,17 @@
-import { View, Text, StatusBar, TouchableOpacity, ImageBackground } from 'react-native';
+import { useEffect, useState } from 'react';
+import { View, Text, StatusBar, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../../../components/admin/Header';
-import { useEffect, useState } from 'react';
+import { useWallet } from '../../../contexts/WalletContext';
+import { useProperty } from '../../../contexts/PropertyContext';
 
 const Dashboard = () => {
     const [user, setUser] = useState(null);
+
+    const { getTotalSales, overallSales, pastMonthRevenue, pastWeekSales, walletLoading } = useWallet();
+    const { getMyProperties, totalProperties, propertyLoading, totalPropertiesAddedPastMonth } = useProperty();
 
     useEffect(() => {
         const getUser = async () => {
@@ -15,6 +20,22 @@ const Dashboard = () => {
         }
 
         getUser();
+    }, []);
+
+    useEffect(() => {
+        const getSales = async () => {
+            await getTotalSales();
+        }
+
+        getSales();
+    }, []);
+
+    useEffect(() => {
+        const getProperties = async () => {
+            await getMyProperties();
+        }
+
+        getProperties();
     }, []);
 
     return (
@@ -35,18 +56,18 @@ const Dashboard = () => {
                 <View className='p-[25px] mt-[-80px]'>
                     <View className='bg-white rounded-xl p-[20px] shadow-lg mb-4'>
                         <Text className='font-rbold text-blue text-xl'>Total Properties</Text>
-                        <Text className='text-[40px] font-rbold text-blue'>0</Text>
-                        <Text className='font-rregular text-lg text-blue'><Text className='font-rbold'>+0</Text> - last month</Text>
+                        <Text className='text-[40px] font-rbold text-blue'>{propertyLoading ? 'Loading...' : totalProperties}</Text>
+                        <Text className='font-rregular text-lg text-blue'><Text className='font-rbold'>{propertyLoading ? 'Loading...' : `+${totalPropertiesAddedPastMonth}`}</Text> - last month</Text>
                     </View>
                     <View className='bg-white rounded-xl p-[20px] shadow-lg mb-4'>
                         <Text className='font-rbold text-blue text-xl'>Revenue</Text>
-                        <Text className='text-[40px] font-rbold text-blue'>₦ 0</Text>
-                        <Text className='font-rregular text-lg text-blue'><Text className='font-rbold'>+0</Text> - last month</Text>
+                        <Text className='text-[40px] font-rbold text-blue'>{walletLoading ? 'Loading...' : `₦ ${pastMonthRevenue}`}</Text>
+                        <Text className='font-rregular text-lg text-blue'><Text className='font-rbold'>{walletLoading ? 'Loading...' : `+₦ ${pastWeekSales}`}</Text> - last week</Text>
                     </View>
                     <View className='bg-white rounded-xl p-[20px] shadow-lg'>
                         <Text className='font-rbold text-blue text-xl'>Overall Sales</Text>
-                        <Text className='text-[40px] font-rbold text-blue'>₦ 0</Text>
-                        <Text className='font-rregular text-lg text-blue'><Text className='font-rbold'>+0</Text> - last month</Text>
+                        <Text className='text-[40px] font-rbold text-blue'>{walletLoading ? 'Loading...' : `₦ ${overallSales}`}</Text>
+                        <Text className='font-rregular text-lg text-blue'><Text className='font-rbold'>{walletLoading ? 'Loading...' : `+₦ ${pastWeekSales}`}</Text> - last week</Text>
                     </View>
                 </View>
                 

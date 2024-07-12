@@ -10,94 +10,103 @@ const PropertyContext = createContext();
 export const PropertyProvider = ({ children }) => {
     const [properties, setProperties] = useState(null);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
-
-    const getToken = async () => {
-        const token = await AsyncStorage.getItem('token');
-        return token;
-    }
+    const [propertyLoading, setPropertyLoading] = useState(false);
+    const [totalProperties, setTotalProperties] = useState(0);
+    const [totalPropertiesAddedPastMonth, setTotalPropertiesAddedPastMonth] = useState(0);
 
     const uploadProperty = async (formData) => {
-        setLoading(true);
+        setPropertyLoading(true);
 
         try {
+            const token = await AsyncStorage.getItem('token');
             const response = await axios.post('${config.backendUrl}/property/upload', formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${getToken()}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
-            console.log(response);
+            console.log(response.data);
             // if (response.data.error) return setError(response.data.error);
 
             // router.push('/admin/dashboard');
         } catch (error) {
             console.log(error);
         } finally {
-            setLoading(false);
+            setPropertyLoading(false);
         }
     }
 
     const getAllProperties = async () => {
-        setLoading(true);
+        setPropertyLoading(true);
 
         try {
+            const token = await AsyncStorage.getItem('token');
             const response = await axios.post(`${config.backendUrl}/property/all`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${getToken()}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
-            console.log(response);
+            console.log(response.data);
             // if (response.data.error) return setError(response.data.error);
         } catch (error) {
             console.log(error);
         } finally {
-            setLoading(false);
+            setPropertyLoading(false);
         }
     }
 
     const getPropertyDetails = async (propertyId) => {
-        setLoading(true);
+        setPropertyLoading(true);
 
         try {
-            const response = await axios.post(`${config.backendUrl}/property/all/${propertyId}`, {
+            const token = await AsyncStorage.getItem('token');
+            const response = await axios.get(`${config.backendUrl}/property/all/${propertyId}`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${getToken()}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
-            if (response.data.error) return setError(response.data.error);
+            console.log(response.data);
 
-            router.push('/admin/dashboard');
+            // if (response.data.error) return setError(response.data.error);
+
+            // router.push('/admin/dashboard');
         } catch (error) {
             console.log(error);
         } finally {
-            setLoading(false);
+            setPropertyLoading(false);
         }
     }
 
     const getMyProperties = async () => {
-        setLoading(true);
+        setPropertyLoading(true);
 
         try {
-            const response = await axios.post(`${config.backendUrl}/property/my`, {
+            const token = await AsyncStorage.getItem('token');
+            const response = await axios.get(`${config.backendUrl}/property/my`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${getToken()}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
-            console.log(response);
+            // console.log(response.data);
 
+            if (response.data.error) {
+                if (response.data.error === 'No properties') setTotalProperties(response.data.error.totalProperties);
+            }
+
+            setTotalPropertiesAddedPastMonth(response.data.totalPropertiesAddedPastMonth)
+            setTotalProperties(response.data.totalProperties);
             // if (response.data.error) return setError(response.data.error);
         } catch (error) {
             console.log(error);
         } finally {
-            setLoading(false);
+            setPropertyLoading(false);
         }
     }
     
@@ -106,6 +115,9 @@ export const PropertyProvider = ({ children }) => {
         getAllProperties,
         getPropertyDetails,
         getMyProperties,
+        totalProperties,
+        propertyLoading,
+        totalPropertiesAddedPastMonth,
     }
 
     return (
