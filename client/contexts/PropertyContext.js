@@ -13,6 +13,7 @@ export const PropertyProvider = ({ children }) => {
     const [propertyLoading, setPropertyLoading] = useState(false);
     const [totalProperties, setTotalProperties] = useState(0);
     const [totalPropertiesAddedPastMonth, setTotalPropertiesAddedPastMonth] = useState(0);
+    const [houseDetails, setHouseDetails] = useState(null);
 
     const uploadProperty = async (formData) => {
         setPropertyLoading(true);
@@ -70,11 +71,9 @@ export const PropertyProvider = ({ children }) => {
                 }
             });
 
-            console.log(response.data);
+            if (!response.data.error) return setHouseDetails(response.data);
 
-            // if (response.data.error) return setError(response.data.error);
-
-            // router.push('/admin/dashboard');
+            setError(response.data.error);
         } catch (error) {
             console.log(error);
         } finally {
@@ -94,12 +93,13 @@ export const PropertyProvider = ({ children }) => {
                 }
             });
 
-            // console.log(response.data);
-
             if (response.data.error) {
-                if (response.data.error === 'No properties') setTotalProperties(response.data.error.totalProperties);
+                if (response.data.error === 'No properties') return setTotalProperties(response.data.error.totalProperties);
+
+                setError(response.data.error);
             }
 
+            setProperties(response.data.propertiesWithImage);
             setTotalPropertiesAddedPastMonth(response.data.totalPropertiesAddedPastMonth)
             setTotalProperties(response.data.totalProperties);
             // if (response.data.error) return setError(response.data.error);
@@ -118,6 +118,9 @@ export const PropertyProvider = ({ children }) => {
         totalProperties,
         propertyLoading,
         totalPropertiesAddedPastMonth,
+        properties,
+        houseDetails,
+        error,
     }
 
     return (

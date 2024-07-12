@@ -84,7 +84,7 @@ const getMyProperties = async (req, res) => {
             return res.json({ error: 'No properties', totalProperties: 0 });
         }
 
-        const propertiesWithImages = await Promise.all(properties.map(async (property) => {
+        const propertiesWithImage = await Promise.all(properties.map(async (property) => {
             const img = await getPictures(getPropertyBucket(), property.img);
             return { ...property.toObject(), img };
         }));
@@ -94,7 +94,7 @@ const getMyProperties = async (req, res) => {
             createdAt: { $gte: getDateAMonthAgo() }
         });
 
-        return res.json({ propertiesWithImages, totalProperties: propertiesWithImages.length, totalPropertiesAddedPastMonth });
+        return res.json({ propertiesWithImage, totalProperties: propertiesWithImage.length, totalPropertiesAddedPastMonth });
     } catch (error) {
         console.log(error);
         res.json({ error: 'Error occurred while getting all properties' });

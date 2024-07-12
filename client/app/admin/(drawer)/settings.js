@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
-import { menuIcon, pencil, profile2 } from '../../../assets/icons/admin';
+import { pencil, profile2, whiteMenuIcon } from '../../../assets/icons/admin';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -37,7 +37,7 @@ const Settings = () => {
                         <View className='flex items-center justify-between flex-row'>
                             <TouchableOpacity onPress={openSidebar}>
                                 <Image
-                                    source={menuIcon}
+                                    source={whiteMenuIcon}
                                     resizeMode='contain'
                                     className='w-[25px] h-[25px]'
                                 />

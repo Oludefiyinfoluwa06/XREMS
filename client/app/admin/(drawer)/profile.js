@@ -1,9 +1,9 @@
 import { View, Text, StatusBar, TouchableOpacity, Image, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from 'expo-router';
+import { router, useNavigation } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { bgUser, menuIcon, profile2 } from '../../../assets/icons/admin';
+import { bgEnvelope, bgUser, profile2, whiteMenuIcon } from '../../../assets/icons/admin';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from '../../../components/admin/Button';
 import { useAuth } from '../../../contexts/AuthContext';
@@ -42,7 +42,7 @@ const Profile = () => {
                     <View className='flex items-center justify-between flex-row'>
                         <TouchableOpacity onPress={openSidebar}>
                             <Image
-                                source={menuIcon}
+                                source={whiteMenuIcon}
                                 resizeMode='contain'
                                 className='w-[25px] h-[25px]'
                             />
@@ -97,7 +97,7 @@ const Profile = () => {
 
                         <View className='flex flex-row items-center justify-start'>
                             <Image
-                                source={bgUser}
+                                source={bgEnvelope}
                                 resizeMode='contain'
                                 className='w-[35px] h-[35px] mr-2'
                             />
@@ -109,7 +109,7 @@ const Profile = () => {
                     </View>
 
                     <View className='absolute bottom-4 left-0 right-0 flex items-center justify-center flex-row mx-auto'>
-                        <Button text='Edit Profile' bg={true} />
+                        <Button text='Edit Profile' bg={true} onClick={() => router.push('/admin/edit-profile')} />
                         <Button text='Logout' bg={false} onClick={handleLogout} />
                     </View>
                 </View>

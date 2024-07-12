@@ -12,6 +12,8 @@ import bgUser from './bg-user.png';
 import bgEnvelope from './bg-envelope.png';
 import whiteMenuIcon from './white-menu-icon.png';
 import bgPencil from './bg-pencil.png';
+import homePlus from './home-plus.png';
+import noHome from './no-home.png';
 
 export {
     dashboard,
@@ -28,4 +30,6 @@ export {
     bgEnvelope,
     whiteMenuIcon,
     bgPencil,
+    homePlus,
+    noHome,
 }
