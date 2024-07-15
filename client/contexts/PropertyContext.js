@@ -18,6 +18,7 @@ export const PropertyProvider = ({ children }) => {
     const [topPlace, setTopPlace] = useState(null);
     const [newProperties, setNewProperties] = useState(null);
     const [allProperties, setAllProperties] = useState(null);
+    const [agentDetails, setAgentDetails] = useState(null);
 
     const uploadProperty = async (formData) => {
         setPropertyLoading(true);
@@ -116,6 +117,22 @@ export const PropertyProvider = ({ children }) => {
             setPropertyLoading(false);
         }
     }
+
+    const fetchAgentDetails = async (agentId) => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await axios.get(`${config.backendUrl}/property/agent/${agentId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            setAgentDetails(response.data.agentWithoutPassword);
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
     const values = {
         error,
@@ -132,6 +149,8 @@ export const PropertyProvider = ({ children }) => {
         topPlace,
         newProperties,
         allProperties,
+        fetchAgentDetails,
+        agentDetails,
     }
 
     return (

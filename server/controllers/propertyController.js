@@ -4,6 +4,7 @@ const { getPropertyBucket } = require('../helpers/getBuckets');
 const { getPictures } = require('../helpers/getPictures');
 const getDateAMonthAgo = require('../helpers/getDateAMonthAgo');
 const getRandomProperties = require('../helpers/getRandomProperties');
+const User = require('../models/user');
 
 const uploadProperty = async (req, res) => {
     try {
@@ -127,27 +128,27 @@ const getMyProperties = async (req, res) => {
     }
 }
 
-// const getMyPropertyDetails = async (req, res) => {
-//     try {
-//         const property = await Property.findById(req.params.propertyId);
+const getAgentDetails = async (req, res) => {    
+    try {
+        const { agentId } = req.params;
 
-//         if (!property) {
-//             return res.json({ error: 'Property not found' });
-//         }
+        const agent = await User.findById(agentId);
 
-//         const img = await getPictures(getPropertyBucket(), property.img);
+        if (!agent) return res.json({ error: 'Agent does not exist' });
 
-//         return res.json({ property, img });
-//     } catch (error) {
-//         console.log(error);
-//         res.json({ error: 'Error occurred while getting property details' });
-//     }
-// }
+        const { password: _, ...agentWithoutPassword } = agent.toObject();
+
+        return res.json({ agentWithoutPassword });
+    } catch (error) {
+        console.log(error);
+        res.json({ error: 'Error occurred while getting agent details' });
+    }
+}
 
 module.exports = {
     uploadProperty,
     getAllProperties,
     getPropertyDetails,
     getMyProperties,
-    // getMyPropertyDetails
+    getAgentDetails,
 }

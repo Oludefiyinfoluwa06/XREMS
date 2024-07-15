@@ -12,7 +12,7 @@ const HouseDetails = () => {
     const [isBookmarked, setIsBookmarked] = useState(false);
     const params = useLocalSearchParams();
 
-    const { getPropertyDetails, houseDetails, error } = useProperty();
+    const { fetchAgentDetails, agentDetails, getPropertyDetails, houseDetails, error } = useProperty();
 
     const toggleExpansion = () => {
         setIsExpanded(!isExpanded);
@@ -21,7 +21,9 @@ const HouseDetails = () => {
     useEffect(() => {
         getPropertyDetails(params.id);
         checkBookmarkStatus();
-    }, [params.id]);
+
+        fetchAgentDetails(houseDetails?.property?.agent);
+    }, []);
 
     const checkBookmarkStatus = async () => {
         try {
@@ -129,16 +131,16 @@ const HouseDetails = () => {
                             <View className='my-[10px] flex flex-row items-center justify-between'>
                                 <View className='flex flex-row items-center justify-start'>
                                     <Image
-                                        source={user}
+                                        source={agentDetails?.profileImg ? { uri: agentDetails?.profileImg } : user}
                                         resizeMode='cover'
                                         className='w-[30px] h-[30px] mr-2'
                                     />
                                     <View>
-                                        <Text className='text-blue font-rbold text-lg'>{houseDetails?.property.agent.fullname}</Text>
+                                        <Text className='text-blue font-rbold text-lg'>{agentDetails?.fullname}</Text>
                                         <Text className='text-blue font-rregular'>Agent</Text>
                                     </View>
                                 </View>
-                                <TouchableOpacity className='bg-lightGray p-3 rounded-lg' onPress={() => router.push(`chat/${houseDetails?.property.agent}`)}>
+                                <TouchableOpacity className='bg-lightGray p-3 rounded-lg' onPress={() => router.push(`chat/${agentDetails?._id}`)}>
                                     <Image
                                         source={chat}
                                         resizeMode='cover'

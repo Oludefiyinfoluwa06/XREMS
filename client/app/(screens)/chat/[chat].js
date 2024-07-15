@@ -1,11 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, ScrollView, TextInput, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { angleBack, sendMessage, user } from '../../../constants';
+import { useProperty } from '../../../contexts/PropertyContext';
+import { useChat } from '../../../contexts/ChatContext';
 
 const Chat = () => {
-    const [message, setMessage] = useState('');
+    const [newMessage, setNewMessage] = useState('');
+    const params = useLocalSearchParams();
+    const { fetchAgentDetails, agentDetails } = useProperty();
+    const { ws, messages } = useChat();
+
+    useEffect(() => {
+        fetchAgentDetails(params.chat);
+    }, []);
+
+    const handleSendMessage = () => {};
 
     return (
         <SafeAreaView className='relative bg-white'>
@@ -23,15 +34,22 @@ const Chat = () => {
                     </TouchableOpacity>
                     <View className='flex items-center justify-start flex-row'>
                         <Image
-                            source={user}
+                            source={agentDetails?.profileImg ? { uri: agentDetails?.profileImg } : user}
                             resizeMode='contain'
                             className='w-[40px] h-[40px] mr-2'
                         />
                         <View className='flex items-start justify-center'>
-                            <Text className='font-rbold text-xl text-blue'>Olude Fiyinfoluwa</Text>
+                            <Text className='font-rbold text-xl text-blue'>{agentDetails?.fullname}</Text>
                             <Text className='font-rregular text-sm text-blue'>Offline</Text>
                         </View>
                     </View>
+                </View>
+                <View className='flex-1'>
+                    {messages.filter(msg => msg.sender === agentDetails?._id || msg.recipient === agentDetails?._id).map((msg, index) => (
+                        <View key={index} className={`p-2 ${msg.sender === agentDetails?._id ? 'bg-gray-200' : 'bg-blue-200'} rounded-lg mb-2`}>
+                            <Text>{msg.text}</Text>
+                        </View>
+                    ))}
                 </View>
             </ScrollView>
 
@@ -39,10 +57,10 @@ const Chat = () => {
                 <TextInput
                     placeholder='Enter a message'
                     className='p-[5px] px-[10px] w-[85%] border border-gray rounded-[50px]'
-                    value={message}
-                    onChangeText={(value) => setMessage(value)}
+                    value={newMessage}
+                    onChangeText={setNewMessage}
                 />
-                <TouchableOpacity className='flex items-center justify-center bg-blue p-2 pl-3 py-[10px] rounded-full'>
+                <TouchableOpacity className='flex items-center justify-center bg-blue p-2 pl-3 py-[10px] rounded-full' onPress={handleSendMessage}>
                     <Image
                         source={sendMessage}
                         resizeMode='contain'

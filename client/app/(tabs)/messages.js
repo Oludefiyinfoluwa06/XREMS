@@ -5,31 +5,10 @@ import { router } from 'expo-router';
 import EmptyList from '../../components/EmptyList';
 import { angleBack, noMessages, user } from '../../constants';
 import SearchBar from '../../components/SearchBar';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useChat } from '../../contexts/ChatContext';
 
 const Messages = () => {
-  const [ws, setWs] = useState(null);
-  const [connectedUsers, setConnectedUsers] = useState([]);
-
-  useEffect(() => {
-    const connectWebSocket = async () => {
-      const token = await AsyncStorage.getItem('token');
-
-      const ws = new WebSocket(`ws://192.168.204.68:5000?token=${token}`);
-      setWs(ws);
-  
-      ws.addEventListener('message', (e) => {
-        try {
-          const users = JSON.parse(e.data);
-          setConnectedUsers(users);
-        } catch (err) {
-          console.error('Failed to parse WebSocket message', err);
-        }
-      });
-    }
-
-    connectWebSocket();
-  }, []);
+  const { connectedUsers } = useChat();
 
   return (
     <SafeAreaView className='bg-white h-full'>
