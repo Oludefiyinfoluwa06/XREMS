@@ -54,10 +54,10 @@ const SignUp = () => {
                 </View>}
 
                 <View>
-                    <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-bold">Full name:</Text>
+                    <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-rbold">Full name:</Text>
                     <TextInput
                         placeholder='Full name'
-                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px]'
+                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px] font-rregular'
                         value={fullname}
                         onChangeText={(value) => {
                             setFullname(value);
@@ -65,10 +65,10 @@ const SignUp = () => {
                         }}
                     />
 
-                    <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-bold">Email:</Text>
+                    <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-rbold">Email:</Text>
                     <TextInput
                         placeholder='Email'
-                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px]'
+                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px] font-rregular'
                         value={email}
                         onChangeText={(value) => {
                             setEmail(value);
@@ -77,10 +77,10 @@ const SignUp = () => {
                         keyboardType='email-address'
                     />
 
-                    <Text className="text-blue ml-[10px] mt-[15px] mb-[8px] text-[15px] font-bold">Password:</Text>
+                    <Text className="text-blue ml-[10px] mt-[15px] mb-[8px] text-[15px] font-rbold">Password:</Text>
                     <TextInput
                         placeholder='Password'
-                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px]'
+                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px] font-rregular'
                         secureTextEntry
                         value={password}
                         onChangeText={(value) => {
@@ -118,7 +118,7 @@ const SignUp = () => {
                     <View className='flex-row items-center justify-center mt-5 gap-2'>
                         <Text className='font-rregular text-blue text-lg'>Already have an account?</Text>
                         <TouchableOpacity onPress={() => router.push('/sign-in')}>
-                            <Text className='font-rregular font-bold text-blue text-lg'>Sign in</Text>
+                            <Text className='font-rbold text-blue text-lg'>Sign in</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

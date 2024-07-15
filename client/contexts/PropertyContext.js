@@ -14,6 +14,10 @@ export const PropertyProvider = ({ children }) => {
     const [totalProperties, setTotalProperties] = useState(0);
     const [totalPropertiesAddedPastMonth, setTotalPropertiesAddedPastMonth] = useState(0);
     const [houseDetails, setHouseDetails] = useState(null);
+    const [featuredProperties, setFeaturedProperties] = useState(null);
+    const [topPlace, setTopPlace] = useState(null);
+    const [newProperties, setNewProperties] = useState(null);
+    const [allProperties, setAllProperties] = useState(null);
 
     const uploadProperty = async (formData) => {
         setPropertyLoading(true);
@@ -43,14 +47,17 @@ export const PropertyProvider = ({ children }) => {
 
         try {
             const token = await AsyncStorage.getItem('token');
-            const response = await axios.post(`${config.backendUrl}/property/all`, {
+            const response = await axios.get(`${config.backendUrl}/property/all`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
             });
 
-            console.log(response.data);
+            setAllProperties(response.data.allPropertiesWithImages);
+            setFeaturedProperties(response.data.featuredPropertiesWithImages);
+            setTopPlace(response.data.popularPropertiesWithImages);
+            setNewProperties(response.data.newPropertiesWithImages);
             // if (response.data.error) return setError(response.data.error);
         } catch (error) {
             console.log(error);
@@ -111,6 +118,7 @@ export const PropertyProvider = ({ children }) => {
     }
     
     const values = {
+        error,
         uploadProperty,
         getAllProperties,
         getPropertyDetails,
@@ -120,7 +128,10 @@ export const PropertyProvider = ({ children }) => {
         totalPropertiesAddedPastMonth,
         properties,
         houseDetails,
-        error,
+        featuredProperties,
+        topPlace,
+        newProperties,
+        allProperties,
     }
 
     return (

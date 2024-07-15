@@ -5,7 +5,7 @@ import { briefcase, logo, user } from '../constants';
 
 const Choose = () => {
     return (
-        <SafeAreaView className='p-[20px] flex items-center justify-center min-h-screen bg-white'>
+        <SafeAreaView className='p-[20px] flex items-center justify-center h-full bg-white'>
             <View className='flex items-center justify-center flex-col'>
                 <Image
                     source={logo}

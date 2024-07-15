@@ -45,10 +45,10 @@ const SignIn = () => {
                 </View>}
 
                 <View>
-                    <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-bold">Email:</Text>
+                    <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-rbold">Email:</Text>
                     <TextInput
                         placeholder='Email'
-                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px]'
+                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px] font-rregular'
                         value={email}
                         onChangeText={(value) => {
                             setEmail(value);
@@ -56,10 +56,10 @@ const SignIn = () => {
                         }}
                     />
 
-                    <Text className="text-blue ml-[10px] mt-[15px] mb-[8px] text-[15px] font-bold">Password:</Text>
+                    <Text className="text-blue ml-[10px] mt-[15px] mb-[8px] text-[15px] font-rbold">Password:</Text>
                     <TextInput
                         placeholder='Password'
-                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px]'
+                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px] font-rregular'
                         secureTextEntry
                         value={password}
                         onChangeText={(value) => {
@@ -84,7 +84,7 @@ const SignIn = () => {
                     <Button title='Sign in' onClick={handleSignIn} loading={loading} />
 
                     <TouchableOpacity className='w-full mt-3' onPress={() => router.push('/forgot-password')}>
-                        <Text className='font-rregular text-blue text-center font-bold'>Forgot your password?</Text>
+                        <Text className='text-blue text-center font-rbold'>Forgot your password?</Text>
                     </TouchableOpacity>
 
                     <View className='flex-row items-center justify-center w-full my-4'>
@@ -101,7 +101,7 @@ const SignIn = () => {
                     <View className='flex-row items-center justify-center mt-5 gap-2'>
                         <Text className='font-rregular text-blue text-lg'>Don't have an account?</Text>
                         <TouchableOpacity onPress={() => router.push('/sign-up')}>
-                            <Text className='font-rregular font-bold text-blue text-lg'>Sign up</Text>
+                            <Text className='font-rbold text-blue text-lg'>Sign up</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

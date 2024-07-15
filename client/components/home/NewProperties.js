@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import SectionHeader from './SectionHeader';
+import { transparentBookmark, location, star, bookmark } from '../../constants';
 
-import { location, star } from '../../constants';
-
-const FeaturedUnits = ({ featuredProperties }) => {
+const NewProperties = ({ newProperties }) => {
     return (
         <View>
-            <SectionHeader title='Featured Properties' />
+            <SectionHeader title='New Properties' />
 
-            {featuredProperties !== null ? (
+            {newProperties !== null ? (
                 <FlatList
-                    data={featuredProperties}
+                    data={newProperties}
                     keyExtractor={(item) => item._id}
                     horizontal={true}
                     renderItem={({ item }) => (
@@ -70,4 +70,4 @@ const FeaturedUnits = ({ featuredProperties }) => {
     );
 }
 
-export default FeaturedUnits;
+export default NewProperties;

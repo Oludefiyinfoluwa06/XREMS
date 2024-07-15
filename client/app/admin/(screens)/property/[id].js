@@ -21,13 +21,9 @@ const HouseDetails = () => {
     
     return (
         <SafeAreaView>
-            {propertyLoading ? (
-                <View className='flex items-center justify-center flex-1 min-h-screen bg-white'>
-                    <ActivityIndicator size="large" color="#191641" />
-                </View>
-            ) : error ? (
+            {error ? (
                 <Text>Error</Text>
-            ): (
+            ) : houseDetails !== null ? (
                 <ScrollView className='p-[20px] bg-white h-full'>
                     <View className='flex items-center justify-start flex-row'>
                         <TouchableOpacity
@@ -95,6 +91,10 @@ const HouseDetails = () => {
                     
                     <View className='mt-[40px]' />
                 </ScrollView>
+            ) : (
+                <View className='flex items-center justify-center flex-1 h-full bg-white'>
+                    <ActivityIndicator size="large" color="#191641" />
+                </View>
             )}
         </SafeAreaView>
     );

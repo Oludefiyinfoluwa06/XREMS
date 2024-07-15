@@ -6,7 +6,7 @@ const Button = ({ title, onClick, loading }) => {
             {loading ? (
                 <ActivityIndicator animating={true} color='white' />
             ) : (
-                <Text className='font-rregular text-white text-center font-bold'>{title}</Text>
+                <Text className='text-white text-center font-rbold'>{title}</Text>
             )}
         </TouchableOpacity>
     );

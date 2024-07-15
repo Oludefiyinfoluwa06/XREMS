@@ -1,9 +1,9 @@
+const { ObjectId } = require('mongoose').Types;
 const Property = require('../models/property');
-const User = require('../models/user');
 const { getPropertyBucket } = require('../helpers/getBuckets');
 const { getPictures } = require('../helpers/getPictures');
 const getDateAMonthAgo = require('../helpers/getDateAMonthAgo');
-const { ObjectId } = require('mongoose').Types;
+const getRandomProperties = require('../helpers/getRandomProperties');
 
 const uploadProperty = async (req, res) => {
     try {
@@ -40,23 +40,49 @@ const uploadProperty = async (req, res) => {
 
 const getAllProperties = async (req, res) => {
     try {
-        const properties = await Property.find();
+        const limit = parseInt(req.query.limit) || 10;
 
-        if (!properties || properties.length === 0) {
-            return res.json({ error: 'No properties' });
+        const [popularProperties, newListings, properties] = await Promise.all([
+            Property.find().sort({ rating: -1 }).limit(limit).lean(false),
+            Property.find().sort({ createdAt: -1 }).limit(limit).lean(false),
+            Property.find().lean(false)
+        ]);
+
+        const fetchPropertyImages = async (properties) => {
+            return Promise.all(properties.map(async (property) => {
+                const img = await getPictures(getPropertyBucket(), property.img);
+                return { ...property.toObject(), img }
+            }));
         }
 
-        const propertiesWithImages = await Promise.all(properties.map(async (property) => {
-            const img = await getPictures(getPropertyBucket(), property.img);
-            return { ...property.toObject(), img };
-        }));
+        const [popularPropertiesWithImages, newPropertiesWithImages, allPropertiesWithImages] = await Promise.all([
+            fetchPropertyImages(popularProperties),
+            fetchPropertyImages(newListings),
+            fetchPropertyImages(properties)
+        ]);
 
-        return res.json({ propertiesWithImages });
+        const fetchFeaturedPropertyImages = async (properties) => {
+            return Promise.all(properties.map(async (property) => {
+                const img = await getPictures(getPropertyBucket(), property.img);
+                return { ...property, img };
+            }));
+        };
+
+        const featuredProperties = await getRandomProperties(limit);
+        const featuredPropertiesWithImages = await fetchFeaturedPropertyImages(featuredProperties);
+
+        res.json({
+            featuredPropertiesWithImages,
+            popularPropertiesWithImages,
+            newPropertiesWithImages,
+            allPropertiesWithImages
+        });
     } catch (error) {
         console.log(error);
         res.json({ error: 'Error occurred while getting all properties' });
     }
-}
+};
+
 
 const getPropertyDetails = async (req, res) => {
     try {

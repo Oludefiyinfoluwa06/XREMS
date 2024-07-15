@@ -9,8 +9,12 @@ import { notification, user } from '../../constants';
 import SearchBar from '../../components/SearchBar';
 import FeaturedUnits from '../../components/home/FeaturedUnits';
 import TopPlace from '../../components/home/TopPlace';
+import { useProperty } from '../../contexts/PropertyContext';
+import NewProperties from '../../components/home/NewProperties';
 
 const Home = () => {
+    const { getAllProperties, featuredProperties, topPlace, newProperties } = useProperty();
+
     useEffect(() => {
         const checkAuth = async () => {
             const token = await AsyncStorage.getItem('token');
@@ -24,6 +28,14 @@ const Home = () => {
         }
 
         checkAuth();
+    }, []);
+
+    useEffect(() => {
+        const getProperties = async () => {
+            await getAllProperties();
+        }
+
+        getProperties();
     }, []);
 
     return (
@@ -53,12 +65,13 @@ const Home = () => {
                 </View>
 
                 <SearchBar />
-                <FeaturedUnits />
-                <TopPlace />
+                <FeaturedUnits featuredProperties={featuredProperties} />
+                <TopPlace topPlace={topPlace} />
+                <NewProperties newProperties={newProperties} />
                 <View className='mt-[20px]' />
             </ScrollView>
 
-            <StatusBar backgroundColor={`#FFF`} />
+            <StatusBar backgroundColor='#FFFFFF' />
         </SafeAreaView>
     );
 }

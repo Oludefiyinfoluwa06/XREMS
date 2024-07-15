@@ -32,7 +32,7 @@ const SplashScreen = () => {
     }, []);
 
     return (
-        <SafeAreaView className='items-center justify-center min-h-screen bg-white'>
+        <SafeAreaView className='items-center justify-center h-full bg-white'>
             <Image
                 source={logo}
                 resizeMode='contain'
