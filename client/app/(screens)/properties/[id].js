@@ -149,7 +149,7 @@ const HouseDetails = () => {
                                         <Text className='text-blue font-rregular'>Agent</Text>
                                     </View>
                                 </View>
-                                <TouchableOpacity className='bg-lightGray p-3 rounded-lg' onPress={() => router.push(`chat/${agentDetails?._id}`)}>
+                                <TouchableOpacity className='bg-lightGray p-3 rounded-lg' onPress={() => router.push(`chat/${houseDetails?.agent?._id}`)}>
                                     <Image
                                         source={chat}
                                         resizeMode='cover'
