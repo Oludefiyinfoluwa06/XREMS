@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,19 +10,26 @@ import { useProperty } from '../../../contexts/PropertyContext';
 const HouseDetails = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isBookmarked, setIsBookmarked] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
     const params = useLocalSearchParams();
 
-    const { fetchAgentDetails, agentDetails, getPropertyDetails, houseDetails, error } = useProperty();
+    const { getPropertyDetails, houseDetails, error, setError } = useProperty();
 
     const toggleExpansion = () => {
         setIsExpanded(!isExpanded);
     }
 
+    const onRefresh = () => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }
+
     useEffect(() => {
+        setError('');
         getPropertyDetails(params.id);
         checkBookmarkStatus();
-
-        fetchAgentDetails(houseDetails?.property?.agent);
     }, []);
 
     const checkBookmarkStatus = async () => {
@@ -63,7 +70,7 @@ const HouseDetails = () => {
             {error ? (
                 <Text>Error</Text>
             ) : houseDetails !== null ? (
-                <ScrollView className='p-[20px] bg-white h-full'>
+                <ScrollView className='p-[20px] bg-white h-full' refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                     <View className='flex items-center justify-start flex-row'>
                         <TouchableOpacity
                             className='flex items-center justify-center p-[13px] rounded-lg bg-white shadow-lg'
@@ -112,7 +119,9 @@ const HouseDetails = () => {
                                 <Text className='font-rregular text-md'>{houseDetails?.property.rating}</Text>
                             </View>
 
-                            <Text className='font-rregular text-md text-gray mt-[10px]'>{houseDetails?.property.reviews.length} Reviews</Text>
+                            <TouchableOpacity onPress={() => router.push(`/reviews/${params.id}`)}>
+                                <Text className='font-rregular text-md text-gray mt-[10px]'>{houseDetails?.property.reviews.length} Reviews</Text>
+                            </TouchableOpacity>
                         </View>
 
                         <View className='p-[.3px] bg-gray my-[20px]' />
@@ -131,12 +140,12 @@ const HouseDetails = () => {
                             <View className='my-[10px] flex flex-row items-center justify-between'>
                                 <View className='flex flex-row items-center justify-start'>
                                     <Image
-                                        source={agentDetails?.profileImg ? { uri: agentDetails?.profileImg } : user}
+                                        source={houseDetails?.agent?.profileImg ? { uri: houseDetails?.agent?.profileImg } : user}
                                         resizeMode='cover'
                                         className='w-[30px] h-[30px] mr-2'
                                     />
                                     <View>
-                                        <Text className='text-blue font-rbold text-lg'>{agentDetails?.fullname}</Text>
+                                        <Text className='text-blue font-rbold text-lg'>{houseDetails?.agent?.fullname}</Text>
                                         <Text className='text-blue font-rregular'>Agent</Text>
                                     </View>
                                 </View>

@@ -18,7 +18,7 @@ export const PropertyProvider = ({ children }) => {
     const [topPlace, setTopPlace] = useState(null);
     const [newProperties, setNewProperties] = useState(null);
     const [allProperties, setAllProperties] = useState(null);
-    const [agentDetails, setAgentDetails] = useState(null);
+    const [reviews, setReviews] = useState(null);
 
     const uploadProperty = async (formData) => {
         setPropertyLoading(true);
@@ -72,16 +72,16 @@ export const PropertyProvider = ({ children }) => {
 
         try {
             const token = await AsyncStorage.getItem('token');
-            const response = await axios.get(`${config.backendUrl}/property/all/${propertyId}`, {
+            const response = await axios.get(`${config.backendUrl}/property/${propertyId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
             });
 
-            if (!response.data.error) return setHouseDetails(response.data);
-
-            setError(response.data.error);
+            if (response.data.error) return setError(response.data.error);
+            
+            return setHouseDetails(response.data);
         } catch (error) {
             console.log(error);
         } finally {
@@ -118,17 +118,35 @@ export const PropertyProvider = ({ children }) => {
         }
     }
 
-    const fetchAgentDetails = async (agentId) => {
+    const getReviews = async (propertyId) => {
         try {
             const token = await AsyncStorage.getItem('token');
-            const response = await axios.get(`${config.backendUrl}/property/agent/${agentId}`, {
+            const response = await axios.get(`${config.backendUrl}/review/all/${propertyId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
             });
 
-            setAgentDetails(response.data.agentWithoutPassword);
+            if (response.data.error) return setError(response.data.error);
+
+            setReviews(response.data.reviews);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const addReview = async (propertyId, review) => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await axios.post(`${config.backendUrl}/review/add/${propertyId}`, { review }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            console.log(response.data);
         } catch (error) {
             console.log(error);
         }
@@ -136,6 +154,7 @@ export const PropertyProvider = ({ children }) => {
     
     const values = {
         error,
+        setError,
         uploadProperty,
         getAllProperties,
         getPropertyDetails,
@@ -149,8 +168,9 @@ export const PropertyProvider = ({ children }) => {
         topPlace,
         newProperties,
         allProperties,
-        fetchAgentDetails,
-        agentDetails,
+        getReviews,
+        reviews,
+        addReview,
     }
 
     return (

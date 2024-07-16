@@ -3,16 +3,11 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-const ws = require('ws');
-const url = require('url');
-const jwt = require('jsonwebtoken');
 
 const authRoute = require('./routes/authRoute');
 const propertyRoute = require('./routes/propertyRoute');
 const walletRoute = require('./routes/walletRoute');
-const User = require('./models/user');
-const Chat = require('./models/chat');
-const Message = require('./models/message');
+const reviewRoute = require('./routes/reviewRoute');
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -35,3 +30,4 @@ app.get('/', (req, res) => res.send('Hello World!'));
 app.use('/auth', authRoute);
 app.use('/property', propertyRoute);
 app.use('/wallet', walletRoute);
+app.use('/review', reviewRoute);

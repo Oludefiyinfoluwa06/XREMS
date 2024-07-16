@@ -89,13 +89,15 @@ const getPropertyDetails = async (req, res) => {
     try {
         const property = await Property.findById(req.params.propertyId);
 
-        if (!property) {
-            return res.json({ error: 'Property not found' });
-        }
-
+        if (!property) return res.json({ error: 'Property not found' });
+        
         const img = await getPictures(getPropertyBucket(), property.img);
+        
+        const agent = await User.findById(property.agent);
+        
+        if (!agent) return res.json({ error: 'Could not get agent details' });
 
-        return res.json({ property, img });
+        return res.json({ property, img, agent });
     } catch (error) {
         console.log(error);
         res.json({ error: 'Error occurred while getting property details' });
@@ -128,20 +130,20 @@ const getMyProperties = async (req, res) => {
     }
 }
 
-const getAgentDetails = async (req, res) => {    
+const getSearchProperties = async (req, res) => {
     try {
-        const { agentId } = req.params;
+        const { query } = req.query;
 
-        const agent = await User.findById(agentId);
+        if (!query) return res.json({ error: 'Enter a search query' });
 
-        if (!agent) return res.json({ error: 'Agent does not exist' });
+        const properties = await Property.find({ query });
 
-        const { password: _, ...agentWithoutPassword } = agent.toObject();
+        if (!properties) return res.json({ error: 'There are not properties with this search query' });
 
-        return res.json({ agentWithoutPassword });
+        return res.json({ properties });
     } catch (error) {
         console.log(error);
-        res.json({ error: 'Error occurred while getting agent details' });
+        return res.json({ error: 'Could not get properties' });
     }
 }
 
@@ -150,5 +152,5 @@ module.exports = {
     getAllProperties,
     getPropertyDetails,
     getMyProperties,
-    getAgentDetails,
+    getSearchProperties,
 }

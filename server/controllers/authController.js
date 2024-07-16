@@ -15,25 +15,15 @@ const signup = async (req, res) => {
     try {
         const { fullname, email, password, isAdmin } = req.body;
 
-        if (!fullname) {
-            return res.json({ error: 'Enter your full name' });
-        }
+        if (!fullname) return res.json({ error: 'Enter your full name' });
 
-        if (!email) {
-            return res.json({ error: 'Enter an email address' });
-        }
+        if (!email) return res.json({ error: 'Enter an email address' });
 
-        if (!validator.isEmail(email)) {
-            return res.json({ error: 'Enter a valid email' })
-        }
+        if (!validator.isEmail(email)) return res.json({ error: 'Enter a valid email' });
 
-        if (!password) {
-            return res.json({ error: 'Enter a password' });
-        }
+        if (!password) return res.json({ error: 'Enter a password' });
 
-        if (password.length < 8) {
-            return res.json({ error: 'Password length must be more than 8 characters' });
-        }
+        if (password.length < 8) return res.json({ error: 'Password length must be more than 8 characters' });
 
         const emailExists = await User.findOne({ email });
 
@@ -60,13 +50,9 @@ const signin = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        if (!email) {
-            return res.json({ error: 'Enter an email address' });
-        }
+        if (!email) return res.json({ error: 'Enter an email address' });
 
-        if (!password) {
-            return res.json({ error: 'Enter a password' });
-        }
+        if (!password) return res.json({ error: 'Enter a password' });
 
         const user = await User.findOne({ email });
 
@@ -92,17 +78,11 @@ const updateProfile = async (req, res) => {
 
         const userId = req.user.id;
         
-        if (!fullname) {
-            return res.json({ error: 'Enter your full name' });
-        }
+        if (!fullname) return res.json({ error: 'Enter your full name' });
 
-        if (!email) {
-            return res.json({ error: 'Enter an email address' });
-        }
+        if (!email) return res.json({ error: 'Enter an email address' });
 
-        if (!validator.isEmail(email)) {
-            return res.json({ error: 'Enter a valid email' })
-        }
+        if (!validator.isEmail(email)) return res.json({ error: 'Enter a valid email' })
 
         const emailExists = await User.findOne({ email });
 

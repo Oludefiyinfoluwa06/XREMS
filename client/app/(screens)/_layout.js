@@ -31,6 +31,10 @@ const ScreensLayout = () => {
                 name='properties/[id]'
                 options={{ headerShown: false }}
             />
+            <Stack.Screen
+                name='reviews/[id]'
+                options={{ headerShown: false }}
+            />
         </Stack>
     );
 }

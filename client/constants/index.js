@@ -8,6 +8,7 @@ import noSearch from '../assets/images/no-search.png';
 import noNotification from '../assets/images/no-notification.png';
 import noSavedItems from '../assets/images/no-saved-items.png';
 import noMessages from '../assets/images/no-messages.png';
+import noReviews from '../assets/images/no-reviews.png';
 
 // icons
 import google from '../assets/icons/google.png';
@@ -93,6 +94,7 @@ export {
     briefcase,
     privacyPolicy,
     sendMessage,
+    noReviews,
     featured1,
     featured2,
     featured3
