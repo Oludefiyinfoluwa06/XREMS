@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import { location, noSearch, star } from '../../constants';
 import EmptyList from '../EmptyList';
 import { router } from 'expo-router';
@@ -14,7 +14,7 @@ const SearchResults = ({ query, searchQuery }) => {
                 <Text className="font-rbold text-blue">{results !== null ? results.length : 0} found</Text>
             </View>
 
-            <FlatList
+            {results ? <FlatList
                 data={results}
                 keyExtractor={(item) => item._id}
                 horizontal={false}
@@ -23,7 +23,7 @@ const SearchResults = ({ query, searchQuery }) => {
                     <TouchableOpacity className='mb-[20px] flex flex-row justify-start items-center' onPress={() => router.push(`/properties/${item._id}`)}>
                         <View className='mr-[10px]'>
                             <Image
-                                source={{ uri: item.img}}
+                                source={{ uri: item.img }}
                                 resizeMode='cover'
                                 className='w-[70px] h-[70px] rounded-lg'
                             />
@@ -32,7 +32,7 @@ const SearchResults = ({ query, searchQuery }) => {
                         <View className=''>
                             <Text className='font-rbold text-lg text-blue'>{item.type}</Text>
                             <View className='flex flex-row items-center justify-start mt-[-8px]'>
-                                <Image 
+                                <Image
                                     source={location}
                                     resizeMode='contain'
                                     className='w-[15px]'
@@ -42,9 +42,13 @@ const SearchResults = ({ query, searchQuery }) => {
                         </View>
                     </TouchableOpacity>
                 )}
-            />
+            /> : (
+                <View className='flex items-center justify-center h-full bg-white'>
+                    <ActivityIndicator size="large" color="#191641" />
+                </View>
+            )}
         </View>
     );
 }
 
-export default SearchResults
+export default SearchResults;

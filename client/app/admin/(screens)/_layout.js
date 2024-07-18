@@ -23,6 +23,10 @@ const ScreensLayout = () => {
                 name='edit-profile'
                 options={{ headerShown: false }}
             />
+            <Stack.Screen
+                name='reviews/[id]'
+                options={{ headerShown: false }}
+            />
         </Stack>
     );
 }

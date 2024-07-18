@@ -47,10 +47,6 @@ import briefcase from '../assets/icons/briefcase.png';
 import privacyPolicy from '../assets/icons/privacy_policy.png';
 import sendMessage from '../assets/icons/send-message.png';
 
-import featured1 from '../assets/images/home/featured1.png';
-import featured2 from '../assets/images/home/featured2.png';
-import featured3 from '../assets/images/home/featured3.png';
-
 export { 
     logo, 
     logo2, 
@@ -95,7 +91,4 @@ export {
     privacyPolicy,
     sendMessage,
     noReviews,
-    featured1,
-    featured2,
-    featured3
 };

@@ -5,9 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { angleBack, bookmark, location, noSavedItems, star } from '../../constants';
 import { router } from 'expo-router';
 import EmptyList from '../../components/EmptyList';
+import { useProperty } from '../../contexts/PropertyContext';
 
 const Saved = () => {
     const [savedProperties, setSavedProperties] = useState([]);
+
+    const { formatPrice } = useProperty();
 
     useEffect(() => {
         fetchSavedProperties();
@@ -77,7 +80,7 @@ const Saved = () => {
                                             />
                                             <Text className='font-rregular text-md text-blue'>{item.property.location}</Text>
                                         </View>
-                                        <Text className='font-rregular text-lg text-blue'>₦ {item.property.price}</Text>
+                                        <Text className='font-rregular text-lg text-blue'>₦ {formatPrice(item.property.price)}</Text>
                                     </View>
                                 </TouchableOpacity>
                             </View>

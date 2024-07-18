@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
+import { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, Image, FlatList, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import EmptyList from '../../../components/EmptyList';
@@ -8,11 +9,29 @@ import { bgPencil, homePlus, noHome } from '../../../assets/icons/admin';
 import { useProperty } from '../../../contexts/PropertyContext';
 
 const Properties = () => {
-    const { properties, formatPrice } = useProperty();
+    const [refreshing, setRefreshing] = useState(false);
+    const { getMyProperties, properties, formatPrice } = useProperty();
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+    }
+
+    useEffect(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000);
+
+        getMyProperties();
+    }, []);
 
     return (
         <SafeAreaView className='h-full'>
             <FlatList
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 data={properties}
                 keyExtractor={item => item._id}
                 horizontal={false}

@@ -70,8 +70,8 @@ const Wallet = () => {
 
             <View className='p-[25px] space-y-[20px]'>
                 <View className='p-[13px] bg-white shadow-lg rounded-xl'>
-                    <Text className='text-2xl font-rbold'>Balance</Text>
-                    <Text className='text-5xl font-rbold mb-3 mt-2'>₦ {user?.balance}</Text>
+                    <Text className='text-2xl font-rbold text-blue'>Balance</Text>
+                    <Text className='text-5xl font-rbold mb-3 mt-2 text-blue'>₦ {user?.balance}</Text>
 
                     <Button title='Withdraw' onClick={() => { }} />
                 </View>
@@ -83,7 +83,7 @@ const Wallet = () => {
                             resizeMode='contain'
                             className='w-[30px] h-[30px] mr-3'
                         />
-                        <Text className='text-2xl font-rbold'>Transaction History</Text>
+                        <Text className='text-2xl font-rbold text-blue'>Transaction History</Text>
                     </View>
                     
                 </View>

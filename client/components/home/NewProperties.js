@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { router } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import SectionHeader from './SectionHeader';
-import { transparentBookmark, location, star, bookmark } from '../../constants';
+import { location } from '../../constants';
+import { useProperty } from '../../contexts/PropertyContext';
 
 const NewProperties = ({ newProperties }) => {
+    const { formatPrice } = useProperty();
+
     return (
         <View>
             <SectionHeader title='New Properties' />
@@ -30,7 +31,7 @@ const NewProperties = ({ newProperties }) => {
 
                             <View className='absolute bg-white rounded-lg p-3 top-[120px] w-[80%] left-[10%] shadow-xl'>
                                 <View className='flex flex-row justify-start'>
-                                    <Text className='font-rbold text-lg'>₦ {item.price}</Text>
+                                    <Text className='font-rbold text-lg'>₦ {formatPrice(item.price)}</Text>
                                 </View>
 
                                 <Text className='font-rbold text-lg mt-[1px]'>{item.type}</Text>

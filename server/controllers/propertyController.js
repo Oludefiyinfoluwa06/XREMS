@@ -45,7 +45,7 @@ const getAllProperties = async (req, res) => {
         const limit = parseInt(req.query.limit) || 10;
 
         const [popularProperties, newListings, properties] = await Promise.all([
-            Property.find().sort({ rating: -1 }).limit(limit).lean(false),
+            Property.find().sort({ reviews: -1 }).limit(limit).lean(false),
             Property.find().sort({ createdAt: -1 }).limit(limit).lean(false),
             Property.find().lean(false)
         ]);

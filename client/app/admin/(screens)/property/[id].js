@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
-import { angleBack, location, star } from '../../../../constants';
+import { angleBack, location } from '../../../../constants';
 import Button from '../../../../components/Button';
 import { useProperty } from '../../../../contexts/PropertyContext';
 
@@ -55,9 +55,9 @@ const HouseDetails = () => {
                             />
                             <Text className='font-rregular text-md'>{houseDetails?.property.location}</Text>
                         </View>
-                        <View className='flex flex-row items-center justify-start'>
+                        <TouchableOpacity className='flex flex-row items-center justify-start' onPress={() => router.push(`/admin/reviews/${houseDetails?.property._id}`)}>
                             <Text className='font-rregular text-md text-gray mt-[10px]'>{houseDetails?.property.reviews.length} Reviews</Text>
-                        </View>
+                        </TouchableOpacity>
 
                         <View className='p-[.3px] bg-gray my-[20px]' />
 

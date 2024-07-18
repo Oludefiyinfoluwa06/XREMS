@@ -16,6 +16,7 @@ const SearchBar = ({ placeholder='Search for an apartment', searchQuery, setSear
                 onChangeText={(value) => setSearchQuery ? setSearchQuery(value) : setSearchText(value)}
                 placeholder={placeholder}
                 className='basis-[90%] font-rregular'
+                returnKeyType='done'
             />
 
             <TouchableOpacity onPress={!searchQuery ? () => {

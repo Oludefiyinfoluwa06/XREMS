@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image, ScrollView, ActivityIndicator, Ref
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { angleBack, transparentBookmark, chat, location, star, user, bookmark } from '../../../constants';
+import { angleBack, transparentBookmark, chat, location, user, bookmark } from '../../../constants';
 import Button from '../../../components/Button';
 import { useProperty } from '../../../contexts/PropertyContext';
 
