@@ -21,7 +21,7 @@ const Profile = () => {
             <SafeAreaView className='p-[20px] h-screen'>
                 <View className='flex items-center justify-between flex-row'>
                     <TouchableOpacity
-                        className='flex items-center justify-content p-[13px] rounded-lg bg-white shadow-lg'
+                        className='flex items-center justify-center p-[13px] rounded-lg bg-white shadow-lg'
                         onPress={() => router.back()}
                     >
                         <Image

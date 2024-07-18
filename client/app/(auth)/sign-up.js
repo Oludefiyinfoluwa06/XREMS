@@ -32,7 +32,7 @@ const SignUp = () => {
     }
 
     return (
-        <SafeAreaView className='bg-white'>
+        <SafeAreaView className='bg-white h-full'>
             <ScrollView className='p-[25px]'>
                 <View className='flex items-center justify-center gap-2 mb-5'>
                     <Image

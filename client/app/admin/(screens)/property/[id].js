@@ -9,7 +9,7 @@ import { useProperty } from '../../../../contexts/PropertyContext';
 const HouseDetails = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const params = useLocalSearchParams();
-    const { getPropertyDetails, houseDetails, propertyLoading, error } = useProperty();
+    const { getPropertyDetails, houseDetails, error, setError, propertyLoading } = useProperty();
 
     useEffect(() => {
         getPropertyDetails(params.id);
@@ -22,8 +22,8 @@ const HouseDetails = () => {
     return (
         <SafeAreaView>
             {error ? (
-                <Text>Error</Text>
-            ) : houseDetails !== null ? (
+                <Text>{error}</Text>
+            ) : !propertyLoading ? houseDetails !== null ? (
                 <ScrollView className='p-[20px] bg-white h-full'>
                     <View className='flex items-center justify-start flex-row'>
                         <TouchableOpacity
@@ -56,15 +56,6 @@ const HouseDetails = () => {
                             <Text className='font-rregular text-md'>{houseDetails?.property.location}</Text>
                         </View>
                         <View className='flex flex-row items-center justify-start'>
-                            <View className='flex flex-row items-center justify-start mt-[10px] mr-[50px]'>
-                                <Image
-                                    source={star}
-                                    resizeMode='cover'
-                                    className='w-[20px] h-[20px] mr-2'
-                                />
-                                <Text className='font-rregular text-md'>{houseDetails?.property.rating}</Text>
-                            </View>
-
                             <Text className='font-rregular text-md text-gray mt-[10px]'>{houseDetails?.property.reviews.length} Reviews</Text>
                         </View>
 
@@ -92,7 +83,10 @@ const HouseDetails = () => {
                     <View className='mt-[40px]' />
                 </ScrollView>
             ) : (
-                <View className='flex items-center justify-center flex-1 h-full bg-white'>
+                <View className='flex items-center justify-center h-full bg-white'>
+                    <ActivityIndicator size="large" color="#191641" />
+                </View>
+            ) : (<View className='flex items-center justify-center h-full bg-white'>
                     <ActivityIndicator size="large" color="#191641" />
                 </View>
             )}

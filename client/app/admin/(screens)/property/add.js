@@ -1,10 +1,160 @@
-import { View, Text } from 'react-native';
+import { useEffect, useState } from 'react';
+import { View, Text, ScrollView, Image, TouchableOpacity, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
+import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { uploadImg } from '../../../../assets/images/admin';
+import { useProperty } from '../../../../contexts/PropertyContext';
+import Button from '../../../../components/Button';
+import { angleBack } from '../../../../constants';
+import { profile2 } from '../../../../assets/icons/admin';
 
 const Add = () => {
+    const [image, setImage] = useState(null);
+    const [picture, setPicture] = useState(null);
+    const [type, setType] = useState('');
+    const [price, setPrice] = useState('');
+    const [location, setLocation] = useState('');
+    const [description, setDescription] = useState('');
+
+    const { error, setError, propertyLoading, uploadProperty } = useProperty();
+
+    useEffect(() => {
+        const getUser = async () => {
+            const profileImg = await AsyncStorage.getItem('profile');
+            setImage(profileImg);
+        }
+
+        getUser();
+    }, []);
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setPicture(result.assets[0].uri);
+        }
+    };
+
+    const formatPrice = (value) => {
+        const numericValue = value.replace(/\D/g, '');
+        return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    const handleUploadProperty = async () => {
+        let formData = new FormData();
+        
+        if (picture) {
+            formData.append('picture', {
+                uri: picture,
+                name: 'property.jpg',
+                type: 'image/jpeg'
+            });
+        }
+        
+        formData.append('type', type);
+        formData.append('price', price);
+        formData.append('location', location);
+        formData.append('description', description);
+
+        await uploadProperty(formData);
+    }
+    
     return (
         <SafeAreaView>
-            <Text>Add</Text>
+            <ScrollView>
+                <View className='flex flex-row items-center justify-between p-[30px] bg-white'>
+                    <View className='flex items-center justify-start flex-row'>
+                        <TouchableOpacity onPress={() => router.back()}>
+                            <Image
+                                source={angleBack}
+                                resizeMode='contain'
+                                className='w-[25px] h-[25px] mr-2'
+                            />
+                        </TouchableOpacity>
+                        <Text className='text-2xl text-blue font-rbold'>Add Property</Text>
+                    </View>
+                    <View className='flex items-center justify-end flex-row'>
+                        <TouchableOpacity onPress={() => router.push('/admin/profile')}  className='bg-white rounded-full relative w-[30px] h-[30px]'>
+                            <Image
+                                source={image !== null && image !== '' ? { uri: image } : profile2}
+                                resizeMode='cover'
+                                className='w-full h-full absolute top-0 left-0 rounded-full'
+                            />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                <View className='p-[25px]'>
+                    {error && <View className='w-full p-3 rounded-[50px] bg-errorBg mb-[20px]'>
+                        <Text className='font-rregular text-errorText'>{error}</Text>
+                    </View>}
+
+                    <TouchableOpacity className='w-full h-[200px] flex items-center justify-center bg-white rounded-lg' onPress={pickImage}>
+                        <Image
+                            source={picture !== null ? { uri: picture } : uploadImg}
+                            resizeMode='cover'
+                            className='w-full h-full rounded-lg'
+                        />
+                    </TouchableOpacity>
+
+                    <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-rbold">Type of House:</Text>
+                    <TextInput
+                        placeholder='Bungalow, Duplex...'
+                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px] font-rregular'
+                        value={type}
+                        onChangeText={(value) => {
+                            setType(value);
+                            setError('');
+                        }}
+                    />
+
+                    <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-rbold">Price (in Naira):</Text>
+                    <TextInput
+                        placeholder='100000...'
+                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px] font-rregular'
+                        value={price}
+                        onChangeText={(value) => {
+                            setPrice(formatPrice(value));
+                            setError('');
+                        }}
+                    />
+
+                    <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-rbold">Location:</Text>
+                    <TextInput
+                        placeholder='Police Estate, Kurudu, Abuja...'
+                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px] font-rregular'
+                        value={location}
+                        onChangeText={(value) => {
+                            setLocation(value);
+                            setError('');
+                        }}
+                    />
+
+                    <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-rbold">Description:</Text>
+                    <TextInput
+                        placeholder='Description...'
+                        className='p-[7px] px-[10px] w-full border border-gray rounded-lg font-rregular mb-[20px]'
+                        style={{ height: 80, textAlignVertical: 'top' }}
+                        value={description}
+                        onChangeText={(value) => {
+                            setDescription(value);
+                            setError('');
+                        }}
+                        multiline={true}
+                    />
+
+                    <Button title='Save' onClick={handleUploadProperty} loading={propertyLoading} />
+                </View>
+
+                <View className='mt-[40px]' />
+            </ScrollView>
         </SafeAreaView>
     );
 }

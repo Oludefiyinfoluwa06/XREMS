@@ -10,12 +10,16 @@ import { useAuth } from '../../../contexts/AuthContext';
 
 const Profile = () => {
     const [user, setUser] = useState(null);
+    const [image, setImage] = useState(null);
     const { logout } = useAuth();
 
     useEffect(() => {
         const getUser = async () => {
             const userDetails = await AsyncStorage.getItem('user');
             setUser(JSON.parse(userDetails));
+
+            const profileImg = await AsyncStorage.getItem('profile');
+            setImage(profileImg);
         }
 
         getUser();
@@ -53,9 +57,9 @@ const Profile = () => {
                     <View className='flex items-center justify-center flex-col mt-[30px]'>
                         <View className='bg-white rounded-full relative w-[90px] h-[90px]'>
                             <Image
-                                source={user ? user.profilePicture ? { uri: user.profilePicture } : profile2 : profile2}
-                                resizeMode='contain'
-                                className='w-full h-full absolute'
+                                source={image !== null && image !== '' ? { uri: image } : profile2}
+                                resizeMode='cover'
+                                className='w-full h-full absolute top-0 left-0 rounded-full'
                             />
                         </View>
                         <Text className='text-white mt-1 font-rbold text-2xl'>{user?.fullname}</Text>

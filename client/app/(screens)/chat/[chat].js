@@ -10,7 +10,6 @@ const Chat = () => {
     const [newMessage, setNewMessage] = useState('');
     const params = useLocalSearchParams();
     const { fetchAgentDetails, agentDetails } = useProperty();
-    const { ws, messages } = useChat();
 
     useEffect(() => {
         fetchAgentDetails(params.chat);
@@ -34,22 +33,15 @@ const Chat = () => {
                     </TouchableOpacity>
                     <View className='flex items-center justify-start flex-row'>
                         <Image
-                            source={agentDetails?.profileImg ? { uri: agentDetails?.profileImg } : user}
-                            resizeMode='contain'
-                            className='w-[40px] h-[40px] mr-2'
+                            source={agentDetails !== null ? { uri: agentDetails?.profileImg } : user}
+                            resizeMode='cover'
+                            className='w-[40px] h-[40px] mr-2 rounded-full'
                         />
                         <View className='flex items-start justify-center'>
                             <Text className='font-rbold text-xl text-blue'>{agentDetails?.fullname}</Text>
-                            <Text className='font-rregular text-sm text-blue'>Offline</Text>
+                            <Text className='font-rregular text-sm text-blue'>Agent</Text>
                         </View>
                     </View>
-                </View>
-                <View className='flex-1'>
-                    {messages.filter(msg => msg.sender === agentDetails?._id || msg.recipient === agentDetails?._id).map((msg, index) => (
-                        <View key={index} className={`p-2 ${msg.sender === agentDetails?._id ? 'bg-gray-200' : 'bg-blue-200'} rounded-lg mb-2`}>
-                            <Text>{msg.text}</Text>
-                        </View>
-                    ))}
                 </View>
             </ScrollView>
 

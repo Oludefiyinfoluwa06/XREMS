@@ -110,15 +110,6 @@ const HouseDetails = () => {
                             <Text className='font-rregular text-md'>{houseDetails?.property.location}</Text>
                         </View>
                         <View className='flex flex-row items-center justify-start'>
-                            <View className='flex flex-row items-center justify-start mt-[10px] mr-[50px]'>
-                                <Image
-                                    source={star}
-                                    resizeMode='cover'
-                                    className='w-[20px] h-[20px] mr-2'
-                                />
-                                <Text className='font-rregular text-md'>{houseDetails?.property.rating}</Text>
-                            </View>
-
                             <TouchableOpacity onPress={() => router.push(`/reviews/${params.id}`)}>
                                 <Text className='font-rregular text-md text-gray mt-[10px]'>{houseDetails?.property.reviews.length} Reviews</Text>
                             </TouchableOpacity>
@@ -140,9 +131,9 @@ const HouseDetails = () => {
                             <View className='my-[10px] flex flex-row items-center justify-between'>
                                 <View className='flex flex-row items-center justify-start'>
                                     <Image
-                                        source={houseDetails?.agent?.profileImg ? { uri: houseDetails?.agent?.profileImg } : user}
+                                        source={houseDetails !== null ? { uri: houseDetails.agent.profileImg } : user}
                                         resizeMode='cover'
-                                        className='w-[30px] h-[30px] mr-2'
+                                        className='w-[40px] h-[40px] mr-2 rounded-full'
                                     />
                                     <View>
                                         <Text className='text-blue font-rbold text-lg'>{houseDetails?.agent?.fullname}</Text>
@@ -160,7 +151,7 @@ const HouseDetails = () => {
                         </View>
 
                         <Button
-                            title={houseDetails?.property.for === 'rent' ? 'Rent' : 'Buy'}
+                            title='Buy'
                             onClick={() => { }}
                             loading={false}
                         />

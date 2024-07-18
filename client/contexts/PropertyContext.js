@@ -18,24 +18,25 @@ export const PropertyProvider = ({ children }) => {
     const [topPlace, setTopPlace] = useState(null);
     const [newProperties, setNewProperties] = useState(null);
     const [allProperties, setAllProperties] = useState(null);
+    const [agentDetails, setAgentDetails] = useState(null);
     const [reviews, setReviews] = useState(null);
+    const [results, setResults] = useState(null);
 
     const uploadProperty = async (formData) => {
         setPropertyLoading(true);
 
         try {
             const token = await AsyncStorage.getItem('token');
-            const response = await axios.post('${config.backendUrl}/property/upload', formData, {
+            const response = await axios.post(`${config.backendUrl}/property/upload`, formData, {
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
                 }
             });
 
-            console.log(response.data);
-            // if (response.data.error) return setError(response.data.error);
+            if (response.data.error) return setError(response.data.error);
 
-            // router.push('/admin/dashboard');
+            router.push('/admin/properties');
         } catch (error) {
             console.log(error);
         } finally {
@@ -94,7 +95,7 @@ export const PropertyProvider = ({ children }) => {
 
         try {
             const token = await AsyncStorage.getItem('token');
-            const response = await axios.get(`${config.backendUrl}/property/my`, {
+            const response = await axios.get(`${config.backendUrl}/property/all/agent`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -110,11 +111,27 @@ export const PropertyProvider = ({ children }) => {
             setProperties(response.data.propertiesWithImage);
             setTotalPropertiesAddedPastMonth(response.data.totalPropertiesAddedPastMonth)
             setTotalProperties(response.data.totalProperties);
-            // if (response.data.error) return setError(response.data.error);
+            if (response.data.error) return setError(response.data.error);
         } catch (error) {
             console.log(error);
         } finally {
             setPropertyLoading(false);
+        }
+    }
+
+    const fetchAgentDetails = async (agentId) => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await axios.get(`${config.backendUrl}/property/agent/${agentId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            setAgentDetails(response.data.agent);
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -151,6 +168,43 @@ export const PropertyProvider = ({ children }) => {
             console.log(error);
         }
     }
+
+    const searchProperties = async (searchQuery) => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await axios.get(`${config.backendUrl}/property/search/${searchQuery}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            setResults(response.data.propertiesWithImage);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const formatPrice = (value) => {
+        if (typeof value !== 'string') {
+            value = value.toString();
+        }
+
+        const numericValue = value.replace(/\D/g, '');
+        const number = parseInt(numericValue, 10);
+
+        if (isNaN(number)) {
+            return value;
+        }
+
+        if (number >= 1000000) {
+            return `${(number / 1000000).toFixed(1)} M`;
+        } else if (number >= 1000) {
+            return `${(number / 1000).toFixed(1)} K`;
+        } else {
+            return number.toString();
+        }
+    }
     
     const values = {
         error,
@@ -168,9 +222,14 @@ export const PropertyProvider = ({ children }) => {
         topPlace,
         newProperties,
         allProperties,
+        fetchAgentDetails,
+        agentDetails,
         getReviews,
         reviews,
         addReview,
+        searchProperties,
+        results,
+        formatPrice,
     }
 
     return (

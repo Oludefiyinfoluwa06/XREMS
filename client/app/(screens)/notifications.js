@@ -1,17 +1,29 @@
-import { View, Text, ScrollView, TouchableOpacity, Image, FlatList } from 'react-native';
+import { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { angleBack, logo, noNotification, user } from '../../constants';
 import EmptyList from '../../components/EmptyList';
 
 const Notifications = () => {
+    const [image, setImage] = useState(null);
+
+    useEffect(() => {
+        const getProfile = async () => {
+            const profileImg = await AsyncStorage.getItem('profile');
+            setImage(profileImg);
+        }
+
+        getProfile();
+    }, []);
     const notification = [];
 
     return (
         <SafeAreaView className='p-[20px] bg-white h-full'>
             <View className='flex items-center justify-between flex-row'>
                 <TouchableOpacity
-                    className='flex items-center justify-content p-[13px] rounded-lg bg-white shadow-lg'
+                    className='flex items-center justify-center p-[13px] rounded-lg bg-white shadow-lg'
                     onPress={() => router.back()}
                 >
                     <Image
@@ -25,9 +37,9 @@ const Notifications = () => {
 
                 <TouchableOpacity onPress={() => router.push('/profile')}>
                     <Image
-                        source={user}
-                        resizeMode='contain'
-                        className='w-[30px] h-[30px]'
+                        source={image !== null && image !== '' ? { uri: image } : user}
+                        resizeMode='cover'
+                        className='w-[30px] h-[30px] rounded-full'
                     />
                 </TouchableOpacity>
             </View>

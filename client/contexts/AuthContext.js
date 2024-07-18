@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import { router } from "expo-router";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -25,12 +25,22 @@ export const AuthProvider = ({ children }) => {
                 return setError(response.data.error);
             } else {
                 await AsyncStorage.setItem('token', response.data.token);
-                await AsyncStorage.setItem('user', JSON.stringify(response.data.user));
+                const user = response.data.user;
+                const userData = {
+                    "_id": user._id,
+                    "fullname": user.fullname,
+                    "email": user.email,
+                    "isAdmin": user.isAdmin,
+                    "balance":  user.balance
+                }
 
-                if (response.data.user.isAdmin === false) {
-                    router.replace('/home');
-                } else {
+                await AsyncStorage.setItem('user', JSON.stringify(userData));
+                await AsyncStorage.setItem('profile', response.data.user.profileImg);
+                
+                if (response.data.user.isAdmin) {
                     router.replace('/admin/dashboard');
+                } else {
+                    router.replace('/home');
                 }
             }
         } catch (error) {
@@ -54,12 +64,67 @@ export const AuthProvider = ({ children }) => {
                 return setError(response.data.error);
             } else {
                 await AsyncStorage.setItem('token', response.data.token);
-                await AsyncStorage.setItem('user', JSON.stringify(response.data.user));
+                const user = response.data.user;
+                const userData = {
+                    "_id": user._id,
+                    "fullname": user.fullname,
+                    "email": user.email,
+                    "isAdmin": user.isAdmin,
+                    "balance":  user.balance
+                }
+
+                await AsyncStorage.setItem('user', JSON.stringify(userData));
+                await AsyncStorage.setItem('profile', response.data.user.profileImg);
                 
-                if (response.data.user.isAdmin === false) {
-                    router.replace('/home');
-                } else {
+                if (response.data.user.isAdmin) {
                     router.replace('/admin/dashboard');
+                } else {
+                    router.replace('/home');
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const editProfile = async (formData) => {
+        setLoading(true);
+
+        try {
+            const token = await AsyncStorage.getItem('token');
+
+            const response = await axios.put(`${config.backendUrl}/auth/update-profile`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            if (response.data.error) {
+                return setError(response.data.error);
+            } else {
+                await AsyncStorage.removeItem('token');
+                await AsyncStorage.removeItem('user');
+
+                await AsyncStorage.setItem('token', response.data.token);
+                const user = response.data.user;
+                const userData = {
+                    "_id": user._id,
+                    "fullname": user.fullname,
+                    "email": user.email,
+                    "isAdmin": user.isAdmin,
+                    "balance":  user.balance
+                }
+
+                await AsyncStorage.setItem('user', JSON.stringify(userData));
+                await AsyncStorage.setItem('profile', response.data.user.profileImg);
+                
+                if (response.data.user.isAdmin) {
+                    router.replace('/admin/profile');
+                } else {
+                    router.replace('/profile');
                 }
             }
         } catch (error) {
@@ -72,8 +137,13 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         await AsyncStorage.removeItem('token');
         await AsyncStorage.removeItem('user');
+        await AsyncStorage.removeItem('profile');
         router.replace('/choose');
     }
+
+    useEffect(() => {
+        setError('');
+    }, []);
     
     const values = {
         signUp,
@@ -82,6 +152,7 @@ export const AuthProvider = ({ children }) => {
         setError,
         loading,
         logout,
+        editProfile,
     }
 
     return (

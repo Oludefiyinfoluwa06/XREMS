@@ -27,6 +27,12 @@ mongoose.connect(process.env.dbURI)
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
+app.use((err, req, res, next) => {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+        return res.json({ error: 'File size is too large. Max limit is 5MB.' });
+    }
+    next(err);
+});
 app.use('/auth', authRoute);
 app.use('/property', propertyRoute);
 app.use('/wallet', walletRoute);

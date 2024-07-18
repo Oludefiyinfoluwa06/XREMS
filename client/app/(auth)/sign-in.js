@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CheckBox } from '@rneui/themed';
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
@@ -23,7 +23,7 @@ const SignIn = () => {
     }
 
     return (
-        <SafeAreaView className='bg-white'>
+        <SafeAreaView className='bg-white h-full'>
             <ScrollView className='p-[25px]'>
                 <View className='flex items-center justify-center gap-2 mb-5'>
                     <Image

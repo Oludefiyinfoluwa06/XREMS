@@ -11,7 +11,7 @@ const Dashboard = () => {
     const [user, setUser] = useState(null);
 
     const { getTotalSales, overallSales, pastMonthRevenue, pastWeekSales, walletLoading } = useWallet();
-    const { getMyProperties, totalProperties, propertyLoading, totalPropertiesAddedPastMonth } = useProperty();
+    const { getMyProperties, totalProperties, propertyLoading, totalPropertiesAddedPastMonth, formatPrice } = useProperty();
 
     useEffect(() => {
         const getUser = async () => {
@@ -31,11 +31,7 @@ const Dashboard = () => {
     }, []);
 
     useEffect(() => {
-        const getProperties = async () => {
-            await getMyProperties();
-        }
-
-        getProperties();
+        getMyProperties();
     }, []);
 
     return (
@@ -61,13 +57,13 @@ const Dashboard = () => {
                     </View>
                     <View className='bg-white rounded-xl p-[20px] shadow-lg mb-4'>
                         <Text className='font-rbold text-blue text-xl'>Revenue</Text>
-                        <Text className='text-[40px] font-rbold text-blue'>{walletLoading ? 'Loading...' : `₦ ${pastMonthRevenue}`}</Text>
-                        <Text className='font-rregular text-lg text-blue'><Text className='font-rbold'>{walletLoading ? 'Loading...' : `+₦ ${pastWeekSales}`}</Text> - last week</Text>
+                        <Text className='text-[40px] font-rbold text-blue'>{walletLoading ? 'Loading...' : `₦ ${formatPrice(pastMonthRevenue)}`}</Text>
+                        <Text className='font-rregular text-lg text-blue'><Text className='font-rbold'>{walletLoading ? 'Loading...' : `+₦ ${formatPrice(pastWeekSales)}`}</Text> - last week</Text>
                     </View>
                     <View className='bg-white rounded-xl p-[20px] shadow-lg'>
                         <Text className='font-rbold text-blue text-xl'>Overall Sales</Text>
-                        <Text className='text-[40px] font-rbold text-blue'>{walletLoading ? 'Loading...' : `₦ ${overallSales}`}</Text>
-                        <Text className='font-rregular text-lg text-blue'><Text className='font-rbold'>{walletLoading ? 'Loading...' : `+₦ ${pastWeekSales}`}</Text> - last week</Text>
+                        <Text className='text-[40px] font-rbold text-blue'>{walletLoading ? 'Loading...' : `₦ ${formatPrice(overallSales)}`}</Text>
+                        <Text className='font-rregular text-lg text-blue'><Text className='font-rbold'>{walletLoading ? 'Loading...' : `+₦ ${formatPrice(pastWeekSales)}`}</Text> - last week</Text>
                     </View>
                 </View>
                 

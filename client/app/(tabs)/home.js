@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { router } from 'expo-router';
 import { View, TouchableOpacity, Image, ScrollView, StatusBar, Text } from 'react-native';
@@ -13,7 +13,17 @@ import { useProperty } from '../../contexts/PropertyContext';
 import NewProperties from '../../components/home/NewProperties';
 
 const Home = () => {
+    const [image, setImage] = useState(null);
     const { getAllProperties, featuredProperties, topPlace, newProperties } = useProperty();
+
+    useEffect(() => {
+        const getProfile = async () => {
+            const profileImg = await AsyncStorage.getItem('profile');
+            setImage(profileImg);
+        }
+
+        getProfile();
+    }, []);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -46,9 +56,9 @@ const Home = () => {
                         onPress={() => router.push('/profile')}
                     >
                         <Image
-                            source={user}
-                            resizeMode='contain'
-                            className='w-[30px] h-[30px]'
+                            source={image !== null && image !== '' ? { uri: image } : user}
+                            resizeMode='cover'
+                            className='w-[30px] h-[30px] rounded-full'
                         />
                     </TouchableOpacity>
 

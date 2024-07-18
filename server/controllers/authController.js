@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
+const { getPictures } = require('../helpers/getPictures');
+const { getProfileBucket } = require('../helpers/getBuckets');
 const User = require('../models/user');
 
 const createToken = (id) => {
@@ -82,15 +84,20 @@ const updateProfile = async (req, res) => {
 
         if (!email) return res.json({ error: 'Enter an email address' });
 
-        if (!validator.isEmail(email)) return res.json({ error: 'Enter a valid email' })
+        if (!validator.isEmail(email)) return res.json({ error: 'Enter a valid email' });
+
+        if (!req.file) return res.json({ error: 'Profile picture upload unsuccessful' });
 
         const emailExists = await User.findOne({ email });
 
-        if (emailExists) return res.json({ error: 'Email exists already' });
+        if (emailExists.email !== email) return res.json({ error: 'Email exists already' });
 
-        const user = await User.findByIdAndUpdate(userId, { fullname, email, isAdmin }, { new: true });
+        const img = await getPictures(getProfileBucket(), req.file.id);
+
+        const user = await User.findByIdAndUpdate(userId, { fullname, email, profileImg: img, isAdmin }, { new: true });
 
         const token = createToken(user._id);
+
         return res.json({ message: 'Profile updated successfully', token, user });
     } catch (error) {
         console.log(error);

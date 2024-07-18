@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import EmptyList from '../../components/EmptyList';
 import { angleBack, noMessages, user } from '../../constants';
 import SearchBar from '../../components/SearchBar';
@@ -9,6 +10,16 @@ import { useChat } from '../../contexts/ChatContext';
 
 const Messages = () => {
   const { connectedUsers } = useChat();
+  const [image, setImage] = useState(null);
+
+    useEffect(() => {
+        const getProfile = async () => {
+            const profileImg = await AsyncStorage.getItem('profile');
+            setImage(profileImg);
+        }
+
+        getProfile();
+    }, []);
 
   return (
     <SafeAreaView className='bg-white h-full'>
@@ -37,9 +48,9 @@ const Messages = () => {
                 onPress={() => router.push('/profile')}
               >
                 <Image
-                  source={user}
-                  resizeMode='contain'
-                  className='w-[24px] h-[24px]'
+                  source={image !== null && image !== '' ? { uri: image } : user}
+                  resizeMode='cover'
+                  className='w-[30px] h-[30px] rounded-full'
                 />
               </TouchableOpacity>
             </View>

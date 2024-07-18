@@ -45,14 +45,6 @@ const NewProperties = ({ newProperties }) => {
                                 </View>
 
                                 <View className='flex flex-row gap-2 justify-between items-center mt-1'>
-                                    <View className='flex flex-row items-center justify-center gap-2 mt-1'>
-                                        <Image
-                                            source={star}
-                                            resizeMode='contain'
-                                            className='w-[20px] h-[20px]'
-                                        />
-                                        <Text className='font-rbold text-lg'>{item.rating}</Text>
-                                    </View>
                                     <View>
                                         <Text className='font-rregular text-md'>{item.reviews.length} Reviews</Text>
                                     </View>

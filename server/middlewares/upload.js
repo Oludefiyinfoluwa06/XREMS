@@ -17,7 +17,13 @@ const profileStorage = new GridFsStorage({
     }
 });
 
-const profileUpload = multer({ storage: profileStorage });
+const profileUpload = multer({
+    storage: profileStorage,
+    limits: { fileSize: 5 * 1024 * 1024 },
+    fileFilter: (req, file, cb) => {
+        cb(null, true);
+    }
+});
 
 const propertyStorage = new GridFsStorage({
     url: process.env.dbURI,

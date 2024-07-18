@@ -14,6 +14,7 @@ import whiteMenuIcon from './white-menu-icon.png';
 import bgPencil from './bg-pencil.png';
 import homePlus from './home-plus.png';
 import noHome from './no-home.png';
+import transactionHistory from './transaction-history.png';
 
 export {
     dashboard,
@@ -32,4 +33,5 @@ export {
     bgPencil,
     homePlus,
     noHome,
+    transactionHistory,
 }

@@ -98,20 +98,6 @@ const DrawerLayout = () => {
                         )
                     }}
                 />
-                <Drawer.Screen
-                    name="settings"
-                    options={{
-                        drawerLabel: 'Settings',
-                        title: 'settings',
-                        headerShown: false,
-                        drawerIcon: ({ color }) => (
-                            <DrawerIcon
-                                icon={settings}
-                                color={color}
-                            />
-                        )
-                    }}
-                />
             </Drawer>
         </GestureHandlerRootView>
     );

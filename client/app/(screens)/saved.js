@@ -34,7 +34,7 @@ const Saved = () => {
                     ListHeaderComponent={() => (
                         <View className='flex items-center justify-between flex-row p-[20px]'>
                             <TouchableOpacity
-                                className='flex items-center justify-content p-[13px] rounded-lg bg-white shadow-lg'
+                                className='flex items-center justify-center p-[13px] rounded-lg bg-white shadow-lg'
                                 onPress={() => router.back()}
                             >
                                 <Image
@@ -65,15 +65,6 @@ const Saved = () => {
                                             resizeMode='cover'
                                             className='w-full h-[200px] rounded-xl'
                                         />
-
-                                        <View className='absolute bottom-[10px] left-[10px] flex flex-row items-center justify-center bg-white rounded-full p-1 pb-2 w-[50px]'>
-                                            <Image
-                                                source={star}
-                                                resizeMode='cover'
-                                                className='w-[14px] h-[14px] mr-2'
-                                            />
-                                            <Text className='font-rregular'>{item.property.rating}</Text>
-                                        </View>
                                     </View>
 
                                     <View>

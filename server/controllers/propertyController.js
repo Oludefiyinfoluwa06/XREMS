@@ -1,4 +1,3 @@
-const { ObjectId } = require('mongoose').Types;
 const Property = require('../models/property');
 const { getPropertyBucket } = require('../helpers/getBuckets');
 const { getPictures } = require('../helpers/getPictures');
@@ -19,10 +18,12 @@ const uploadProperty = async (req, res) => {
         }
 
         const agentId = req.user.id;
+
+        const numericPrice = price.replace(/,/g, '');
         
         const newProperty = new Property({
             img: req.file.id,
-            price,
+            price: numericPrice,
             type,
             location,
             description,
@@ -87,7 +88,8 @@ const getAllProperties = async (req, res) => {
 
 const getPropertyDetails = async (req, res) => {
     try {
-        const property = await Property.findById(req.params.propertyId);
+        const { propertyId } = req.params;
+        const property = await Property.findById(propertyId);
 
         if (!property) return res.json({ error: 'Property not found' });
         
@@ -106,8 +108,8 @@ const getPropertyDetails = async (req, res) => {
 
 const getMyProperties = async (req, res) => {
     try {
-        const agentId = req.user.id;
-        const properties = await Property.find({ agent: new ObjectId(agentId) });
+        const agent = req.user.id;
+        const properties = await Property.find({ agent });
 
         if (!properties || properties.length === 0) {
             return res.json({ error: 'No properties', totalProperties: 0 });
@@ -119,7 +121,7 @@ const getMyProperties = async (req, res) => {
         }));
 
         const totalPropertiesAddedPastMonth = await Property.countDocuments({
-            agentId: new ObjectId(agentId),
+            agent,
             createdAt: { $gte: getDateAMonthAgo() }
         });
 
@@ -130,17 +132,37 @@ const getMyProperties = async (req, res) => {
     }
 }
 
+const fetchAgentDetails = async (req, res) => {
+    try {
+        const { agentId } = req.params;
+
+        const agent = await User.findById(agentId);
+        
+        if (!agent) return res.json({ error: 'Could not get agent details' });
+
+        return res.json({ agent });
+    } catch (error) {
+        console.log(error);
+        return res.json({ error: 'An error occurred while getting agent\'s details' })
+    }
+}
+
 const getSearchProperties = async (req, res) => {
     try {
-        const { query } = req.query;
+        const { query } = req.params;
 
         if (!query) return res.json({ error: 'Enter a search query' });
 
-        const properties = await Property.find({ query });
+        const properties = await Property.find({ $text: {$search: query} });
 
         if (!properties) return res.json({ error: 'There are not properties with this search query' });
 
-        return res.json({ properties });
+        const propertiesWithImage = await Promise.all(properties.map(async (property) => {
+            const img = await getPictures(getPropertyBucket(), property.img);
+            return { ...property.toObject(), img };
+        }));
+
+        return res.json({ propertiesWithImage });
     } catch (error) {
         console.log(error);
         return res.json({ error: 'Could not get properties' });
@@ -152,5 +174,6 @@ module.exports = {
     getAllProperties,
     getPropertyDetails,
     getMyProperties,
+    fetchAgentDetails,
     getSearchProperties,
 }
