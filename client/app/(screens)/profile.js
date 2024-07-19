@@ -31,7 +31,7 @@ const Profile = () => {
                         />
                     </TouchableOpacity>
 
-                    <Text className='font-rbold text-xl'>Profile</Text>
+                    <Text className='font-rbold text-xl -ml-2'>Profile</Text>
 
                     <TouchableOpacity onPress={() => router.push('/settings')}>
                         <Image

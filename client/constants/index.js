@@ -45,7 +45,8 @@ import star from '../assets/icons/star.png';
 import chat from '../assets/icons/chat.png';
 import briefcase from '../assets/icons/briefcase.png';
 import privacyPolicy from '../assets/icons/privacy_policy.png';
-import sendMessage from '../assets/icons/send-message.png';
+import sendMessageIcon from '../assets/icons/send-message.png';
+import startConversation from '../assets/icons/start-conversation.png';
 
 export { 
     logo, 
@@ -89,6 +90,7 @@ export {
     noMessages,
     briefcase,
     privacyPolicy,
-    sendMessage,
+    sendMessageIcon,
     noReviews,
+    startConversation,
 };

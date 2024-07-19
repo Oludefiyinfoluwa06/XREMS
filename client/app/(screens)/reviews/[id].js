@@ -21,13 +21,8 @@ const Reviews = () => {
     }
 
     useEffect(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-        }, 2000);
-
         getReviews(params.id);
-    }, []);
+    }, [reviews]);
 
     return (
         <SafeAreaView className='bg-white h-full p-[20px]'>
@@ -54,12 +49,12 @@ const Reviews = () => {
                     )}
                     data={reviews}
                     renderItem={({ item }) => (
-                        <View className='w-full border border-blue p-3 rounded-lg mt-4'>
+                        <View className='w-full p-3 rounded-lg mt-4'>
                             <View className='flex items-center justify-start flex-row'>
                                 <Image
                                     source={item?.profilePic ? { uri: item?.profilePic } : user}
-                                    resizeMode='contain'
-                                    className='w-[30px] h-[30px] mr-4'
+                                    resizeMode='cover'
+                                    className='w-[30px] h-[30px] rounded-full mr-4'
                                 />
                                 <Text className='font-rbold text-xl'>{item?.reviewer}</Text>
                             </View>

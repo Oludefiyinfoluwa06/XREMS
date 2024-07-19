@@ -14,7 +14,7 @@ const SearchResults = ({ query, searchQuery }) => {
                 <Text className="font-rbold text-blue">{results !== null ? results.length : 0} found</Text>
             </View>
 
-            {results ? <FlatList
+            <FlatList
                 data={results}
                 keyExtractor={(item) => item._id}
                 horizontal={false}
@@ -42,11 +42,7 @@ const SearchResults = ({ query, searchQuery }) => {
                         </View>
                     </TouchableOpacity>
                 )}
-            /> : (
-                <View className='flex items-center justify-center h-full bg-white'>
-                    <ActivityIndicator size="large" color="#191641" />
-                </View>
-            )}
+            />
         </View>
     );
 }

@@ -8,6 +8,7 @@ const authRoute = require('./routes/authRoute');
 const propertyRoute = require('./routes/propertyRoute');
 const walletRoute = require('./routes/walletRoute');
 const reviewRoute = require('./routes/reviewRoute');
+const chatRoute = require('./routes/chatRoute');
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -33,7 +34,9 @@ app.use((err, req, res, next) => {
     }
     next(err);
 });
+
 app.use('/auth', authRoute);
 app.use('/property', propertyRoute);
 app.use('/wallet', walletRoute);
 app.use('/review', reviewRoute);
+app.use('/chat', chatRoute);

@@ -20,13 +20,8 @@ const Properties = () => {
     }
 
     useEffect(() => {
-        setRefreshing(true);
-        setTimeout(() => {
-            setRefreshing(false);
-        }, 2000);
-
         getMyProperties();
-    }, []);
+    }, [properties]);
 
     return (
         <SafeAreaView className='h-full'>
