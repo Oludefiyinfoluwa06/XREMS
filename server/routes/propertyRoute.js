@@ -1,4 +1,4 @@
-const { uploadProperty, getAllProperties, getPropertyDetails, getMyProperties, getSearchProperties, fetchAgentDetails } = require('../controllers/propertyController');
+const { uploadProperty, getAllProperties, getPropertyDetails, getMyProperties, getSearchProperties, fetchUserDetails } = require('../controllers/propertyController');
 const { authenticate } = require('../middlewares/auth');
 const { propertyUpload } = require('../middlewares/upload');
 
@@ -8,7 +8,7 @@ router.post('/upload', authenticate, propertyUpload.single('picture'), uploadPro
 router.get('/all', getAllProperties);
 router.get('/:propertyId', authenticate, getPropertyDetails);
 router.get('/all/agent', authenticate, getMyProperties);
-router.get('/agent/:agentId', authenticate, fetchAgentDetails);
+router.get('/agent/:agentId', authenticate, fetchUserDetails);
 router.get('/search/:query', authenticate, getSearchProperties);
 
 module.exports = router;

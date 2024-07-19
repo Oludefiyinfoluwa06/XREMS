@@ -3,39 +3,47 @@ const Sale = require('../models/sale');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const Flutterwave = require('flutterwave-node-v3');
+const jwt = require('jsonwebtoken');
 const getDateAMonthAgo = require('../helpers/getDateAMonthAgo');
 const getPreviousWeekDates = require('../helpers/getPreviousWeekDates');
 
-const flw = new Flutterwave(process.env.FLUTTERWAVE_SECRET_KEY, process.env.FLUTTERWAVE_PUBLIC_KEY);
+const flw = new Flutterwave(process.env.FLUTTERWAVE_PUBLIC_KEY, process.env.FLUTTERWAVE_SECRET_KEY);
+
+const createToken = (id) => {
+    const maxAge = 60 * 60 * 24 * 3;
+
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: maxAge
+    });
+}
 
 const walletTopup = async (req, res) => {
-    const { amount, cardDetails } = req.body;
-
     try {
-        const response = await flw.Charge.card({
-            "tx_ref": "MC-" + Date.now(),
-            "amount": amount,
+        const { amount, email, name, cardNumber, cvv, expiryMonth, expiryYear } = req.body;
+
+        const details = {
+            "card_number": cardNumber,
+            "cvv": cvv,
+            "expiry_month": expiryMonth,
+            "expiry_year": expiryYear,
             "currency": "NGN",
-            "payment_type": "card",
-            "customer": {
-                "email": cardDetails.email,
-                "phonenumber": cardDetails.phone,
-                "name": cardDetails.name
-            },
-            "card": {
-                "number": cardDetails.number,
-                "cvv": cardDetails.cvv,
-                "expiry_month": cardDetails.expiryMonth,
-                "expiry_year": cardDetails.expiryYear
-            }
-        });
+            "amount": amount,
+            "fullname": name,
+            "email": email,
+            "tx_ref": "MC-" + Date.now(),
+            "enckey": process.env.FLUTTERWAVE_ENCRYPTION_KEY
+        }
+
+        const response = await flw.Charge.card(details);
 
         if (response.status === "success") {
             const updatedUser = await User.findByIdAndUpdate(req.user.id, { $inc: { balance: parseFloat(amount) } }, { new: true });
             
-            if (updatedUser) return res.json({ message: "Wallet top-up successfully" });
+            if (!updatedUser) return res.json({ error: 'Could not update your wallet' });
+
+            const token = createToken(updatedUser._id);
             
-            return res.json({ error: 'Could not update your wallet' });
+            return res.json({ message: "Wallet top-up successfully", updatedUser, token });
         } else {
             return res.json({ error: 'Wallet top-up failed' });
         }

@@ -17,7 +17,7 @@ export const PropertyProvider = ({ children }) => {
     const [topPlace, setTopPlace] = useState(null);
     const [newProperties, setNewProperties] = useState(null);
     const [allProperties, setAllProperties] = useState(null);
-    const [agentDetails, setAgentDetails] = useState(null);
+    const [userDetails, setuserDetails] = useState(null);
     const [reviews, setReviews] = useState(null);
     const [results, setResults] = useState(null);
 
@@ -118,7 +118,7 @@ export const PropertyProvider = ({ children }) => {
         }
     }
 
-    const fetchAgentDetails = async (agentId) => {
+    const fetchUserDetails = async (agentId) => {
         try {
             const token = await AsyncStorage.getItem('token');
             const response = await axios.get(`${config.backendUrl}/property/agent/${agentId}`, {
@@ -128,7 +128,7 @@ export const PropertyProvider = ({ children }) => {
                 }
             });
 
-            setAgentDetails(response.data.agent);
+            setuserDetails(response.data.agent);
         } catch (error) {
             console.log(error);
         }
@@ -223,8 +223,8 @@ export const PropertyProvider = ({ children }) => {
         topPlace,
         newProperties,
         allProperties,
-        fetchAgentDetails,
-        agentDetails,
+        fetchUserDetails,
+        userDetails,
         getReviews,
         reviews,
         addReview,

@@ -12,7 +12,7 @@ const Chat = () => {
     const [newMessage, setNewMessage] = useState('');
     const [userData, setUserData] = useState(null);
     const params = useLocalSearchParams();
-    const { fetchAgentDetails, agentDetails } = useProperty();
+    const { fetchUserDetails, userDetails } = useProperty();
     const { sendMessage, getMessages, messages } = useChat();
     const scrollViewRef = useRef();
 
@@ -27,7 +27,7 @@ const Chat = () => {
     }, []);
 
     useEffect(() => {
-        fetchAgentDetails(params.chat);
+        fetchUserDetails(params.chat);
     }, [params.chat]);
 
     useEffect(() => {
@@ -72,12 +72,12 @@ const Chat = () => {
                 </TouchableOpacity>
                 <View className='flex items-center justify-start flex-row'>
                     <Image
-                        source={agentDetails?.profileImg ? { uri: agentDetails.profileImg } : user}
+                        source={userDetails?.profileImg ? { uri: userDetails.profileImg } : user}
                         resizeMode='cover'
                         className='w-[40px] h-[40px] mr-2 rounded-full'
                     />
                     <View className='flex items-start justify-center'>
-                        <Text className='font-rbold text-2xl text-blue'>{agentDetails?.fullname}</Text>
+                        <Text className='font-rbold text-2xl text-blue'>{userDetails?.fullname}</Text>
                         <Text className='font-rregular text-lg text-blue'>Agent</Text>
                     </View>
                 </View>

@@ -132,7 +132,7 @@ const getMyProperties = async (req, res) => {
     }
 }
 
-const fetchAgentDetails = async (req, res) => {
+const fetchUserDetails = async (req, res) => {
     try {
         const { agentId } = req.params;
 
@@ -174,6 +174,6 @@ module.exports = {
     getAllProperties,
     getPropertyDetails,
     getMyProperties,
-    fetchAgentDetails,
+    fetchUserDetails,
     getSearchProperties,
 }
