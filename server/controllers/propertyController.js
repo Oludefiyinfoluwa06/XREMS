@@ -30,6 +30,7 @@ const uploadProperty = async (req, res) => {
             rating: 0,
             reviews: [],
             agent: agentId,
+            isBought: false
         });
 
         const property = await newProperty.save();

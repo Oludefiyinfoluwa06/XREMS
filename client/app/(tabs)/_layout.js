@@ -3,7 +3,7 @@ import { Image, Text, View } from 'react-native';
 import { darkHome, darkMessage, darkSearch, lightHome, lightMessage, lightSearch, lightSettings } from '../../constants';
 
 const TabIcon = ({ lightIcon, darkIcon, color, focused, name }) => (
-    <View className={`w-[95px] flex items-center justify-center flex-row py-2 px-3 rounded-[50px] ${focused ? 'bg-tabIconBg' : ''}`}>
+    <View className={`w-[100px] flex items-center justify-center flex-row py-2 px-5 rounded-[50px] ${focused ? 'bg-tabIconBg' : ''}`}>
         <Image
             source={focused ? darkIcon : lightIcon}
             resizeMode='contain'
@@ -75,7 +75,7 @@ const TabLayout = () => {
                             darkIcon={darkMessage}
                             color={color}
                             focused={focused}
-                            name='Messages'
+                            name='Message'
                         />
                     ),
                 }}

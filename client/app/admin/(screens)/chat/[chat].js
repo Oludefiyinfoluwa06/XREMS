@@ -94,8 +94,8 @@ const Chat = () => {
                             key={message._id} 
                             className={`${message?.sender === userData?._id ? 'bg-blue self-end' : 'bg-lightBlue self-start'} w-[65%] mb-[10px] p-3 rounded-xl`}
                         >
-                            <Text className={`${message?.sender === userData?._id ? 'text-white' : 'text-blue'} font-rregular text-xl`}>{message?.message}</Text>
-                            <Text className={`font-regular text-sm ${message?.sender === userData?._id ? 'text-right text-white' : 'text-blue'}`}>
+                            <Text className={`${message?.sender === userData?._id ? '' : ''} font-rregular text-xl text-white`}>{message?.message}</Text>
+                            <Text className={`font-regular text-sm ${message?.sender === userData?._id ? 'text-right' : ''} text-white`}>
                                 {formatTimestamp(message?.updatedAt)}
                             </Text>
                         </View>

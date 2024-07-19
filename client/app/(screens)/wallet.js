@@ -8,6 +8,7 @@ import { angleBack, lightSettings } from '../../constants';
 import { transactionHistory } from '../../assets/icons/admin';
 import Button from '../../components/Button';
 import { useWallet } from '../../contexts/WalletContext';
+import { useProperty } from '../../contexts/PropertyContext';
 
 const Wallet = () => {
     const [user, setUser] = useState(null);
@@ -19,6 +20,7 @@ const Wallet = () => {
     const [expiryYear, setExpiryYear] = useState('');
     const [cvv, setCvv] = useState('');
 
+    const { formatPrice } = useProperty();
     const { fundWallet, balance, walletLoading } = useWallet();
 
     useEffect(() => {
@@ -63,7 +65,7 @@ const Wallet = () => {
             <View className='space-y-[20px] p-[25px]'>
                 <View className='p-[13px] bg-white shadow-lg rounded-xl'>
                     <Text className='text-2xl font-rbold text-blue'>Balance</Text>
-                    <Text className='text-5xl font-rbold mb-3 mt-2 text-blue'>₦ {user?.balance}</Text>
+                    <Text className='text-5xl font-rbold mb-3 mt-2 text-blue'>₦ {user?.balance ? formatPrice(user?.balance) : 0}</Text>
 
                     <Button title='Fund' onClick={() => setModalVisible(true)} />
                 </View>
@@ -112,7 +114,7 @@ const Wallet = () => {
                         <View>
                             <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-xl font-rbold">Card number:</Text>
                             <TextInput
-                                placeholder='**** **** **** 2345'
+                                placeholder='5531886652142950'
                                 className='p-[5px] px-[10px] w-full border border-gray rounded-lg font-rregular'
                                 value={cardNumber}
                                 onChangeText={(value) => setCardNumber(value)}
@@ -131,14 +133,14 @@ const Wallet = () => {
                                     <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-xl font-rbold">Expiry Date:</Text>
                                     <View className='flex items-center justify-start flex-row space-x-[10px]'>
                                         <TextInput
-                                            placeholder='04'
+                                            placeholder='09'
                                             className='p-[5px] px-[10px] border border-gray rounded-lg font-rregular'
                                             value={expiryMonth}
                                             onChangeText={(value) => setExpiryMonth(value)}
                                         />
                                         <Text>/</Text>
                                         <TextInput
-                                            placeholder='2002'
+                                            placeholder='32'
                                             className='p-[5px] px-[10px] border border-gray rounded-lg font-rregular'
                                             value={expiryYear}
                                             onChangeText={(value) => setExpiryYear(value)}
@@ -149,7 +151,7 @@ const Wallet = () => {
                                 <View>
                                     <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-xl font-rbold">CVV:</Text>
                                     <TextInput
-                                        placeholder='***'
+                                        placeholder='564'
                                         className='p-[5px] px-[10px] w-[100px] border border-gray rounded-lg font-rregular'
                                         value={cvv}
                                         onChangeText={(value) => setCvv(value)}

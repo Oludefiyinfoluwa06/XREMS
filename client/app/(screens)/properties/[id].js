@@ -1,19 +1,24 @@
 import { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, ActivityIndicator, RefreshControl, TextInput, Modal } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { angleBack, transparentBookmark, chat, location, user, bookmark } from '../../../constants';
 import Button from '../../../components/Button';
 import { useProperty } from '../../../contexts/PropertyContext';
+import { useWallet } from '../../../contexts/WalletContext';
 
 const HouseDetails = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [password, setPassword] = useState('');
     const params = useLocalSearchParams();
 
-    const { getPropertyDetails, houseDetails, error, setError } = useProperty();
+    const { pay, walletLoading, walletError, setWalletError } = useWallet();
+    const { getPropertyDetails, houseDetails, error, setError, formatPrice } = useProperty();
 
     const toggleExpansion = () => {
         setIsExpanded(!isExpanded);
@@ -31,6 +36,12 @@ const HouseDetails = () => {
         getPropertyDetails(params.id);
         checkBookmarkStatus();
     }, []);
+
+    const handleBuy = async (amount, agentId, propertyId) => {
+        await pay(amount, agentId, propertyId, password);
+
+        if (!walletError) return setModalVisible(false);
+    }
 
     const checkBookmarkStatus = async () => {
         try {
@@ -109,9 +120,11 @@ const HouseDetails = () => {
                             />
                             <Text className='font-rregular text-md'>{houseDetails?.property.location}</Text>
                         </View>
-                        <View className='flex flex-row items-center justify-start'>
+                            
+                        <View className='flex flex-row items-center justify-start mt-[10px]'>
+                            <Text className='font-rregular text-lg text-blue mr-[10px]'>₦ {formatPrice(houseDetails?.property.price)}</Text>
                             <TouchableOpacity onPress={() => router.push(`/reviews/${params.id}`)}>
-                                <Text className='font-rregular text-md text-gray mt-[10px]'>{houseDetails?.property.reviews.length} Reviews</Text>
+                                <Text className='font-rregular text-md text-gray'>{houseDetails?.property.reviews.length} Reviews</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -152,10 +165,52 @@ const HouseDetails = () => {
 
                         <Button
                             title='Buy'
-                            onClick={() => { }}
-                            loading={false}
+                            onClick={() => setModalVisible(true)}
                         />
                     </View>
+                    
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                    >
+                        <View className='relative w-full h-full bg-transparentBlack'>
+                            <View className='absolute bottom-0 left-0 w-full bg-white rounded-t-[30px] p-[25px]'>
+                                <View className='flex flex-row items-center justify-between'>
+                                    <Text className='text-xl text-blue font-rbold'>Purchase Property</Text>
+                                    <TouchableOpacity onPress={() => setModalVisible(false)}>
+                                        <Ionicons name="close" size={32} color="black" />
+                                    </TouchableOpacity>
+                                </View>
+                                
+                                {walletError && <View className='w-full p-3 rounded-lg bg-errorBg mt-2'>
+                                    <Text className='font-rregular text-errorText'>{walletError}</Text>
+                                </View>}
+
+                                <View>
+                                    <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-xl font-rbold">Password:</Text>
+                                    <TextInput
+                                        placeholder='Password'
+                                        className='p-[5px] px-[10px] w-full border border-gray rounded-lg font-rregular'
+                                        secureTextEntry
+                                        value={password}
+                                        onChangeText={(value) => {
+                                            setPassword(value);
+                                            setWalletError('');
+                                        }}
+                                    />
+                                </View>
+
+                                <TouchableOpacity className='w-full bg-blue py-3 rounded-lg mt-[20px]' onPress={() => handleBuy(houseDetails?.property.price, houseDetails?.agent?._id, houseDetails?.property._id)}>
+                                    {walletLoading ? (
+                                        <ActivityIndicator size="large" color="#FFFFFF" />
+                                    ): (
+                                        <Text className = 'text-white font-rbold text-center text-lg'>Buy</Text>
+                                    )}
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
                     
                     <View className='mt-[40px]' />
                 </ScrollView>

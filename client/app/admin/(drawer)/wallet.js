@@ -6,10 +6,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { pencil, profile2, transactionHistory, whiteMenuIcon } from '../../../assets/icons/admin';
 import Button from '../../../components/Button';
+import { useProperty } from '../../../contexts/PropertyContext';
 
 const Wallet = () => {
     const [user, setUser] = useState(null);
     const [image, setImage] = useState(null);
+
+    const { formatPrice } = useProperty();
 
     useEffect(() => {
         const getUser = async () => {
@@ -71,7 +74,7 @@ const Wallet = () => {
             <View className='p-[25px] space-y-[20px]'>
                 <View className='p-[13px] bg-white shadow-lg rounded-xl'>
                     <Text className='text-2xl font-rbold text-blue'>Balance</Text>
-                    <Text className='text-5xl font-rbold mb-3 mt-2 text-blue'>₦ {user?.balance}</Text>
+                    <Text className='text-5xl font-rbold mb-3 mt-2 text-blue'>₦ {formatPrice(user?.balance || 0)}</Text>
 
                     <Button title='Withdraw' onClick={() => { }} />
                 </View>

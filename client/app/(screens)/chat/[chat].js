@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TextInput, TouchableOpacity, Image, StatusBar }
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { format, isToday, isYesterday } from 'date-fns';
 import { angleBack, sendMessageIcon, user, startConversation } from '../../../constants';
 import { useProperty } from '../../../contexts/PropertyContext';
 import { useChat } from '../../../contexts/ChatContext';
@@ -48,13 +49,15 @@ const Chat = () => {
     const formatTimestamp = (timestamp) => {
         const date = new Date(timestamp);
 
-        const options = {
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true,
-        };
+        if (isToday(date)) {
+            return `Today, ${format(date, 'h:mm a')}`;
+        }
 
-        return new Intl.DateTimeFormat('en-US', options).format(date);
+        if (isYesterday(date)) {
+            return `Yesterday, ${format(date, 'h:mm a')}`;
+        }
+
+        return format(date, 'MMMM d, yyyy, h:mm a');
     };
 
     return (
@@ -94,8 +97,8 @@ const Chat = () => {
                             key={message._id} 
                             className={`${message?.sender === userData?._id ? 'bg-blue self-end' : 'bg-lightBlue self-start'} w-[65%] mb-[10px] p-3 rounded-xl`}
                         >
-                            <Text className='text-white font-rregular text-xl'>{message?.message}</Text>
-                            <Text className={`text-white font-regular text-sm ${message?.sender === userData?._id ? 'text-right' : ''}`}>
+                            <Text className={`${message?.sender === userData?._id ? '' : ''} font-rregular text-xl text-white`}>{message?.message}</Text>
+                            <Text className={`font-regular text-sm mt-2 ${message?.sender === userData?._id ? 'text-right' : ''} text-white`}>
                                 {formatTimestamp(message?.updatedAt)}
                             </Text>
                         </View>

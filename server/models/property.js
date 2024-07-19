@@ -8,6 +8,7 @@ const PropertySchema = new mongoose.Schema({
     description: String,
     reviews: [mongoose.Schema.Types.ObjectId],
     agent: mongoose.Schema.Types.ObjectId,
+    isBought: Boolean,
 }, { timestamps: true });
 
 PropertySchema.index({ type: 'text', location: 'text', description: 'text' });

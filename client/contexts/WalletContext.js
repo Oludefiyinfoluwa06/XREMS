@@ -9,7 +9,7 @@ const WalletContext = createContext();
 
 export const WalletProvider = ({ children }) => {
     const [balance, setBalance] = useState(0);
-    const [error, setError] = useState('');
+    const [walletError, setWalletError] = useState('');
     const [walletLoading, setWalletLoading] = useState(false);
     const [overallSales, setOverallSales] = useState(0);
     const [pastMonthRevenue, setPastMonthRevenue] = useState(0);
@@ -28,7 +28,7 @@ export const WalletProvider = ({ children }) => {
             });
 
             if (response.data.error) {
-                return setError(response.data.error);
+                return setWalletError(response.data.error);
             } else {
                 await AsyncStorage.setItem('token', response.data.token);
                 const user = response.data.updatedUser;
@@ -52,22 +52,20 @@ export const WalletProvider = ({ children }) => {
         }
     }
 
-    const pay = async (formData) => {
+    const pay = async (amount, agentId, password) => {
         setWalletLoading(true);
 
         try {
             const token = await AsyncStorage.getItem('token');
-            const response = await axios.post(`${config.backendUrl}/wallet/payment`, formData, {
+            const response = await axios.post(`${config.backendUrl}/wallet/payment`, { amount, agentId, password }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
             });
 
-            console.log(response);
-            // if (response.data.error) return setError(response.data.error);
-
-            // router.push('/admin/dashboard');
+            console.log(response.data);
+            if (response.data.error) return setWalletError(response.data.error);
         } catch (error) {
             console.log(error);
         } finally {
@@ -88,7 +86,7 @@ export const WalletProvider = ({ children }) => {
             });
 
             console.log(response);
-            // if (response.data.error) return setError(response.data.error);
+            // if (response.data.error) return setWalletError(response.data.error);
 
             // router.push('/admin/dashboard');
         } catch (error) {
@@ -110,7 +108,7 @@ export const WalletProvider = ({ children }) => {
                 }
             });
 
-            if (response.data.error) return setError(response.data.error);
+            if (response.data.error) return setWalletError(response.data.error);
 
             setOverallSales(response.data.overallSales);
             setPastMonthRevenue(response.data.pastMonthRevenue);
@@ -131,7 +129,9 @@ export const WalletProvider = ({ children }) => {
         pastMonthRevenue,
         pastWeekSales,
         walletLoading,
-        balance
+        balance,
+        walletError,
+        setWalletError,
     }
 
     return (

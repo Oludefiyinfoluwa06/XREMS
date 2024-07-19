@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Sale = require('../models/sale');
+const Property = require('../models/property');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const Flutterwave = require('flutterwave-node-v3');
@@ -54,7 +55,7 @@ const walletTopup = async (req, res) => {
 }
 
 const payment = async (req, res) => {
-    const { amount, agentId, password } = req.body;
+    const { amount, agentId, propertyId, password } = req.body;
     
     try {
         if (!amount) return res.json({ error: 'Enter a valid amount' });
@@ -75,7 +76,11 @@ const payment = async (req, res) => {
 
         if (!updatedUser || !updatedAgent) return res.json({ error: "Could not make payment to agent. Try again later" });
 
-        const sale = Sale.create({ agentId: mongoose.Types.ObjectId(agentId), amount: amount, saleDate: Date.now() });
+        const property = await Property.findByIdAndUpdate(propertyId, { isBought: true }, { new: true });
+
+        if (!property) return res.json({ error: "Could not update property" });
+
+        const sale = Sale.create({ agentId: new mongoose.Types.ObjectId(agentId), amount: amount, saleDate: Date.now() });
 
         if (!sale) return res.json({ error: "Could not save details of this purchase" });
         
