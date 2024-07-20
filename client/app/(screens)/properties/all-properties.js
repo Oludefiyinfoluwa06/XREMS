@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import EmptyList from '../../../components/EmptyList';
 import { noHome } from '../../../assets/icons/admin';
-import { angleBack, location, star } from '../../../constants';
+import { angleBack, location } from '../../../constants';
 import { useProperty } from '../../../contexts/PropertyContext';
 
 const AllProperties = () => {

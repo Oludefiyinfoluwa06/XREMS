@@ -11,30 +11,24 @@ import FeaturedUnits from '../../components/home/FeaturedUnits';
 import TopPlace from '../../components/home/TopPlace';
 import { useProperty } from '../../contexts/PropertyContext';
 import NewProperties from '../../components/home/NewProperties';
+import { useAuth } from '../../contexts/AuthContext';
+import { profile } from '../../assets/icons/admin';
 
 const Home = () => {
-    const [image, setImage] = useState(null);
+    const { getUser, user } = useAuth();
     const { getAllProperties, featuredProperties, topPlace, newProperties } = useProperty();
 
     useEffect(() => {
-        const getProfile = async () => {
-            const profileImg = await AsyncStorage.getItem('profile');
-            setImage(profileImg);
-        }
-
-        getProfile();
-    }, []);
-
-    useEffect(() => {
         const checkAuth = async () => {
+            await getUser();
+
             const token = await AsyncStorage.getItem('token');
-            const userData = await AsyncStorage.getItem('user');
-
-            if (userData === null && token === null) {
-                return router.replace('/sign-in');
-            }
-
-            return;
+            
+            setTimeout(() => {
+                if (token === null) {
+                    return router.replace('/sign-in');
+                }                
+            }, 3000);
         }
 
         checkAuth();
@@ -56,7 +50,7 @@ const Home = () => {
                         onPress={() => router.push('/profile')}
                     >
                         <Image
-                            source={image !== null && image !== '' ? { uri: image } : user}
+                            source={user !== null && user?.profileImg !== '' ? { uri: user?.profileImg } : profile}
                             resizeMode='cover'
                             className='w-[30px] h-[30px] rounded-full'
                         />

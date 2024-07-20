@@ -2,18 +2,13 @@ import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { DrawerActions } from '@react-navigation/native';
 import { router, useNavigation } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { menuIcon, profile2 } from '../../assets/icons/admin';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Header = ({ title, icon, iconRoute }) => {
-    const [image, setImage] = useState(null);
+    const { getUser, user } = useAuth();
 
     useEffect(() => {
-        const getUser = async () => {
-            const profileImg = await AsyncStorage.getItem('profile');
-            setImage(profileImg);
-        }
-
         getUser();
     }, []);
 
@@ -45,7 +40,7 @@ const Header = ({ title, icon, iconRoute }) => {
                 </TouchableOpacity>}
                 <TouchableOpacity onPress={() => router.push('/admin/profile')}  className='bg-white rounded-full relative w-[30px] h-[30px]'>
                     <Image
-                        source={image !== null && image !== '' ? { uri: image } : profile2}
+                        source={user !== null && user?.profileImg !== '' ? { uri: user?.profileImg } : profile2}
                         resizeMode='cover'
                         className='w-full h-full absolute top-0 left-0 rounded-full'
                     />

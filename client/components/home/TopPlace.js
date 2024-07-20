@@ -12,22 +12,24 @@ const TopPlace = ({ topPlace }) => {
                     data={topPlace}
                     keyExtractor={(item) => item._id}
                     horizontal={true}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity
-                            className='relative h-[170px] w-[160px] bg-white mr-3'
-                            onPress={() => router.push(`/properties/${item._id}`)}
-                        >
-                            <Image 
-                                source={{ uri: item.img }}
-                                resizeMode='stretch'
-                                className='w-full h-[100px] rounded-lg'
-                            />
-                            <View className='mt-2'>
-                                <Text className='font-rbold text-center text-sm'>{item.location}</Text>
-                                <Text className='font-rregular text-center text-sm'>{item.owner}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    )}
+                    renderItem={({ item }) => {
+                        const img = item.img[0];
+                        return (
+                            <TouchableOpacity
+                                className='relative h-[170px] w-[160px] bg-white mr-3'
+                                onPress={() => router.push(`/properties/${item._id}`)}
+                            >
+                                <Image 
+                                    source={{ uri: img }}
+                                    resizeMode='stretch'
+                                    className='w-full h-[100px] rounded-lg'
+                                />
+                                <View className='mt-2'>
+                                    <Text className='font-rbold text-center text-sm'>{item.location}</Text>
+                                </View>
+                            </TouchableOpacity>
+                        )
+                    }}
                 />
             ) : (
                 <View className='h-[250px] flex items-center justify-center'>

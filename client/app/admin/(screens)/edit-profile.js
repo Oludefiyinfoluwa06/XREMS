@@ -14,17 +14,12 @@ const EditProfile = () => {
     const [email, setEmail] = useState('');
     const [image, setImage] = useState(null);
 
-    const { editProfile, loading } = useAuth();
+    const { getUser, user, editProfile, loading } = useAuth();
 
     useEffect(() => {
-        const getUser = async () => {
-            const userDetails = await AsyncStorage.getItem('user');
-            const profileImg = await AsyncStorage.getItem('profile');
-            const user = JSON.parse(userDetails);
-            setFullname(user?.fullname);
-            setEmail(user?.email);
-            setImage(profileImg);
-        }
+        setFullname(user?.fullname);
+        setEmail(user?.email);
+        setImage(user?.profileImg);
 
         getUser();
     }, []);

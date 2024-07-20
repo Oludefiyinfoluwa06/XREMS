@@ -1,25 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, FlatList, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useNavigation } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { noMessages, user } from '../../../constants';
+import { noMessages } from '../../../constants';
 import EmptyList from '../../../components/EmptyList';
 import SearchBar from '../../../components/SearchBar';
 import { useChat } from '../../../contexts/ChatContext';
-import { menuIcon } from '../../../assets/icons/admin';
+import { menuIcon, profile, profile2 } from '../../../assets/icons/admin';
 import { DrawerActions } from '@react-navigation/native';
+import { useAuth } from '../../../contexts/AuthContext';
 
 const Messages = () => {
-  const [image, setImage] = useState(null);
   const { users, getUsers } = useChat();
+  const { getUser, user } = useAuth();
 
     useEffect(() => {
-      const getUser = async () => {
-        const profileImg = await AsyncStorage.getItem('profile');
-        setImage(profileImg);
-      }
-
       getUser();
     }, []);
   
@@ -57,7 +52,7 @@ const Messages = () => {
                 <View className='flex items-center justify-end flex-row'>
                   <TouchableOpacity onPress={() => router.push('/admin/profile')}  className='bg-white rounded-full relative w-[30px] h-[30px]'>
                     <Image
-                      source={image !== null && image !== '' ? { uri: image } : profile2}
+                      source={user !== null && user?.profileImg !== '' ? { uri: user?.profileImg } : profile2}
                       resizeMode='cover'
                       className='w-full h-full absolute top-0 left-0 rounded-full'
                     />
@@ -74,7 +69,7 @@ const Messages = () => {
             <TouchableOpacity className='p-[20px] flex flex-row items-center justify-start w-full' onPress={() => router.push(`admin/chat/${item._id}`)}>
               <View className='mr-2'>
                 <Image
-                  source={item?.profileImg ? { uri: item.profileImg } : user}
+                  source={item?.profileImg ? { uri: item.profileImg } : profile}
                   resizeMode='cover'
                   className='w-[40px] h-[40px] rounded-full'
                 />

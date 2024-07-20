@@ -33,7 +33,6 @@ export const PropertyProvider = ({ children }) => {
                 }
             });
 
-            console.log(response.data.error);
             if (response.data.error) return setError(response.data.error);
 
             router.push('/admin/properties');
@@ -78,11 +77,15 @@ export const PropertyProvider = ({ children }) => {
                 }
             });
 
+            if (response.data.error) {
+                console.log(response.data.error);
+                return setError(response.data.error);
+            }
+
             setAllProperties(response.data.allPropertiesWithImages);
             setFeaturedProperties(response.data.featuredPropertiesWithImages);
             setTopPlace(response.data.popularPropertiesWithImages);
             setNewProperties(response.data.newPropertiesWithImages);
-            // if (response.data.error) return setError(response.data.error);
         } catch (error) {
             console.log(error);
         } finally {

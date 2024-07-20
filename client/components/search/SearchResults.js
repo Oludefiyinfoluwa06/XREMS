@@ -11,7 +11,7 @@ const SearchResults = ({ query, searchQuery }) => {
         <View>
             <View className="flex flex-row items-center justify-between my-[20px]">
                 <Text className="font-rbold text-blue">Results for {`"${query && !searchQuery ? query : !query && searchQuery ? searchQuery : searchQuery}"`}</Text>
-                <Text className="font-rbold text-blue">{results !== null ? results.length : 0} found</Text>
+                <Text className="font-rbold text-blue">{results?.length || 0} found</Text>
             </View>
 
             <FlatList

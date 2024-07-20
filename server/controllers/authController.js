@@ -38,9 +38,7 @@ const signup = async (req, res) => {
 
         const token = createToken(user._id);
 
-        const { password: _, ...userWithoutPassword } = user.toObject();
-
-        return res.json({ message: 'Registration successful', token, user: userWithoutPassword });
+        return res.json({ message: 'Registration successful', token, isAdmin: user.isAdmin });
 
     } catch (error) {
         console.error(error);
@@ -66,7 +64,7 @@ const signin = async (req, res) => {
 
         const token = createToken(user._id);
 
-        return res.json({ message: 'Login successful', token, user });
+        return res.json({ message: 'Login successful', token, isAdmin: user.isAdmin });
 
     } catch (error) {
         console.error(error);
@@ -96,9 +94,9 @@ const updateProfile = async (req, res) => {
 
         const user = await User.findByIdAndUpdate(userId, { fullname, email, profileImg: img, isAdmin }, { new: true });
 
-        const token = createToken(user._id);
+        if (!user) return res.json({ error: 'Could not update user' });
 
-        return res.json({ message: 'Profile updated successfully', token, user });
+        return res.json({ message: 'Profile updated successfully', token, isAdmin: user.isAdmin });
     } catch (error) {
         console.log(error);
         return res.json({ error: "An error occurred, try again" });
@@ -164,10 +162,21 @@ const resetPassword = async () => {
     return res.json({ message: 'Password updated successfully' });
 }
 
+const getUser = async (req, res) => {
+    const userId = req.user.id;
+
+    const user = await User.findById(userId);
+
+    if (!user) return res.json({ error: 'User not found' });
+    
+    return res.json({ user });
+}
+
 module.exports = {
     signup,
     signin,
     updateProfile,
     receiveOtp,
-    resetPassword
+    resetPassword,
+    getUser,
 }

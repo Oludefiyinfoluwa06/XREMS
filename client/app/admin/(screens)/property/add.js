@@ -9,23 +9,19 @@ import { useProperty } from '../../../../contexts/PropertyContext';
 import Button from '../../../../components/Button';
 import { angleBack } from '../../../../constants';
 import { profile2 } from '../../../../assets/icons/admin';
+import { useAuth } from '../../../../contexts/AuthContext';
 
 const Add = () => {
-    const [image, setImage] = useState(null);
     const [images, setImages] = useState([]);
     const [type, setType] = useState('');
     const [price, setPrice] = useState('');
     const [location, setLocation] = useState('');
     const [description, setDescription] = useState('');
 
+    const { getUser, user } = useAuth();
     const { error, setError, propertyLoading, uploadProperty } = useProperty();
 
     useEffect(() => {
-        const getUser = async () => {
-            const profileImg = await AsyncStorage.getItem('profile');
-            setImage(profileImg);
-        }
-
         getUser();
     }, []);
 
@@ -83,7 +79,7 @@ const Add = () => {
                     <View className='flex items-center justify-end flex-row'>
                         <TouchableOpacity onPress={() => router.push('/admin/profile')}  className='bg-white rounded-full relative w-[30px] h-[30px]'>
                             <Image
-                                source={image !== null && image !== '' ? { uri: image } : profile2}
+                                source={user !== null && user?.profileImg !== '' ? { uri: user?.profileImg } : profile2}
                                 resizeMode='cover'
                                 className='w-full h-full absolute top-0 left-0 rounded-full'
                             />

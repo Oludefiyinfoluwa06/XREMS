@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, ActivityIndicator, RefreshControl, TextInput, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, ActivityIndicator, RefreshControl, TextInput, Modal, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -61,7 +61,7 @@ const HouseDetails = () => {
 
             const existingIndex = bookmarks.findIndex(bookmark => bookmark.property._id === houseDetails?.property._id);
             if (existingIndex === -1) {
-                bookmarks.push({ property: houseDetails?.property, img: houseDetails?.img });
+                bookmarks.push({ property: houseDetails?.property, img: houseDetails?.img[0] });
                 await AsyncStorage.setItem('bookmarks', JSON.stringify(bookmarks));
                 setIsBookmarked(true);
                 alert('Property bookmarked successfully!');
@@ -96,10 +96,18 @@ const HouseDetails = () => {
                     </View>
 
                     <View>
-                        <Image
-                            source={{ uri: houseDetails?.img }}
-                            resizeMode='stretch'
-                            className='w-full h-[200px] rounded-lg mt-3'
+                        <FlatList
+                            horizontal
+                            data={houseDetails?.property.img}
+                            renderItem={({ item }) => (
+                                <Image
+                                    source={{ uri: item }}
+                                    className={`${houseDetails?.property.img.length === 1 ? 'w-[398px]' : 'w-[350px]'} h-[200px] mr-3 rounded-lg`}
+                                />
+                            )}
+                            keyExtractor={(item, index) => index.toString()}
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={{ marginVertical: 10 }}
                         />
 
                         <View className='flex flex-row items-center justify-between mt-[20px]'>

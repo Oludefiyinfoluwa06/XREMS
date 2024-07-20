@@ -72,7 +72,7 @@ const getAllProperties = async (req, res) => {
                     const imgData = await getPictures(getPropertyBucket(), id);
                     return imgData;
                 }));
-                return { ...property.toObject(), img: images };
+                return { ...property, img: images };
             }));
         };
 
@@ -205,10 +205,17 @@ const getSearchProperties = async (req, res) => {
 
         if (!properties) return res.json({ error: 'There are not properties with this search query' });
 
-        const propertiesWithImage = await Promise.all(properties.map(async (property) => {
-            const img = await getPictures(getPropertyBucket(), property.img);
-            return { ...property.toObject(), img };
-        }));
+        const fetchPropertyImages = async (properties) => {
+            return Promise.all(properties.map(async (property) => {
+                const images = await Promise.all(property.img.map(async (id) => {
+                    const imgData = await getPictures(getPropertyBucket(), id);
+                    return imgData;
+                }));
+                return { ...property.toObject(), img: images[0] };
+            }));
+        };
+
+        const propertiesWithImage = await fetchPropertyImages(properties);
 
         return res.json({ propertiesWithImage });
     } catch (error) {

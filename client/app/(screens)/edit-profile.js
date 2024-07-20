@@ -14,21 +14,14 @@ const EditProfile = () => {
     const [email, setEmail] = useState('');
     const [image, setImage] = useState(null);
 
-    const { editProfile, setError, error, loading } = useAuth();
+    const { editProfile, setError, error, loading, getUser, user } = useAuth();
 
     useEffect(() => {
-        const getUser = async () => {
-            const user = await AsyncStorage.getItem('user');
-            const profileImg = await AsyncStorage.getItem('profile');
-            const userData = JSON.parse(user);
-            setFullname(userData?.fullname);
-            setEmail(userData?.email);
-            setImage(profileImg);
-            setError('');
-        }
-
         getUser();
-    }, []);
+        setFullname(user?.fullname);
+        setEmail(user?.email);
+        setImage(user?.profileImg);
+    }, [user]);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({

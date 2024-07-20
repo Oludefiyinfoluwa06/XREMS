@@ -1,36 +1,28 @@
 import { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { angleRight, user } from '../../constants';
+import { angleRight } from '../../constants';
+import { useAuth } from '../../contexts/AuthContext';
+import { profile } from '../../assets/icons/admin';
 
 const ProfileInfo = () => {
-    const [userData, setUserData] = useState(null);
-    const [image, setImage] = useState(null);
+    const { getUser, user } = useAuth();
 
     useEffect(() => {
-        const getUserDetails = async () => {
-            const user = await AsyncStorage.getItem('user');
-            setUserData(JSON.parse(user));
-
-            const profileImg = await AsyncStorage.getItem('profile');
-            setImage(profileImg);
-        };
-
-        getUserDetails();
+        getUser();
     }, []);
 
     return (
         <View className='mt-[30px] flex items-center justify-between flex-row'>
             <View className='flex items-center justify-between flex-row gap-3'>
                 <Image
-                    source={image !== null && image !== '' ? { uri: image } : user}
+                    source={user !== null && user?.profileImg !== '' ? { uri: user?.profileImg } : profile}
                     resizeMode='cover'
                     className='w-[50px] h-[50px] rounded-full'
                 />
                 <View>
-                    <Text className='font-rregular text-[20px] font-bold'>{userData?.fullname}</Text>
-                    <Text>{userData?.email}</Text>
+                    <Text className='font-rregular text-[20px] font-bold'>{user?.fullname}</Text>
+                    <Text>{user?.email}</Text>
                 </View>
             </View>
             <TouchableOpacity

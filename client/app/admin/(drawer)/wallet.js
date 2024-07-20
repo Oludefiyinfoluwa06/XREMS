@@ -3,26 +3,16 @@ import { DrawerActions } from '@react-navigation/native';
 import { router, useNavigation } from 'expo-router';
 import { View, Text, StatusBar, ImageBackground, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { pencil, profile2, transactionHistory, whiteMenuIcon } from '../../../assets/icons/admin';
 import Button from '../../../components/Button';
 import { useProperty } from '../../../contexts/PropertyContext';
+import { useAuth } from '../../../contexts/AuthContext';
 
 const Wallet = () => {
-    const [user, setUser] = useState(null);
-    const [image, setImage] = useState(null);
-
     const { formatPrice } = useProperty();
+    const { getUser, user } = useAuth();
 
     useEffect(() => {
-        const getUser = async () => {
-            const userDetails = await AsyncStorage.getItem('user');
-            setUser(JSON.parse(userDetails));
-
-            const profileImg = await AsyncStorage.getItem('profile');
-            setImage(profileImg);
-        }
-
         getUser();
     }, []);
 
@@ -60,7 +50,7 @@ const Wallet = () => {
                     <View className='flex items-center justify-center flex-col mt-[50px]'>
                         <View className='bg-white rounded-full relative w-[60px] h-[60px]'>
                             <Image
-                                source={image !== null && image !== '' ? { uri: image } : profile2}
+                                source={user !== null && user?.profileImg !== '' ? { uri: user?.profileImg } : profile2}
                                 resizeMode='cover'
                                 className='w-full h-full absolute top-0 left-0 rounded-full'
                             />

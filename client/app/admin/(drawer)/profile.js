@@ -2,26 +2,15 @@ import { View, Text, StatusBar, TouchableOpacity, Image, ImageBackground } from 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useNavigation } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { bgEnvelope, bgUser, profile2, whiteMenuIcon } from '../../../assets/icons/admin';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from '../../../components/admin/Button';
 import { useAuth } from '../../../contexts/AuthContext';
 
 const Profile = () => {
-    const [user, setUser] = useState(null);
-    const [image, setImage] = useState(null);
-    const { logout } = useAuth();
+    const { getUser, user, logout } = useAuth();
 
     useEffect(() => {
-        const getUser = async () => {
-            const userDetails = await AsyncStorage.getItem('user');
-            setUser(JSON.parse(userDetails));
-
-            const profileImg = await AsyncStorage.getItem('profile');
-            setImage(profileImg);
-        }
-
         getUser();
     }, []);
 
@@ -57,7 +46,7 @@ const Profile = () => {
                     <View className='flex items-center justify-center flex-col mt-[30px]'>
                         <View className='bg-white rounded-full relative w-[90px] h-[90px]'>
                             <Image
-                                source={image !== null && image !== '' ? { uri: image } : profile2}
+                                source={user !== null && user?.profileImg !== '' ? { uri: user?.profileImg } : profile2}
                                 resizeMode='cover'
                                 className='w-full h-full absolute top-0 left-0 rounded-full'
                             />

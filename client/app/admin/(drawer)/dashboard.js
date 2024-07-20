@@ -2,23 +2,17 @@ import { useEffect, useState } from 'react';
 import { View, Text, StatusBar, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../../../components/admin/Header';
 import { useWallet } from '../../../contexts/WalletContext';
 import { useProperty } from '../../../contexts/PropertyContext';
+import { useAuth } from '../../../contexts/AuthContext';
 
 const Dashboard = () => {
-    const [user, setUser] = useState(null);
-
     const { getTotalSales, overallSales, pastMonthRevenue, pastWeekSales, walletLoading } = useWallet();
     const { getMyProperties, totalProperties, propertyLoading, totalPropertiesAddedPastMonth, formatPrice } = useProperty();
+    const { getUser, user } = useAuth();
 
     useEffect(() => {
-        const getUser = async () => {
-            const userDetails = await AsyncStorage.getItem('user');
-            setUser(JSON.parse(userDetails));
-        }
-
         getUser();
     }, []);
 
@@ -45,7 +39,7 @@ const Dashboard = () => {
                     className='w-full h-[170px]'
                 >
                     <View className='h-full p-[25px]'>
-                        <Text className='text-white text-3xl font-rbold'>Hello, {user ? user.fullname.split(' ')[1] : 'Agent'}</Text>
+                        <Text className='text-white text-3xl font-rbold'>Hello, {user?.fullname.split(' ')[1]}</Text>
                         <Text className='text-white font-rregular text-lg'>Welcome to your dashboard</Text>
                     </View>
                 </ImageBackground>

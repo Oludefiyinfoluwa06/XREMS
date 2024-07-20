@@ -7,18 +7,16 @@ import EmptyList from '../../components/EmptyList';
 import { angleBack, noMessages, user } from '../../constants';
 import SearchBar from '../../components/SearchBar';
 import { useChat } from '../../contexts/ChatContext';
+import { useAuth } from '../../contexts/AuthContext';
+import { profile } from '../../assets/icons/admin';
 
 const Messages = () => {
   const { users, getUsers } = useChat();
-  const [image, setImage] = useState(null);
+
+  const { getUser, user } = useAuth();
 
   useEffect(() => {
-    const getProfile = async () => {
-      const profileImg = await AsyncStorage.getItem('profile');
-      setImage(profileImg);
-    }
-
-    getProfile();
+    getUser();
   }, []);
   
   useEffect(() => {
@@ -53,7 +51,7 @@ const Messages = () => {
                   onPress={() => router.push('/profile')}
                 >
                   <Image
-                    source={image !== null && image !== '' ? { uri: image } : user}
+                    source={user !== null && user?.profileImg !== '' ? { uri: user?.profileImg } : profile}
                     resizeMode='cover'
                     className='w-[30px] h-[30px] rounded-full'
                   />

@@ -1,22 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { angleBack, logo, noNotification, user } from '../../constants';
+import { angleBack, logo, noNotification } from '../../constants';
 import EmptyList from '../../components/EmptyList';
+import { profile } from '../../assets/icons/admin';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Notifications = () => {
-    const [image, setImage] = useState(null);
+    const { getUser, user } = useAuth();
 
     useEffect(() => {
-        const getProfile = async () => {
-            const profileImg = await AsyncStorage.getItem('profile');
-            setImage(profileImg);
-        }
-
-        getProfile();
+        getUser();
     }, []);
+
     const notification = [];
 
     return (
@@ -37,7 +34,7 @@ const Notifications = () => {
 
                 <TouchableOpacity onPress={() => router.push('/profile')}>
                     <Image
-                        source={image !== null && image !== '' ? { uri: image } : user}
+                        source={user !== null && user?.profileImg !== '' ? { uri: user?.profileImg } : profile}
                         resizeMode='cover'
                         className='w-[30px] h-[30px] rounded-full'
                     />

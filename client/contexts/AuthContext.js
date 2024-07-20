@@ -10,6 +10,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [user, setUser] = useState(null);
 
     const signUp = async (fullname, email, password, isAdmin) => {
         setLoading(true);
@@ -25,19 +26,8 @@ export const AuthProvider = ({ children }) => {
                 return setError(response.data.error);
             } else {
                 await AsyncStorage.setItem('token', response.data.token);
-                const user = response.data.user;
-                const userData = {
-                    "_id": user._id,
-                    "fullname": user.fullname,
-                    "email": user.email,
-                    "isAdmin": user.isAdmin,
-                    "balance":  user.balance
-                }
-
-                await AsyncStorage.setItem('user', JSON.stringify(userData));
-                await AsyncStorage.setItem('profile', response.data.user.profileImg);
                 
-                if (response.data.user.isAdmin) {
+                if (response.data.isAdmin) {
                     router.replace('/admin/dashboard');
                 } else {
                     router.replace('/home');
@@ -64,19 +54,8 @@ export const AuthProvider = ({ children }) => {
                 return setError(response.data.error);
             } else {
                 await AsyncStorage.setItem('token', response.data.token);
-                const user = response.data.user;
-                const userData = {
-                    "_id": user._id,
-                    "fullname": user.fullname,
-                    "email": user.email,
-                    "isAdmin": user.isAdmin,
-                    "balance":  user.balance
-                }
-
-                await AsyncStorage.setItem('user', JSON.stringify(userData));
-                await AsyncStorage.setItem('profile', response.data.user.profileImg);
                 
-                if (response.data.user.isAdmin) {
+                if (response.data.isAdmin) {
                     router.replace('/admin/dashboard');
                 } else {
                     router.replace('/home');
@@ -104,24 +83,8 @@ export const AuthProvider = ({ children }) => {
             
             if (response.data.error) {
                 return setError(response.data.error);
-            } else {
-                await AsyncStorage.removeItem('token');
-                await AsyncStorage.removeItem('user');
-
-                await AsyncStorage.setItem('token', response.data.token);
-                const user = response.data.user;
-                const userData = {
-                    "_id": user._id,
-                    "fullname": user.fullname,
-                    "email": user.email,
-                    "isAdmin": user.isAdmin,
-                    "balance":  user.balance
-                }
-
-                await AsyncStorage.setItem('user', JSON.stringify(userData));
-                await AsyncStorage.setItem('profile', response.data.user.profileImg);
-                
-                if (response.data.user.isAdmin) {
+            } else {                
+                if (response.data.isAdmin) {
                     router.replace('/admin/profile');
                 } else {
                     router.replace('/profile');
@@ -136,9 +99,25 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         await AsyncStorage.removeItem('token');
-        await AsyncStorage.removeItem('user');
-        await AsyncStorage.removeItem('profile');
         router.replace('/choose');
+    }
+
+    const getUser = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await axios.get(`${config.backendUrl}/auth/user`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.data.error) return setUser(response.data.user);
+            
+            setError(response.data.error);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {
@@ -153,6 +132,8 @@ export const AuthProvider = ({ children }) => {
         loading,
         logout,
         editProfile,
+        getUser,
+        user,
     }
 
     return (

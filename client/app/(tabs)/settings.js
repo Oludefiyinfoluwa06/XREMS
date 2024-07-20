@@ -1,22 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { angleBack, user } from '../../constants';
+import { angleBack } from '../../constants';
 import { router } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Preferences from '../../components/settings/Preferences';
 import ApplicationSettings from '../../components/settings/ApplicationSettings';
+import { useAuth } from '../../contexts/AuthContext';
+import { profile } from '../../assets/icons/admin';
 
 const Settings = () => {
-  const [image, setImage] = useState(null);
+  const { getUser, user } = useAuth();
 
   useEffect(() => {
-    const getProfile = async () => {
-      const profileImg = await AsyncStorage.getItem('profile');
-      setImage(profileImg);
-    }
-
-    getProfile();
+    getUser();
   }, []);
 
   return (
@@ -38,7 +34,7 @@ const Settings = () => {
 
           <TouchableOpacity onPress={() => router.push('/profile')}>
             <Image
-              source={image !== null && image !== '' ? { uri: image } : user}
+              source={user !== null && user?.profileImg !== '' ? { uri: user?.profileImg } : profile}
               resizeMode='cover'
               className='w-[30px] h-[30px] rounded-full'
             />

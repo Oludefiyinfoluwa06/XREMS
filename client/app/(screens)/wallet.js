@@ -9,9 +9,9 @@ import { transactionHistory } from '../../assets/icons/admin';
 import Button from '../../components/Button';
 import { useWallet } from '../../contexts/WalletContext';
 import { useProperty } from '../../contexts/PropertyContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Wallet = () => {
-    const [user, setUser] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [amount, setAmount] = useState('');
     const [cardNumber, setCardNumber] = useState('');
@@ -21,16 +21,12 @@ const Wallet = () => {
     const [cvv, setCvv] = useState('');
 
     const { formatPrice } = useProperty();
-    const { fundWallet, balance, walletLoading } = useWallet();
+    const { fundWallet, walletLoading } = useWallet();
+    const { getUser, user } = useAuth();
 
     useEffect(() => {
-        const getUser = async () => {
-            const userDetails = await AsyncStorage.getItem('user');
-            setUser(JSON.parse(userDetails));
-        }
-
         getUser();
-    }, [balance]);
+    }, []);
 
     const handleFundWallet = async () => {
         await fundWallet(amount, user?.email, name, cardNumber, cvv, expiryMonth, expiryYear);
@@ -65,7 +61,7 @@ const Wallet = () => {
             <View className='space-y-[20px] p-[25px]'>
                 <View className='p-[13px] bg-white shadow-lg rounded-xl'>
                     <Text className='text-2xl font-rbold text-blue'>Balance</Text>
-                    <Text className='text-5xl font-rbold mb-3 mt-2 text-blue'>₦ {user?.balance ? formatPrice(user?.balance) : 0}</Text>
+                    <Text className='text-5xl font-rbold mb-3 mt-2 text-blue'>₦ {formatPrice(user?.balance)}</Text>
 
                     <Button title='Fund' onClick={() => setModalVisible(true)} />
                 </View>
