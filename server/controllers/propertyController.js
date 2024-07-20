@@ -13,21 +13,22 @@ const uploadProperty = async (req, res) => {
             return res.json({ error: 'Input fields cannot be empty' });
         }
 
-        if (!req.file) {
-            return res.json({ error: 'File upload unsuccessful' });
+        if (!req.files || req.files.length === 0) {
+            return res.json({ error: 'No files uploaded' });
         }
+
+        const imageIds = req.files.map(file => file.id);
 
         const agentId = req.user.id;
 
         const numericPrice = price.replace(/,/g, '');
         
         const newProperty = new Property({
-            img: req.file.id,
+            img: imageIds,
             price: numericPrice,
             type,
             location,
             description,
-            rating: 0,
             reviews: [],
             agent: agentId,
             isBought: false
@@ -45,29 +46,33 @@ const getAllProperties = async (req, res) => {
     try {
         const limit = parseInt(req.query.limit) || 10;
 
-        const [popularProperties, newListings, properties] = await Promise.all([
-            Property.find().sort({ reviews: -1 }).limit(limit).lean(false),
-            Property.find().sort({ createdAt: -1 }).limit(limit).lean(false),
-            Property.find().lean(false)
-        ]);
+        const properties = await Property.find().sort({ createdAt: -1 }).lean(false);
 
         const fetchPropertyImages = async (properties) => {
             return Promise.all(properties.map(async (property) => {
-                const img = await getPictures(getPropertyBucket(), property.img);
-                return { ...property.toObject(), img }
+                const images = await Promise.all(property.img.map(async (id) => {
+                    const imgData = await getPictures(getPropertyBucket(), id);
+                    return imgData;
+                }));
+                return { ...property.toObject(), img: images };
             }));
         }
 
-        const [popularPropertiesWithImages, newPropertiesWithImages, allPropertiesWithImages] = await Promise.all([
-            fetchPropertyImages(popularProperties),
-            fetchPropertyImages(newListings),
-            fetchPropertyImages(properties)
-        ]);
+        const allPropertiesWithImages = await fetchPropertyImages(properties);
+
+        const popularProperties = await Property.find().sort({ reviews: -1 }).limit(limit).lean(false);
+        const newListings = await Property.find().sort({ createdAt: -1 }).limit(limit).lean(false);
+
+        const popularPropertiesWithImages = await fetchPropertyImages(popularProperties);
+        const newPropertiesWithImages = await fetchPropertyImages(newListings);
 
         const fetchFeaturedPropertyImages = async (properties) => {
             return Promise.all(properties.map(async (property) => {
-                const img = await getPictures(getPropertyBucket(), property.img);
-                return { ...property, img };
+                const images = await Promise.all(property.img.map(async (id) => {
+                    const imgData = await getPictures(getPropertyBucket(), id);
+                    return imgData;
+                }));
+                return { ...property.toObject(), img: images };
             }));
         };
 
@@ -86,40 +91,49 @@ const getAllProperties = async (req, res) => {
     }
 };
 
-
 const getPropertyDetails = async (req, res) => {
     try {
         const { propertyId } = req.params;
-        const property = await Property.findById(propertyId);
+        const property = await Property.findById(propertyId).lean(false);
 
         if (!property) return res.json({ error: 'Property not found' });
-        
-        const img = await getPictures(getPropertyBucket(), property.img);
-        
+
+        const images = await Promise.all(property.img.map(async (imgId) => {
+            const imgData = await getPictures(getPropertyBucket(), imgId);
+            return imgData;
+        }));
+
         const agent = await User.findById(property.agent);
-        
+
         if (!agent) return res.json({ error: 'Could not get agent details' });
 
-        return res.json({ property, img, agent });
+        return res.json({ property: { ...property.toObject(), img: images }, agent });
     } catch (error) {
         console.log(error);
         res.json({ error: 'Error occurred while getting property details' });
     }
-}
+};
 
 const getMyProperties = async (req, res) => {
     try {
         const agent = req.user.id;
-        const properties = await Property.find({ agent });
+        const properties = await Property.find({ agent }).sort({ createdAt: -1 }).lean(false);
 
         if (!properties || properties.length === 0) {
             return res.json({ error: 'No properties', totalProperties: 0 });
         }
 
-        const propertiesWithImage = await Promise.all(properties.map(async (property) => {
-            const img = await getPictures(getPropertyBucket(), property.img);
-            return { ...property.toObject(), img };
-        }));
+        const fetchPropertyImages = async (properties) => {
+            return Promise.all(properties.map(async (property) => {
+                const images = await Promise.all(property.img.map(async (id) => {
+                    const imgData = await getPictures(getPropertyBucket(), id);
+                    return imgData;
+                }));
+                return { ...property.toObject(), img: images };
+            }));
+        };
+
+        const propertiesWithImage = await fetchPropertyImages(properties);
 
         const totalPropertiesAddedPastMonth = await Property.countDocuments({
             agent,
@@ -130,6 +144,39 @@ const getMyProperties = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.json({ error: 'Error occurred while getting all properties' });
+    }
+};
+
+const editProperty = async (req, res) => {
+    try {
+        const { price, type, location, description } = req.body;
+        const { propertyId } = req.params;
+
+        if (!price || !type || !location || !description) return res.json({ error: 'Input fields cannot be empty' });
+
+        if (!req.files || req.files.length === 0) return res.json({ error: 'No files uploaded' });
+
+        const imageIds = req.files.map(file => file.id);
+
+        const agentId = req.user.id;
+
+        const numericPrice = price.replace(/,/g, '');
+
+        const updatedProperty = await Property.findByIdAndUpdate(propertyId, {
+            img: imageIds,
+            price: numericPrice,
+            type,
+            location,
+            description,
+            agent: agentId,
+        }, { new: true });
+
+        if (!updatedProperty) return res.json({ error: 'Could not update property' });
+
+        return res.json({ message: 'Property updated successfully', updatedProperty });
+    } catch (error) {
+        console.log(error);
+        return res.json({ error: 'An error occurred while updating property' });
     }
 }
 
@@ -175,6 +222,7 @@ module.exports = {
     getAllProperties,
     getPropertyDetails,
     getMyProperties,
+    editProperty,
     fetchUserDetails,
     getSearchProperties,
 }

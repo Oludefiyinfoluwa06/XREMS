@@ -33,9 +33,32 @@ export const PropertyProvider = ({ children }) => {
                 }
             });
 
+            console.log(response.data.error);
             if (response.data.error) return setError(response.data.error);
 
             router.push('/admin/properties');
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setPropertyLoading(false);
+        }
+    }
+
+    const editProperty = async (formData, propertyId) => {
+        setPropertyLoading(true);
+
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await axios.put(`${config.backendUrl}/property/edit/${propertyId}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.data.error) return setError(response.data.error);
+
+            router.push(`/admin/property/${response.data.updatedProperty._id}`);
         } catch (error) {
             console.log(error);
         } finally {
@@ -211,6 +234,7 @@ export const PropertyProvider = ({ children }) => {
         error,
         setError,
         uploadProperty,
+        editProperty,
         getAllProperties,
         getPropertyDetails,
         getMyProperties,

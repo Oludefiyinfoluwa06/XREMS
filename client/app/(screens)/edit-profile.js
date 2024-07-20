@@ -123,7 +123,7 @@ const EditProfile = () => {
                             keyboardType='email-address'
                         />
 
-                        <Button title='Edit' onClick={handleEditProfile} loading={loading} />
+                        <Button title='Save' onClick={handleEditProfile} loading={loading} />
                     </View>
                 </View>
             </ScrollView>

@@ -1,18 +1,12 @@
 import { useEffect, useState } from 'react';
-
-import { CheckBox } from '@rneui/themed';
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 import { router } from 'expo-router';
-
 import Button from '../../components/Button';
-import AuthButton from '../../components/AuthButton';
-import { facebook, google, logo, logo2 } from '../../constants';
+import { logo, logo2 } from '../../constants';
 import { useAuth } from '../../contexts/AuthContext';
 
 const SignUp = () => {
-    const [checked, setChecked] = useState(false);
     const [fullname, setFullname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -53,7 +47,7 @@ const SignUp = () => {
                     <Text className='font-rregular text-errorText'>{error}</Text>
                 </View>}
 
-                <View>
+                <View className='w-full'>
                     <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-rbold">Full name:</Text>
                     <TextInput
                         placeholder='Full name'
@@ -80,7 +74,7 @@ const SignUp = () => {
                     <Text className="text-blue ml-[10px] mt-[15px] mb-[8px] text-[15px] font-rbold">Password:</Text>
                     <TextInput
                         placeholder='Password'
-                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px] font-rregular'
+                        className='p-[5px] px-[10px] w-full border border-gray rounded-[50px] font-rregular mb-[20px]'
                         secureTextEntry
                         value={password}
                         onChangeText={(value) => {
@@ -89,33 +83,9 @@ const SignUp = () => {
                         }}
                     />
 
-                    <CheckBox
-                        checked={checked}
-                        onPress={() => setChecked(prev => !prev)}
-                        iconType="material-community"
-                        checkedIcon="checkbox-outline"
-                        uncheckedIcon={'checkbox-blank-outline'}
-                        containerStyle={{ backgroundColor: 'transparent', marginLeft: -10 }}
-                        checkedColor="#191641"
-                        uncheckedColor="#191641"
-                        title='Remember me'
-                        textStyle={{ color: '#191641' }}
-                    />
-
                     <Button title='Sign up' onClick={handleSignup} loading={loading} />
 
-                    <View className='flex-row items-center justify-center w-full my-4'>
-                        <View className='h-[2px] w-[96px] bg-blue' />
-                        <Text className='font-rregular px-3'>Or continue with</Text>
-                        <View className='h-[2px] w-[96px] bg-blue' />
-                    </View>
-
-                    <View className='flex-row items-center justify-around mt-2 mb-3'>
-                        <AuthButton icon={facebook} title='Facebook' />
-                        <AuthButton icon={google} title='Google' />
-                    </View>
-
-                    <View className='flex-row items-center justify-center mt-5 gap-2'>
+                    <View className='flex-row items-center justify-center gap-2 mt-[10px]'>
                         <Text className='font-rregular text-blue text-lg'>Already have an account?</Text>
                         <TouchableOpacity onPress={() => router.push('/sign-in')}>
                             <Text className='font-rbold text-blue text-lg'>Sign in</Text>

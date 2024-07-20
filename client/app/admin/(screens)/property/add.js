@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, ScrollView, Image, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, ScrollView, Image, TouchableOpacity, TextInput, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
@@ -12,7 +12,7 @@ import { profile2 } from '../../../../assets/icons/admin';
 
 const Add = () => {
     const [image, setImage] = useState(null);
-    const [picture, setPicture] = useState(null);
+    const [images, setImages] = useState([]);
     const [type, setType] = useState('');
     const [price, setPrice] = useState('');
     const [location, setLocation] = useState('');
@@ -29,16 +29,16 @@ const Add = () => {
         getUser();
     }, []);
 
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
+    const pickImages = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsMultipleSelection: true,
             quality: 1,
         });
 
         if (!result.canceled) {
-            setPicture(result.assets[0].uri);
+            const selectedImages = result.assets.map(asset => asset.uri);
+            setImages(selectedImages);
         }
     };
 
@@ -49,22 +49,22 @@ const Add = () => {
 
     const handleUploadProperty = async () => {
         let formData = new FormData();
-        
-        if (picture) {
-            formData.append('picture', {
-                uri: picture,
-                name: 'property.jpg',
-                type: 'image/jpeg'
+
+        images.forEach((uri, index) => {
+            formData.append('pictures', {
+                uri,
+                name: `property_${index}.jpg`,
+                type: 'image/jpeg',
             });
-        }
-        
+        });
+
         formData.append('type', type);
         formData.append('price', price);
         formData.append('location', location);
         formData.append('description', description);
 
         await uploadProperty(formData);
-    }
+    };
     
     return (
         <SafeAreaView>
@@ -96,15 +96,35 @@ const Add = () => {
                         <Text className='font-rregular text-errorText'>{error}</Text>
                     </View>}
 
-                    <TouchableOpacity className='w-full h-[200px] flex items-center justify-center bg-white rounded-lg' onPress={pickImage}>
-                        <Image
-                            source={picture !== null ? { uri: picture } : uploadImg}
-                            resizeMode='cover'
-                            className='w-full h-full rounded-lg'
-                        />
-                    </TouchableOpacity>
+                    <Button title='Add Pictures' onClick={pickImages} />
 
-                    <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-rbold">Type of House:</Text>
+                    <View
+                        className='w-full h-[200px] flex items-center justify-center bg-white rounded-lg mt-[10px]'
+                    >
+                        {images.length > 0 ? (
+                            <FlatList
+                                horizontal
+                                data={images}
+                                renderItem={({ item }) => (
+                                    <Image
+                                        key={item}
+                                        source={{ uri: item }}
+                                        resizeMode='cover'
+                                        style={{ width: 350, height: 200, marginRight: 5, borderRadius: 10 }}
+                                    />
+                                )}
+                                keyExtractor={(item) => item}
+                            />
+                        ) : (
+                            <Image
+                                source={uploadImg}
+                                resizeMode='cover'
+                                className='w-full h-full rounded-lg'
+                            />
+                        )}
+                    </View>
+
+                    <Text className="text-blue ml-[10px] mt-[20px] mb-[8px] text-[15px] font-rbold">Type of Property:</Text>
                     <TextInput
                         placeholder='Bungalow, Duplex...'
                         className='p-[5px] px-[10px] w-full border border-gray rounded-[50px] font-rregular'

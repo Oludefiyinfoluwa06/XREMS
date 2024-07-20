@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image, FlatList, RefreshControl } from 'r
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import EmptyList from '../../../components/EmptyList';
-import { location, star } from '../../../constants';
+import { location } from '../../../constants';
 import Header from '../../../components/admin/Header';
 import { bgPencil, homePlus, noHome } from '../../../assets/icons/admin';
 import { useProperty } from '../../../contexts/PropertyContext';
@@ -21,6 +21,10 @@ const Properties = () => {
 
     useEffect(() => {
         getMyProperties();
+
+        setRefreshing(true);
+        
+        if (properties) setRefreshing(false);
     }, [properties]);
 
     return (
@@ -38,7 +42,7 @@ const Properties = () => {
                             <TouchableOpacity onPress={() => router.push(`/admin/property/${item?._id}`)}>
                                 <View className='relative'>
                                     <Image
-                                        source={{ uri: item?.img }}
+                                        source={{ uri: item?.img[0] }}
                                         resizeMode='cover'
                                         className='w-full h-[200px] rounded-xl'
                                     />
@@ -56,13 +60,13 @@ const Properties = () => {
                                     </View>
                                     <View className='flex items-center justify-between flex-row'>
                                         <Text className='font-rregular text-lg text-blue'>₦ {formatPrice(item?.price)}</Text>
-                                        <TouchableOpacity onPress={() => router.push(`/admin/property/edit/${item?._id}`)}>
+                                        {/* <TouchableOpacity onPress={() => router.push(`/admin/property/edit/${item?._id}`)}>
                                             <Image
                                                 source={bgPencil}
                                                 resizeMode='contain'
                                                 className='w-[30px] h-[30px] rounded-full'
                                             />
-                                        </TouchableOpacity>
+                                        </TouchableOpacity> */}
                                     </View>
                                 </View>
                             </TouchableOpacity>

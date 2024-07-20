@@ -5,16 +5,16 @@ import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
 import { camera, profile2 } from '../../../assets/icons/admin';
-import Button from '../../../components/admin/Button';
 import { useAuth } from '../../../contexts/AuthContext';
 import { angleBack } from '../../../constants';
+import Button from '../../../components/Button';
 
 const EditProfile = () => {
     const [fullname, setFullname] = useState('');
     const [email, setEmail] = useState('');
     const [image, setImage] = useState(null);
 
-    const { editProfile } = useAuth();
+    const { editProfile, loading } = useAuth();
 
     useEffect(() => {
         const getUser = async () => {
@@ -121,8 +121,8 @@ const EditProfile = () => {
                             </View>
                         </View>
 
-                        <View className='fixed bottom-0 left-0 right-0 flex items-center justify-center flex-row mx-auto'>
-                            <Button text='Edit' bg={true} onClick={handleEditProfile} />
+                        <View className='fixed bottom-0 left-0 right-0 flex items-center justify-center flex-row mx-auto w-full'>
+                            <Button title='Save' onClick={handleEditProfile} loading={loading} />
                         </View>
                     </View>
                 </View>

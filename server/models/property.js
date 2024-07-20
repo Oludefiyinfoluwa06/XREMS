@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const PropertySchema = new mongoose.Schema({
-    img: String,
+    img: [String],
     price: Number,
     type: String,
     location: String,

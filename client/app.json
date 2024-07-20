@@ -12,8 +12,18 @@
     "slug": "rems",
     "android": {
       "permissions": [
-        "INTERNET"
+        "android.permission.INTERNET",
+        "android.permission.RECORD_AUDIO"
       ]
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "f4371c7f-2f07-40fb-b8b0-e4c19a42303f"
+      }
+    },
+    "owner": "oftotech"
   }
 }

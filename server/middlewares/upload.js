@@ -41,7 +41,7 @@ const propertyStorage = new GridFsStorage({
     }
 });
 
-const propertyUpload = multer({ storage: propertyStorage });
+const propertyUpload = multer({ storage: propertyStorage }).array('pictures', 5);
 
 module.exports = {
     profileUpload,
