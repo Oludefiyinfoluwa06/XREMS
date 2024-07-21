@@ -66,17 +66,18 @@ const Messages = () => {
             </View>
           )}
           renderItem={({ item }) => (
-            <TouchableOpacity className='p-[20px] flex flex-row items-center justify-start w-full' onPress={() => router.push(`admin/chat/${item._id}`)}>
-              <View className='mr-2'>
+            <TouchableOpacity className='p-[20px] flex flex-row items-center justify-between w-full' onPress={() => router.push(`/admin/chat/${item._id}`)}>
+              <View className='flex flex-row items-center justify-start'>
                 <Image
-                  source={item?.profileImg ? { uri: item.profileImg } : profile}
+                  source={item?.profileImg ? { uri: item.profileImg } : user}
                   resizeMode='cover'
-                  className='w-[40px] h-[40px] rounded-full'
+                  className='w-[40px] h-[40px] rounded-full mr-2'
                 />
+                <Text className='font-rbold text-blue text-xl'>{item?.fullname}</Text>
               </View>
-              <View>
-                <Text className='font-rbold text-blue text-xl'>{item.fullname}</Text>
-              </View>
+              {item?.unreadCount > 0 && <View className='pb-1 px-2 rounded-full bg-blue'>
+                <Text className='font-rbold text-white text-md'>{item?.unreadCount}</Text>
+              </View>}
             </TouchableOpacity>
           )}
         />

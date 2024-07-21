@@ -6,18 +6,22 @@ const getUsers = async (req, res) => {
         const loggedInUserId = req.user.id;
 
         const usersSentTo = await Chat.distinct('receipient', { sender: loggedInUserId });
-
         const usersReceivedFrom = await Chat.distinct('sender', { receipient: loggedInUserId });
-
         const uniqueUserIds = [...new Set([...usersSentTo, ...usersReceivedFrom])];
 
         const users = await User.find({ _id: { $in: uniqueUserIds } }).select('-password -balance');
 
-        res.json({ users });
+        const usersWithUnreadCount = await Promise.all(users.map(async (user) => {
+            const unreadCount = await Chat.countDocuments({ sender: user._id, receipient: loggedInUserId, read: false });
+            return { ...user.toObject(), unreadCount };
+        }));
+
+        res.json({ users: usersWithUnreadCount });
     } catch (error) {
         res.json({ error: 'An error occurred while fetching users.' });
     }
 }
+
 
 const sendMessage = async (req, res) => {
     try {
@@ -30,7 +34,8 @@ const sendMessage = async (req, res) => {
         const newChat = new Chat({
             message,
             sender: senderId,
-            receipient: receipientId
+            receipient: receipientId,
+            read: false
         });
 
         const chat = await newChat.save();
@@ -40,7 +45,7 @@ const sendMessage = async (req, res) => {
         return res.json({ message: 'Chat sent successfully' });
     } catch (error) {
         console.log(error);
-        return res.json({ error: 'An error occurred, while sending message' })
+        return res.json({ error: 'An error occurred while sending message' });
     }
 }
 
@@ -58,6 +63,19 @@ const getMessages = async (req, res) => {
 
         if (!messages) return res.json({ error: 'Start a conversation' });
 
+        const unreadMessages = await Chat.find({
+            sender: receipientId,
+            receipient: senderId,
+            read: false
+        });
+
+        if (unreadMessages?.length > 0) {
+            await Chat.updateMany(
+                { sender: receipientId, receipient: senderId, read: false },
+                { $set: { read: true } }
+            );
+        }
+
         res.json({ messages });
     } catch (error) {
         console.log(error);
@@ -65,8 +83,22 @@ const getMessages = async (req, res) => {
     }
 }
 
+const markMessagesAsRead = async (req, res) => {
+    try {
+        const { senderId } = req.params;
+        const recipientId = req.user.id;
+
+        await Chat.updateMany({ sender: senderId, receipient: recipientId, read: false }, { read: true });
+
+        res.json({ message: 'Messages marked as read' });
+    } catch (error) {
+        res.json({ error: 'An error occurred while marking messages as read.' });
+    }
+};
+
 module.exports = {
     getUsers,
     sendMessage,
-    getMessages
+    getMessages,
+    markMessagesAsRead
 }

@@ -22,14 +22,19 @@ const SplashScreen = () => {
                     return router.replace('/choose');
                 }
 
-                if (user?.isAdmin) return router.replace('/admin/dashboard');
+                if (user) {
+                    if (user.isAdmin) {
+                        return router.replace('/admin/dashboard');
+                    } else {
+                        return router.replace('/home');
+                    }
+                }
 
-                return router.replace('/home');
             }, 3000);
         }
 
         checkAuth();
-    }, []);
+    }, [user]);
 
     return (
         <SafeAreaView className='items-center justify-center h-full bg-white'>

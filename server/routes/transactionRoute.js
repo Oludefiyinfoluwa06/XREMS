@@ -3,4 +3,6 @@ const { authenticate } = require('../middlewares/auth');
 
 const router = require('express').Router();
 
-router.get('/:user', authenticate, getTransactionHistory)
+router.get('/:user', authenticate, getTransactionHistory);
+
+module.exports = router;
