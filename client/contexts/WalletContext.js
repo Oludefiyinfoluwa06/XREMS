@@ -27,24 +27,9 @@ export const WalletProvider = ({ children }) => {
                 }
             });
 
-            if (response.data.error) {
-                return setWalletError(response.data.error);
-            } else {
-                await AsyncStorage.setItem('token', response.data.token);
-                const user = response.data.updatedUser;
-                const userData = {
-                    "_id": user._id,
-                    "fullname": user.fullname,
-                    "email": user.email,
-                    "isAdmin": user.isAdmin,
-                    "balance":  user.balance
-                }
+            if (response.data.error) return setWalletError(response.data.error);
 
-                await AsyncStorage.setItem('user', JSON.stringify(userData));
-                await AsyncStorage.setItem('profile', response.data.updatedUser.profileImg);
-                
-                setBalance(response.data.updatedUser.balance);
-            }
+            console.log(response.data);
         } catch (error) {
             console.log(error);
         } finally {

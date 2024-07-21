@@ -1,22 +1,14 @@
 const User = require('../models/user');
 const Sale = require('../models/sale');
 const Property = require('../models/property');
+const Transaction = require('../models/transaction');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const Flutterwave = require('flutterwave-node-v3');
-const jwt = require('jsonwebtoken');
 const getDateAMonthAgo = require('../helpers/getDateAMonthAgo');
 const getPreviousWeekDates = require('../helpers/getPreviousWeekDates');
 
 const flw = new Flutterwave(process.env.FLUTTERWAVE_PUBLIC_KEY, process.env.FLUTTERWAVE_SECRET_KEY);
-
-const createToken = (id) => {
-    const maxAge = 60 * 60 * 24 * 3;
-
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: maxAge
-    });
-}
 
 const walletTopup = async (req, res) => {
     try {
@@ -42,9 +34,19 @@ const walletTopup = async (req, res) => {
             
             if (!updatedUser) return res.json({ error: 'Could not update your wallet' });
 
-            const token = createToken(updatedUser._id);
+            const newTransaction = new Transaction({
+                user: updatedUser._id,
+                type: 'deposit',
+                amount,
+                remark: `You deposited ${amount}`,
+                date: new Date(),
+            });
+
+            const transaction = await newTransaction.save();
+
+            if (!transaction) return res.json({ error: 'Could not save transaction' });
             
-            return res.json({ message: "Wallet top-up successfully", updatedUser, token });
+            return res.json({ message: "Wallet top-up successfully" });
         } else {
             return res.json({ error: 'Wallet top-up failed' });
         }
@@ -83,6 +85,28 @@ const payment = async (req, res) => {
         const sale = Sale.create({ agentId: new mongoose.Types.ObjectId(agentId), amount: amount, saleDate: Date.now() });
 
         if (!sale) return res.json({ error: "Could not save details of this purchase" });
+
+        const userNewTransaction = new Transaction({
+            user: updatedUser._id,
+            type: 'transfer',
+            amount,
+            remark: `You transferred ${amount} to ${updatedAgent.fullname.split(' ')[1]}`,
+            date: new Date(),
+        });
+
+        const userTransaction = await userNewTransaction.save();
+
+        const agentNewTransaction = new Transaction({
+            user: updatedAgent._id,
+            type: 'receipt',
+            amount,
+            remark: `${updatedUser.fullname.split(' ')[1]} transferred ${amount} to you`,
+            date: new Date(),
+        });
+
+        const agentTransaction = await agentNewTransaction.save();
+
+        if (!userTransaction || !agentTransaction) return res.json({ error: 'Could not save transaction' });
         
         return res.json({ message: 'Payment successful' });
     } catch (error) {
@@ -115,9 +139,21 @@ const walletWithdrawal = async (req, res) => {
         if (response.status === "success") {
             const updatedAgent = await User.findByIdAndUpdate(req.user.id, { $inc: { balance: -parseFloat(amount) } }, { new: true });
             
-            if (updatedAgent) return res.json({ message: "Withdrawal successful" });
+            if (!updatedAgent) return res.json({ error: 'Could not withdraw' });
+
+            const newTransaction = new Transaction({
+                user: updatedAgent._id,
+                type: 'withdrawal',
+                amount,
+                remark: `You withdrew ${amount}`,
+                date: new Date(),
+            });
+
+            const transaction = await newTransaction.save();
+
+            if (!transaction) return res.json({ error: 'Could not save transaction' });
             
-            return res.json({ error: 'Could not withdraw' });
+            return res.json({ message: "Withdrawal successful" });
         } else {
             return res.json({ error: 'Withdrawal failed' });
         }
