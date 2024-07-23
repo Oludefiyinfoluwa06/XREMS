@@ -44,17 +44,17 @@ const Dashboard = () => {
                     </View>
                 </ImageBackground>
                 <View className='p-[25px] mt-[-80px]'>
-                    <View className='bg-white rounded-xl p-[20px] shadow-lg mb-4'>
+                    <View className='bg-white rounded-xl p-[20px] mb-4' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
                         <Text className='font-rbold text-blue text-xl'>Total Properties</Text>
                         <Text className='text-[40px] font-rbold text-blue'>{propertyLoading ? 'Loading...' : totalProperties}</Text>
                         <Text className='font-rregular text-lg text-blue'><Text className='font-rbold'>{propertyLoading ? 'Loading...' : `+${totalPropertiesAddedPastMonth}`}</Text> - last month</Text>
                     </View>
-                    <View className='bg-white rounded-xl p-[20px] shadow-lg mb-4'>
+                    <View className='bg-white rounded-xl p-[20px] mb-4' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
                         <Text className='font-rbold text-blue text-xl'>Revenue</Text>
                         <Text className='text-[40px] font-rbold text-blue'>{walletLoading ? 'Loading...' : `₦ ${formatPrice(pastMonthRevenue)}`}</Text>
                         <Text className='font-rregular text-lg text-blue'><Text className='font-rbold'>{walletLoading ? 'Loading...' : `+₦ ${formatPrice(pastWeekSales)}`}</Text> - last week</Text>
                     </View>
-                    <View className='bg-white rounded-xl p-[20px] shadow-lg'>
+                    <View className='bg-white rounded-xl p-[20px]' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
                         <Text className='font-rbold text-blue text-xl'>Overall Sales</Text>
                         <Text className='text-[40px] font-rbold text-blue'>{walletLoading ? 'Loading...' : `₦ ${formatPrice(overallSales)}`}</Text>
                         <Text className='font-rregular text-lg text-blue'><Text className='font-rbold'>{walletLoading ? 'Loading...' : `+₦ ${formatPrice(pastWeekSales)}`}</Text> - last week</Text>

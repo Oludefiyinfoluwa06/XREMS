@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, FlatList, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import EmptyList from '../../components/EmptyList';
-import { angleBack, noMessages, user } from '../../constants';
+import { angleBack, noMessages } from '../../constants';
 import SearchBar from '../../components/SearchBar';
 import { useChat } from '../../contexts/ChatContext';
 import { useAuth } from '../../contexts/AuthContext';
@@ -33,8 +32,9 @@ const Messages = () => {
           ListEmptyComponent={<EmptyList icon={noMessages} text='No messages' />}
           ListHeaderComponent={() => (
             <View className='p-[20px]'>
-              <View className='flex items-center justify-between flex-row'>
+              <View className='flex items-center justify-between flex-row py-[20px]'>
                 <TouchableOpacity
+                  className='rounded-lg'
                   onPress={() => router.back()}
                 >
                   <Image
@@ -47,13 +47,12 @@ const Messages = () => {
                 <Text className='font-rbold text-lg'>Messages</Text>
 
                 <TouchableOpacity
-                  className='flex items-center justify-content p-[13px] rounded-lg bg-white shadow-lg'
                   onPress={() => router.push('/profile')}
                 >
                   <Image
                     source={user !== null && user?.profileImg !== '' ? { uri: user.profileImg } : profile}
                     resizeMode='cover'
-                    className='w-[30px] h-[30px] rounded-full'
+                    className='w-[40px] h-[40px] rounded-full'
                   />
                 </TouchableOpacity>
               </View>
@@ -62,7 +61,7 @@ const Messages = () => {
             </View>
           )}
           renderItem={({ item }) => (
-            <TouchableOpacity className='p-[20px] flex flex-row items-center justify-between w-full' onPress={() => router.push(`/chat/${item._id}`)}>
+            <TouchableOpacity className='py-[20px] mx-[20px] flex flex-row items-center justify-between border-b border-[#C2C2C2]' onPress={() => router.push(`/chat/${item._id}`)}>
               <View className='flex flex-row items-center justify-start'>
                 <Image
                   source={item?.profileImg ? { uri: item.profileImg } : user}

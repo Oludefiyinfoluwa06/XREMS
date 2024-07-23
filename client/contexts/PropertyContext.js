@@ -195,6 +195,8 @@ export const PropertyProvider = ({ children }) => {
     }
 
     const searchProperties = async (searchQuery) => {
+        setPropertyLoading(true);
+
         try {
             const token = await AsyncStorage.getItem('token');
             const response = await axios.get(`${config.backendUrl}/property/search/${searchQuery}`, {
@@ -207,6 +209,8 @@ export const PropertyProvider = ({ children }) => {
             setResults(response.data.propertiesWithImage);
         } catch (error) {
             console.log(error);
+        } finally {
+            setPropertyLoading(false);
         }
     }
 

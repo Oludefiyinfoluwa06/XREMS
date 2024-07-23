@@ -1,8 +1,8 @@
 import { ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 
-const Button = ({ title, onClick, loading }) => {
+const Button = ({ title, isBought, onClick, loading }) => {
     return (
-        <TouchableOpacity className='w-full p-3 rounded-[50px] bg-blue' onPress={onClick} disabled={loading}>
+        <TouchableOpacity className={`${isBought ? 'bg-[#C2C2C2]' : 'bg-blue'} w-full p-3 rounded-[50px]`} onPress={onClick} disabled={loading || isBought}>
             {loading ? (
                 <ActivityIndicator animating={true} color='white' />
             ) : (

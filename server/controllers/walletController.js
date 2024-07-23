@@ -14,6 +14,8 @@ const walletTopup = async (req, res) => {
     try {
         const { amount, email, name, cardNumber, cvv, expiryMonth, expiryYear } = req.body;
 
+        if (!amount || !name || !cardNumber || !cvv || !expiryMonth || !expiryYear) return res.json({ error: 'Input field(s) cannot be empty' });
+
         const details = {
             "card_number": cardNumber,
             "cvv": cvv,
@@ -57,7 +59,8 @@ const walletTopup = async (req, res) => {
 }
 
 const payment = async (req, res) => {
-    const { amount, agentId, propertyId, password } = req.body;
+    const { amount, agentId, password } = req.body;
+    const { propertyId } = req.params;
     
     try {
         if (!amount) return res.json({ error: 'Enter a valid amount' });

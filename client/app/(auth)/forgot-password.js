@@ -12,7 +12,8 @@ const ForgotPassword = () => {
         <SafeAreaView className='p-[20px] h-full bg-white'>
             <View className='flex items-center justify-between flex-row'>
                 <TouchableOpacity
-                    className='flex items-center justify-content p-[13px] rounded-lg bg-white shadow-lg'
+                    className='flex items-center justify-content p-[13px] rounded-lg bg-white'
+                    style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}
                     onPress={() => router.back()}
                 >
                 <Image

@@ -1,11 +1,11 @@
 import { View, Text, FlatList, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
-import { location, noSearch, star } from '../../constants';
+import { location, noSearch } from '../../constants';
 import EmptyList from '../EmptyList';
 import { router } from 'expo-router';
 import { useProperty } from '../../contexts/PropertyContext';
 
 const SearchResults = ({ query, searchQuery }) => {
-    const { results } = useProperty();
+    const { propertyLoading, results } = useProperty();
 
     return (
         <View>
@@ -14,7 +14,7 @@ const SearchResults = ({ query, searchQuery }) => {
                 <Text className="font-rbold text-blue">{results?.length || 0} found</Text>
             </View>
 
-            <FlatList
+            {!propertyLoading ? <FlatList
                 data={results}
                 keyExtractor={(item) => item._id}
                 horizontal={false}
@@ -42,7 +42,11 @@ const SearchResults = ({ query, searchQuery }) => {
                         </View>
                     </TouchableOpacity>
                 )}
-            />
+            /> : (
+                <View className='flex items-center justify-center h-full bg-white'>
+                    <ActivityIndicator size="large" color="#191641" />
+                </View>
+            )}
         </View>
     );
 }

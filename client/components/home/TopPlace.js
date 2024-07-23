@@ -21,7 +21,7 @@ const TopPlace = ({ topPlace }) => {
                             >
                                 <Image 
                                     source={{ uri: img }}
-                                    resizeMode='stretch'
+                                    resizeMode='cover'
                                     className='w-full h-[100px] rounded-lg'
                                 />
                                 <View className='mt-2'>

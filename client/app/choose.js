@@ -25,7 +25,7 @@ const Choose = () => {
                     className='w-[30px] h-[30px] mr-3'
                 />
                 <View>
-                    <Text className='font-rbold text-lg'>Login as Admin</Text>
+                    <Text className='font-rbold text-lg'>Login as Agent</Text>
                     <Text className='font-rregular text-sm'>Manage property listings</Text>
                 </View>
             </TouchableOpacity>

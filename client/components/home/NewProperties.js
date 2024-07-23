@@ -26,12 +26,12 @@ const NewProperties = ({ newProperties }) => {
                                 >
                                     <Image
                                         source={{ uri: img }}
-                                        resizeMode='stretch'
+                                        resizeMode='cover'
                                         className='w-full h-full rounded-lg'
                                     />
                                 </TouchableOpacity>
 
-                                <View className='absolute bg-white rounded-lg p-3 top-[120px] w-[80%] left-[10%] shadow-xl'>
+                                <View className='absolute bg-white rounded-lg p-3 top-[120px] w-[80%] left-[10%]' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
                                     <View className='flex flex-row justify-start'>
                                         <Text className='font-rbold text-lg'>₦ {formatPrice(item.price)}</Text>
                                     </View>

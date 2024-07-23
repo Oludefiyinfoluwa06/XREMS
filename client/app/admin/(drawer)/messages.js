@@ -6,7 +6,7 @@ import { noMessages } from '../../../constants';
 import EmptyList from '../../../components/EmptyList';
 import SearchBar from '../../../components/SearchBar';
 import { useChat } from '../../../contexts/ChatContext';
-import { menuIcon, profile, profile2 } from '../../../assets/icons/admin';
+import { menuIcon, profile2 } from '../../../assets/icons/admin';
 import { DrawerActions } from '@react-navigation/native';
 import { useAuth } from '../../../contexts/AuthContext';
 
@@ -66,7 +66,7 @@ const Messages = () => {
             </View>
           )}
           renderItem={({ item }) => (
-            <TouchableOpacity className='p-[20px] flex flex-row items-center justify-between w-full' onPress={() => router.push(`/admin/chat/${item._id}`)}>
+            <TouchableOpacity className='py-[20px] mx-[20px] flex flex-row items-center justify-between border-b border-[#C2C2C2]' onPress={() => router.push(`/admin/chat/${item._id}`)}>
               <View className='flex flex-row items-center justify-start'>
                 <Image
                   source={item?.profileImg ? { uri: item.profileImg } : user}

@@ -52,12 +52,13 @@ const Home = () => {
                         <Image
                             source={user !== null && user?.profileImg !== '' ? { uri: user?.profileImg } : profile}
                             resizeMode='cover'
-                            className='w-[30px] h-[30px] rounded-full'
+                            className='w-[40px] h-[40px] rounded-full'
                         />
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        className='flex items-center justify-content p-[13px] rounded-lg bg-white shadow-lg'
+                        className='flex items-center justify-content p-[13px] rounded-lg bg-white'
+                        style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}
                         onPress={() => router.push('/notifications')}
                     >
                         <Image

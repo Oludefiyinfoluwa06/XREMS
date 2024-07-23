@@ -13,11 +13,10 @@ const HouseDetails = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
-    const [modalVisible, setModalVisible] = useState(false);
     const [password, setPassword] = useState('');
     const params = useLocalSearchParams();
 
-    const { pay, walletLoading, walletError, setWalletError } = useWallet();
+    const { pay, walletLoading, walletError, setWalletError, modalVisible, setModalVisible } = useWallet();
     const { getPropertyDetails, houseDetails, error, setError, formatPrice } = useProperty();
 
     const toggleExpansion = () => {
@@ -35,12 +34,10 @@ const HouseDetails = () => {
         setError('');
         getPropertyDetails(params.id);
         checkBookmarkStatus();
-    }, []);
+    }, [houseDetails]);
 
     const handleBuy = async (amount, agentId, propertyId) => {
         await pay(amount, agentId, propertyId, password);
-
-        if (!walletError) return setModalVisible(false);
     }
 
     const checkBookmarkStatus = async () => {
@@ -61,7 +58,7 @@ const HouseDetails = () => {
 
             const existingIndex = bookmarks.findIndex(bookmark => bookmark.property._id === houseDetails?.property._id);
             if (existingIndex === -1) {
-                bookmarks.push({ property: houseDetails?.property, img: houseDetails?.img[0] });
+                bookmarks.push({ property: houseDetails?.property, img: houseDetails?.property.img[0] });
                 await AsyncStorage.setItem('bookmarks', JSON.stringify(bookmarks));
                 setIsBookmarked(true);
                 alert('Property bookmarked successfully!');
@@ -84,7 +81,8 @@ const HouseDetails = () => {
                 <ScrollView className='p-[20px] bg-white h-full' refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                     <View className='flex items-center justify-start flex-row'>
                         <TouchableOpacity
-                            className='flex items-center justify-center p-[13px] rounded-lg bg-white shadow-lg'
+                            className='flex items-center justify-center p-[13px] rounded-lg bg-white'
+                            style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}
                             onPress={() => router.back()}
                         >
                             <Image
@@ -172,7 +170,8 @@ const HouseDetails = () => {
                         </View>
 
                         <Button
-                            title='Buy'
+                            title={`${houseDetails?.property.isBought ? 'Sold' : 'Buy'}`}
+                            isBought={houseDetails?.property.isBought}
                             onClick={() => setModalVisible(true)}
                         />
                     </View>

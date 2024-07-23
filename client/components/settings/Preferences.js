@@ -3,7 +3,7 @@ import { globe, language } from '../../constants';
 
 const Preferences = () => {
     return (
-        <View className='mt-[30px] bg-white shadow-lg p-[18px] rounded-[10px]'>
+        <View className='mt-[30px] bg-white p-[18px] rounded-[10px]' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
             <Text className='font-rbold text-[25px]'>Preferences</Text>
 
             <View className='flex items-center justify-between flex-row'>

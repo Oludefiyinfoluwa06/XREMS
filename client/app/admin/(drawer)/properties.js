@@ -38,7 +38,7 @@ const Properties = () => {
                 ListHeaderComponent={() => <Header title='Properties' icon={homePlus} iconRoute='/admin/property/add' />}
                 renderItem={({ item }) => (
                     <View className='p-[20px]'>
-                        <View className='bg-white p-3 shadow-2xl rounded-xl'>
+                        <View className='bg-white p-3 rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
                             <TouchableOpacity onPress={() => router.push(`/admin/property/${item?._id}`)}>
                                 <View className='relative'>
                                     <Image

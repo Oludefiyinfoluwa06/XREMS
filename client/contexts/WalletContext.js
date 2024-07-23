@@ -8,12 +8,15 @@ import { config } from "../config";
 const WalletContext = createContext();
 
 export const WalletProvider = ({ children }) => {
-    const [balance, setBalance] = useState(0);
     const [walletError, setWalletError] = useState('');
     const [walletLoading, setWalletLoading] = useState(false);
     const [overallSales, setOverallSales] = useState(0);
     const [pastMonthRevenue, setPastMonthRevenue] = useState(0);
     const [pastWeekSales, setPastWeekSales] = useState(0);
+    const [transactionHistory, setTransactionHistory] = useState([]);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [successModalVisible, setSuccessModalVisible] = useState(false);
+    const [message, setMessage] = useState('');
 
     const fundWallet = async (amount, email, name, cardNumber, cvv, expiryMonth, expiryYear) => {
         setWalletLoading(true);
@@ -29,7 +32,14 @@ export const WalletProvider = ({ children }) => {
 
             if (response.data.error) return setWalletError(response.data.error);
 
-            console.log(response.data);
+            setModalVisible(false);
+
+            setMessage(response.data.message);
+            setSuccessModalVisible(true);
+
+            setTimeout(() => {
+                setSuccessModalVisible(false);
+            }, 3000);
         } catch (error) {
             console.log(error);
         } finally {
@@ -37,20 +47,22 @@ export const WalletProvider = ({ children }) => {
         }
     }
 
-    const pay = async (amount, agentId, password) => {
+    const pay = async (amount, agentId, propertyId, password) => {
         setWalletLoading(true);
 
         try {
             const token = await AsyncStorage.getItem('token');
-            const response = await axios.post(`${config.backendUrl}/wallet/payment`, { amount, agentId, password }, {
+            const response = await axios.post(`${config.backendUrl}/wallet/payment/${propertyId}`, { amount, agentId, password }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
             });
 
-            console.log(response.data);
             if (response.data.error) return setWalletError(response.data.error);
+
+            setMessage(response.data.message);
+            setModalVisible(false);
         } catch (error) {
             console.log(error);
         } finally {
@@ -104,6 +116,22 @@ export const WalletProvider = ({ children }) => {
             setWalletLoading(false);
         }
     }
+
+    const getTransactionHistory = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const response = await axios.get(`${config.backendUrl}/transaction/all`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.data.error) return setTransactionHistory(response.data.transactionHistory);
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
     const values = {
         fundWallet,
@@ -114,9 +142,14 @@ export const WalletProvider = ({ children }) => {
         pastMonthRevenue,
         pastWeekSales,
         walletLoading,
-        balance,
         walletError,
         setWalletError,
+        getTransactionHistory,
+        transactionHistory,
+        modalVisible,
+        setModalVisible,
+        successModalVisible,
+        message,
     }
 
     return (

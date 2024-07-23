@@ -59,7 +59,8 @@ const EditProfile = () => {
             <ScrollView>
                 <View className='flex items-center justify-start flex-row p-[20px]'>
                     <TouchableOpacity
-                        className='flex items-center justify-center p-[13px] rounded-lg bg-white shadow-lg'
+                        className='flex items-center justify-center p-[13px] rounded-lg bg-white'
+                        style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}
                         onPress={() => router.back()}
                     >
                         <Image

@@ -7,24 +7,19 @@ import { angleBack, sendMessageIcon, user, startConversation } from '../../../..
 import { useProperty } from '../../../../contexts/PropertyContext';
 import { useChat } from '../../../../contexts/ChatContext';
 import EmptyList from '../../../../components/EmptyList';
+import { useAuth } from '../../../../contexts/AuthContext';
 
 const Chat = () => {
     const [newMessage, setNewMessage] = useState('');
-    const [userData, setUserData] = useState(null);
     const params = useLocalSearchParams();
     const { fetchUserDetails, userDetails } = useProperty();
     const { sendMessage, getMessages, messages } = useChat();
+    const { getUser, user } = useAuth();
     const scrollViewRef = useRef();
 
     useEffect(() => {
-        const getUserDetails = async () => {
-            const user = await AsyncStorage.getItem('user');
-            const userDetails = JSON.parse(user);
-            setUserData(userDetails);
-        };
-
-        getUserDetails();
-    }, []);
+        getUser();
+    }, [user]);
 
     useEffect(() => {
         fetchUserDetails(params.chat);
@@ -59,9 +54,9 @@ const Chat = () => {
 
     return (
         <SafeAreaView className='relative bg-white h-full'>
-            <View className='flex items-center justify-start flex-row py-[20px] shadow-lg'>
+            <View className='flex items-center justify-start flex-row py-[20px]' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
                 <TouchableOpacity
-                    className='flex items-center justify-content p-[13px] rounded-lg bg-white shadow-lg mr-4'
+                    className='flex items-center justify-content p-[13px] rounded-lg bg-white mr-4'
                     onPress={() => router.back()}
                 >
                     <Image
@@ -92,10 +87,10 @@ const Chat = () => {
                     {messages.map(message => (
                         <View 
                             key={message._id} 
-                            className={`${message?.sender === userData?._id ? 'bg-blue self-end' : 'bg-lightBlue self-start'} w-[65%] mb-[10px] p-3 rounded-xl`}
+                            className={`${message?.sender === user?._id ? 'bg-blue self-end' : 'bg-lightBlue self-start'} w-[65%] mb-[10px] p-3 rounded-xl`}
                         >
-                            <Text className={`${message?.sender === userData?._id ? '' : ''} font-rregular text-xl text-white`}>{message?.message}</Text>
-                            <Text className={`font-regular text-sm ${message?.sender === userData?._id ? 'text-right' : ''} text-white`}>
+                            <Text className={`${message?.sender === user?._id ? '' : ''} font-rregular text-xl text-white`}>{message?.message}</Text>
+                            <Text className={`font-regular text-sm ${message?.sender === user?._id ? 'text-right' : ''} text-white`}>
                                 {formatTimestamp(message?.updatedAt)}
                             </Text>
                         </View>
