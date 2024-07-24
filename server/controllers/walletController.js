@@ -7,6 +7,8 @@ const bcrypt = require('bcrypt');
 const Flutterwave = require('flutterwave-node-v3');
 const getDateAMonthAgo = require('../helpers/getDateAMonthAgo');
 const getPreviousWeekDates = require('../helpers/getPreviousWeekDates');
+const { getPropertyBucket } = require('../helpers/getBuckets');
+const { getPictures } = require('../helpers/getPictures');
 
 const flw = new Flutterwave(process.env.FLUTTERWAVE_PUBLIC_KEY, process.env.FLUTTERWAVE_SECRET_KEY);
 
@@ -47,6 +49,19 @@ const walletTopup = async (req, res) => {
             const transaction = await newTransaction.save();
 
             if (!transaction) return res.json({ error: 'Could not save transaction' });
+
+            const user = await User.findById(req.user.id);
+
+            const newNotification = new Notification({
+                img: user.profileImg,
+                users: [user._id],
+                title: 'Wallet top up',
+                content: `You just topped up your wallet with ${amount}`,
+                link: '/wallet',
+                read: false
+            });
+
+            await newNotification.save();
             
             return res.json({ message: "Wallet top-up successfully" });
         } else {
@@ -110,6 +125,30 @@ const payment = async (req, res) => {
         const agentTransaction = await agentNewTransaction.save();
 
         if (!userTransaction || !agentTransaction) return res.json({ error: 'Could not save transaction' });
+
+        const img = await getPictures(getPropertyBucket(), property.img);
+
+        const newUserNotification = new Notification({
+            img,
+            user: updatedUser._id,
+            title: 'Payment',
+            content: `You made a payment to agent ${updatedAgent._id} for a property located at ${property.location}`,
+            link: '/wallet',
+            read: false
+        });
+
+        await newUserNotification.save();
+
+        const newAgentNotification = new Notification({
+            img,
+            user: updatedAgent._id,
+            title: 'Payment',
+            content: `${updatedUser._id} made a payment to you for a property located at ${property.location}`,
+            link: '/admin/wallet',
+            read: false
+        });
+
+        await newAgentNotification.save();
         
         return res.json({ message: 'Payment successful' });
     } catch (error) {
@@ -155,6 +194,17 @@ const walletWithdrawal = async (req, res) => {
             const transaction = await newTransaction.save();
 
             if (!transaction) return res.json({ error: 'Could not save transaction' });
+
+            const newNotification = new Notification({
+                img: updatedAgent.profileImg,
+                user: updatedAgent._id,
+                title: 'Withdrawal',
+                content: `Withdrawal of ₦${amount} was successful`,
+                link: '/admin/wallet',
+                read: false
+            });
+
+            await newNotification.save();
             
             return res.json({ message: "Withdrawal successful" });
         } else {

@@ -4,6 +4,7 @@ const { getPictures } = require('../helpers/getPictures');
 const getDateAMonthAgo = require('../helpers/getDateAMonthAgo');
 const getRandomProperties = require('../helpers/getRandomProperties');
 const User = require('../models/user');
+const Notification = require('../models/notification');
 
 const uploadProperty = async (req, res) => {
     try {
@@ -35,7 +36,29 @@ const uploadProperty = async (req, res) => {
         });
 
         const property = await newProperty.save();
-        return res.json({ message: 'Property uploaded successfully', property });
+
+        if (!property) return res.json({ error: 'An error occurred while uploading property details' });
+
+        const img = await getPictures(getPropertyBucket(), req.files[0].id);
+
+        const agent = await User.findById(property.agent);
+        
+        const users = await User.find({ isAdmin: false });
+
+        users.forEach(async (user) => {
+            const newNotification = new Notification({
+                img,
+                users: user._id,
+                title: 'New property upload',
+                content: `Agent ${agent.fullname} uploaded a property located at ${property.location}`,
+                link: `/properties/${property._id}`,
+                read: false
+            });
+
+            await newNotification.save();
+        });
+
+        return res.json({ message: 'Property uploaded successfully' });
     } catch (error) {
         console.log(error);
         res.json({ error: 'Error uploading property details' });

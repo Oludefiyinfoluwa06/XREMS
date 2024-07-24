@@ -1,4 +1,5 @@
 const Chat = require('../models/chat');
+const Notification = require('../models/notification');
 const User = require('../models/user');
 
 const getUsers = async (req, res) => {
@@ -41,6 +42,32 @@ const sendMessage = async (req, res) => {
         const chat = await newChat.save();
         
         if (!chat) return res.json({ error: 'Unable to send message' });
+
+        const user = await User.findById(req.user.id);
+
+        const agent = await User.findById(receipientId);
+
+        const newAgentNotification = new Notification({
+            img: user.profileImg,
+            user: agent._id,
+            title: 'New message',
+            content: `${user.fullname} sent you a message`,
+            link: `/admin/messages/${user._id}`,
+            read: false
+        });
+
+        await newAgentNotification.save();
+
+        const newUserNotification = new Notification({
+            img: agent.profileImg,
+            user: user._id,
+            title: 'New message',
+            content: `${agent.fullname} sent you a message`,
+            link: `/messages/${user._id}`,
+            read: false
+        });
+
+        await newUserNotification.save();
 
         return res.json({ message: 'Chat sent successfully' });
     } catch (error) {

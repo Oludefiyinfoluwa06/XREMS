@@ -10,6 +10,7 @@ const walletRoute = require('./routes/walletRoute');
 const reviewRoute = require('./routes/reviewRoute');
 const chatRoute = require('./routes/chatRoute');
 const transactionRoute = require('./routes/transactionRoute');
+const notificationRoute = require('./routes/notificationRoute');
 
 const port = process.env.PORT || 5000;
 const app = express();
@@ -42,3 +43,4 @@ app.use('/wallet', walletRoute);
 app.use('/review', reviewRoute);
 app.use('/chat', chatRoute);
 app.use('/transaction', transactionRoute);
+app.use('/notification', notificationRoute);

@@ -1,6 +1,7 @@
 const Property = require("../models/property");
 const Review = require("../models/review");
 const User = require("../models/user");
+const Notification = require("../models/notification");
 
 const getReviews = async (req, res) => {
     try {
@@ -45,6 +46,21 @@ const addReview = async (req, res) => {
         const property = await Property.findByIdAndUpdate(req.params.propertyId, { $push: { reviews: reviewContent._id } }, { new: true });
 
         if (!property) return res.json({ error: 'Property not found' });
+
+        const user = await User.findById(reviewer);
+
+        const agent = await User.findById(property.agent);
+
+        const newNotification = new Notification({
+            img: user.profileImg,
+            user: agent._id,
+            title: 'New review',
+            content: `${user.fullname} sent a review about your property in ${property.location}`,
+            link: `/admin/reviews/${property._id}`,
+            read: false
+        });
+
+        await newNotification.save();
 
         return res.json({ message: 'Review sent successfully' });
     } catch (error) {
