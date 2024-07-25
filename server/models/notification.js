@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const notificationSchema = new mongoose.Schema({
     img: String,
-    users: mongoose.Schema.Types.ObjectId,
+    user: mongoose.Schema.Types.ObjectId,
     title: String,
     content: String,
     link: String,

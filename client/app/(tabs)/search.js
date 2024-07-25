@@ -11,11 +11,11 @@ const Search = () => {
   const { query } = useLocalSearchParams();
 
   return (
-    <SafeAreaView className='p-[20px] h-full bg-white'>
-      <View className='flex items-center justify-between flex-row'>
+    <SafeAreaView className='h-full bg-white'>
+      <View className='flex items-center justify-between flex-row p-[20px]'>
         <TouchableOpacity
-          className='flex items-center justify-content p-[13px] rounded-lg bg-white'
-          style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}
+          className='flex items-center justify-content p-[13px] rounded-lg'
+          style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 10, elevation: 200 }}
           onPress={() => router.back()}
         >
           <Image

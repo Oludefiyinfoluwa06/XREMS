@@ -8,6 +8,7 @@ import { AuthProvider } from '../contexts/AuthContext';
 import { WalletProvider } from '../contexts/WalletContext';
 import { PropertyProvider } from '../contexts/PropertyContext';
 import { ChatProvider } from '../contexts/ChatContext';
+import { NotificationProvider } from '../contexts/NotificationContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -39,38 +40,40 @@ const RootLayout = () => {
             <PropertyProvider>
                 <WalletProvider>
                     <ChatProvider>
-                        <Stack>
-                            <Stack.Screen
-                                name='index'
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name='welcome'
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name='choose'
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name='(auth)'
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name='(tabs)'
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name='(screens)'
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name='admin'
-                                options={{ headerShown: false }}
-                            />
-                        </Stack>
-                        
-                        <StatusBar backgroundColor='#FFFFFF' />
+                        <NotificationProvider>
+                            <Stack>
+                                <Stack.Screen
+                                    name='index'
+                                    options={{ headerShown: false }}
+                                />
+                                <Stack.Screen
+                                    name='welcome'
+                                    options={{ headerShown: false }}
+                                />
+                                <Stack.Screen
+                                    name='choose'
+                                    options={{ headerShown: false }}
+                                />
+                                <Stack.Screen
+                                    name='(auth)'
+                                    options={{ headerShown: false }}
+                                />
+                                <Stack.Screen
+                                    name='(tabs)'
+                                    options={{ headerShown: false }}
+                                />
+                                <Stack.Screen
+                                    name='(screens)'
+                                    options={{ headerShown: false }}
+                                />
+                                <Stack.Screen
+                                    name='admin'
+                                    options={{ headerShown: false }}
+                                />
+                            </Stack>
+                            
+                            <StatusBar backgroundColor='#FFFFFF' />
+                        </NotificationProvider>
                     </ChatProvider>
                 </WalletProvider>
             </PropertyProvider>

@@ -19,7 +19,7 @@ const FeaturedUnits = ({ featuredProperties }) => {
                     renderItem={({ item }) => {
                         const img = item.img[0];
                         return (
-                            <View className='relative h-[290px] mr-3'>
+                            <View className='relative h-[290px] ml-[20px]'>
                                 <TouchableOpacity
                                     onPress={() => router.push(`/properties/${item._id}`)}
                                     className='w-[300px] h-[200px]'
@@ -31,7 +31,7 @@ const FeaturedUnits = ({ featuredProperties }) => {
                                     />
                                 </TouchableOpacity>
 
-                                <View className='absolute bg-white rounded-lg p-3 top-[120px] w-[80%] left-[10%]' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
+                                <View className='absolute bg-white rounded-lg p-3 top-[120px] w-[80%] left-[10%]' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}>
                                     <View className='flex flex-row justify-start'>
                                         <Text className='font-rbold text-lg'>₦ {formatPrice(item.price)}</Text>
                                     </View>

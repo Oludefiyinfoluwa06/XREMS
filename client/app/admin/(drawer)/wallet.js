@@ -92,14 +92,14 @@ const Wallet = () => {
             </ImageBackground>
 
             <View className='p-[25px] space-y-[20px]'>
-                <View className='p-[13px] bg-white rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
+                <View className='p-[13px] bg-white rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}>
                     <Text className='text-2xl font-rbold text-blue'>Balance</Text>
                     <Text className='text-5xl font-rbold mb-3 mt-2 text-blue'>₦ {formatPrice(user?.balance || 0)}</Text>
 
                     <Button title='Withdraw' onClick={() => { }} />
                 </View>
 
-                <View className='p-[13px] bg-white rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
+                <View className='p-[13px] bg-white rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}>
                     <View className='flex flex-row items-center justify-start'>
                         <Image 
                             source={transactions}
@@ -112,20 +112,20 @@ const Wallet = () => {
                     <View className='w-full mt-4'>
                         {transactionHistory.map(transaction => (
                             <View key={transaction?._id} className='flex flex-row items-center justify-between mb-3 w-full'>
-                                <View className='flex flex-row items-center justify-start'>
+                                <View className='flex flex-row items-center justify-start flex-shrink'>
                                     <Image
                                         source={transaction?.type === 'transfer' ? send : receive}
                                         resizeMode='contain'
                                         className='mr-2 w-[30px] h-[30px]'
                                     />
-                                    <View>
-                                        <Text className='capitalize text-xl font-rbold text-blue'>{transaction?.type}</Text>
-                                        <Text className='text-md font-rregular text-blue'>{transaction?.remark}</Text>
+                                    <View className='flex-shrink'>
+                                        <Text className='capitalize text-xl font-rbold text-blue overflow-hidden' numberOfLines={1}>{transaction?.type}</Text>
+                                        <Text className='text-md font-rregular text-blue overflow-hidden' numberOfLines={1}>{transaction?.remark}</Text>
                                     </View>
                                 </View>
                                 <View className='flex items-end justify-start'>
-                                    <Text className={`${transaction?.type === 'receipt' ? 'text-green-600' : 'text-errorText'} font-rbold text-xl`}>₦ {formatAmount(transaction?.amount)}</Text>
-                                    <Text className='text-blue font-rregular text-md'>{formatTimestamp(transaction?.date)}</Text>
+                                    <Text className={`${transaction?.type === 'receipt' ? 'text-green-600' : 'text-errorText'} font-rbold text-xl overflow-hidden`} numberOfLines={1}>₦ {formatAmount(transaction?.amount)}</Text>
+                                    <Text className='text-blue font-rregular text-md overflow-hidden' numberOfLines={1}>{formatTimestamp(transaction?.date)}</Text>
                                 </View>
                             </View>
                         ))}

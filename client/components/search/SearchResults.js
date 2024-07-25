@@ -9,7 +9,7 @@ const SearchResults = ({ query, searchQuery }) => {
 
     return (
         <View>
-            <View className="flex flex-row items-center justify-between my-[20px]">
+            <View className="flex flex-row items-center justify-between p-[20px] mb-[20px]">
                 <Text className="font-rbold text-blue">Results for {`"${query && !searchQuery ? query : !query && searchQuery ? searchQuery : searchQuery}"`}</Text>
                 <Text className="font-rbold text-blue">{results?.length || 0} found</Text>
             </View>

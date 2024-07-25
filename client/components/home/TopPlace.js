@@ -16,7 +16,7 @@ const TopPlace = ({ topPlace }) => {
                         const img = item.img[0];
                         return (
                             <TouchableOpacity
-                                className='relative h-[170px] w-[160px] bg-white mr-3'
+                                className='relative h-[170px] w-[160px] bg-white ml-[20px]'
                                 onPress={() => router.push(`/properties/${item._id}`)}
                             >
                                 <Image 

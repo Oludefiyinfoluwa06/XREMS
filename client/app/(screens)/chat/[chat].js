@@ -57,7 +57,7 @@ const Chat = () => {
 
     return (
         <SafeAreaView className='relative bg-white h-full'>
-            <View className='flex items-center justify-start flex-row py-[20px]' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
+            <View className='flex items-center justify-start flex-row py-[20px]' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}>
                 <TouchableOpacity
                     className='flex items-center justify-content p-[13px] rounded-lg bg-white mr-4'
                 >

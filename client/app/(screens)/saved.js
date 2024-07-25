@@ -38,7 +38,7 @@ const Saved = () => {
                         <View className='flex items-center justify-between flex-row p-[20px]'>
                             <TouchableOpacity
                                 className='flex items-center justify-center p-[13px] rounded-lg bg-white'
-                                style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}
+                                style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}
                                 onPress={() => router.back()}
                             >
                                 <Image
@@ -61,7 +61,7 @@ const Saved = () => {
                     )}
                     renderItem={({ item }) => (
                         <View className='p-[20px]'>
-                            <View className='mb-3 bg-lightGray p-3 rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
+                            <View className='mb-3 bg-lightGray p-3 rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}>
                                 <TouchableOpacity onPress={() => router.push(`/properties/${item.property._id}`)}>
                                     <View className='relative'>
                                         <Image

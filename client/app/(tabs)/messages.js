@@ -4,7 +4,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import EmptyList from '../../components/EmptyList';
 import { angleBack, noMessages } from '../../constants';
-import SearchBar from '../../components/SearchBar';
 import { useChat } from '../../contexts/ChatContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { profile } from '../../assets/icons/admin';
@@ -34,7 +33,8 @@ const Messages = () => {
             <View className='p-[20px]'>
               <View className='flex items-center justify-between flex-row py-[20px]'>
                 <TouchableOpacity
-                  className='rounded-lg'
+                  className='rounded-lg p-[10px]'
+                  style={{ backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 10, elevation: 100 }}
                   onPress={() => router.back()}
                 >
                   <Image
@@ -56,8 +56,6 @@ const Messages = () => {
                   />
                 </TouchableOpacity>
               </View>
-
-              <SearchBar placeholder='Search here...' />
             </View>
           )}
           renderItem={({ item }) => (

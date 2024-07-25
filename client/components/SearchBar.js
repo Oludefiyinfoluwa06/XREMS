@@ -10,7 +10,7 @@ const SearchBar = ({ placeholder='Search for an apartment', searchQuery, setSear
     const { searchProperties } = useProperty();
 
     return (
-        <View className='flex items-center justify-between bg-[#EFF1F2] flex-row p-2 rounded-lg my-2'>
+        <View className='flex items-center justify-between bg-[#EFF1F2] flex-row p-2 rounded-lg my-2 mx-[20px]'>
             <TextInput
                 value={searchQuery ? searchQuery : searchText}
                 onChangeText={(value) => setSearchQuery ? setSearchQuery(value) : setSearchText(value)}

@@ -59,10 +59,6 @@ const Messages = () => {
                   </TouchableOpacity>
                 </View>
               </View>
-
-              <View className='px-[25px]'>
-                <SearchBar placeholder='Search here...' />
-              </View>
             </View>
           )}
           renderItem={({ item }) => (

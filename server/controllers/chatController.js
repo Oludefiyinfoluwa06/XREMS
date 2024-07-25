@@ -43,31 +43,20 @@ const sendMessage = async (req, res) => {
         
         if (!chat) return res.json({ error: 'Unable to send message' });
 
-        const user = await User.findById(req.user.id);
+        const sender = await User.findById(req.user.id);
 
-        const agent = await User.findById(receipientId);
+        const receipient = await User.findById(receipientId);
 
-        const newAgentNotification = new Notification({
-            img: user.profileImg,
-            user: agent._id,
+        const newNotification = new Notification({
+            img: sender.profileImg,
+            user: receipient._id,
             title: 'New message',
-            content: `${user.fullname} sent you a message`,
-            link: `/admin/messages/${user._id}`,
+            content: `${sender.fullname} sent you a message`,
+            link: receipient.isAdmin ? `/admin/messages/${sender._id}` : `/messages/${sender._id}` ,
             read: false
         });
 
-        await newAgentNotification.save();
-
-        const newUserNotification = new Notification({
-            img: agent.profileImg,
-            user: user._id,
-            title: 'New message',
-            content: `${agent.fullname} sent you a message`,
-            link: `/messages/${user._id}`,
-            read: false
-        });
-
-        await newUserNotification.save();
+        await newNotification.save();
 
         return res.json({ message: 'Chat sent successfully' });
     } catch (error) {

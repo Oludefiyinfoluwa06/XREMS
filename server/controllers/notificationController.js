@@ -4,7 +4,7 @@ const getUnreadNotifications = async (req, res) => {
     try {
         const user = req.user.id;
 
-        const unreadNotifications = Notification.find({ user, read: false });
+        const unreadNotifications = await Notification.find({ user, read: false });
 
         if (!unreadNotifications) return res.json({ error: 'Could not get unread notifications' });
 
@@ -22,6 +22,15 @@ const getNotifications = async (req, res) => {
         const notifications = await Notification.find({ user }).sort({ createdAt: -1 });
 
         if (!notifications) return res.json({ error: 'Could not get notifications' });
+
+        const unreadNotifications = await Notification.find({ user, read: false });
+
+        if (unreadNotifications.length > 0) {
+            await Notification.updateMany(
+                { user, read: false },
+                { $set: { read: true } }
+            );
+        }
 
         return res.json({ notifications });
     } catch (error) {

@@ -15,7 +15,7 @@ const ResetPassword = () => {
             <View className='flex items-center justify-between flex-row'>
                 <TouchableOpacity
                     className='flex items-center justify-content p-[13px] rounded-lg bg-white'
-                    style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}
+                    style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}
                     onPress={() => router.back()}
                 >
                 <Image

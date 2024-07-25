@@ -6,35 +6,33 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { router } from 'expo-router';
 import { logo } from '../constants';
-import { useAuth } from '../contexts/AuthContext';
 
 const SplashScreen = () => {
-    const { getUser, user } = useAuth();
-
     useEffect(() => {
         const checkAuth = async () => {
-            await getUser();
-
             const token = await AsyncStorage.getItem('token');
+            const isAdmin = await AsyncStorage.getItem('isAdmin');
             
             setTimeout(() => {
-                if (token === null) {
+                if (token === null && isAdmin === null) {
                     return router.replace('/choose');
                 }
 
-                if (user) {
-                    if (user.isAdmin) {
+                if (isAdmin) {
+                    const isAgent = JSON.parse(isAdmin);
+                    if (isAgent) {
                         return router.replace('/admin/dashboard');
                     } else {
                         return router.replace('/home');
                     }
+
                 }
 
             }, 3000);
         }
 
         checkAuth();
-    }, [user]);
+    }, []);
 
     return (
         <SafeAreaView className='items-center justify-center h-full bg-white'>

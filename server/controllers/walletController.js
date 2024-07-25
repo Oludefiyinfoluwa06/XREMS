@@ -9,6 +9,7 @@ const getDateAMonthAgo = require('../helpers/getDateAMonthAgo');
 const getPreviousWeekDates = require('../helpers/getPreviousWeekDates');
 const { getPropertyBucket } = require('../helpers/getBuckets');
 const { getPictures } = require('../helpers/getPictures');
+const Notification = require('../models/notification');
 
 const flw = new Flutterwave(process.env.FLUTTERWAVE_PUBLIC_KEY, process.env.FLUTTERWAVE_SECRET_KEY);
 
@@ -18,13 +19,15 @@ const walletTopup = async (req, res) => {
 
         if (!amount || !name || !cardNumber || !cvv || !expiryMonth || !expiryYear) return res.json({ error: 'Input field(s) cannot be empty' });
 
+        const numberAmount = parseFloat(amount.replace(/,/g, ''));
+
         const details = {
             "card_number": cardNumber,
             "cvv": cvv,
             "expiry_month": expiryMonth,
             "expiry_year": expiryYear,
             "currency": "NGN",
-            "amount": amount,
+            "amount": numberAmount,
             "fullname": name,
             "email": email,
             "tx_ref": "MC-" + Date.now(),
@@ -54,9 +57,9 @@ const walletTopup = async (req, res) => {
 
             const newNotification = new Notification({
                 img: user.profileImg,
-                users: [user._id],
+                user: user._id,
                 title: 'Wallet top up',
-                content: `You just topped up your wallet with ${amount}`,
+                content: `You just topped up your wallet with ₦${amount}`,
                 link: '/wallet',
                 read: false
             });
@@ -126,7 +129,7 @@ const payment = async (req, res) => {
 
         if (!userTransaction || !agentTransaction) return res.json({ error: 'Could not save transaction' });
 
-        const img = await getPictures(getPropertyBucket(), property.img);
+        const img = await getPictures(getPropertyBucket(), property.img[0]);
 
         const newUserNotification = new Notification({
             img,

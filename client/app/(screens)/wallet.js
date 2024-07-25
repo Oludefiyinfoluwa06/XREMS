@@ -71,7 +71,7 @@ const Wallet = () => {
             <View className='flex items-center justify-between flex-row bg-white p-[25px]'>
                 <TouchableOpacity
                     className='flex items-center justify-center p-[13px] rounded-lg bg-white'
-                    style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}
+                    style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}
                     onPress={() => router.back()}
                 >
                     <Image
@@ -93,14 +93,14 @@ const Wallet = () => {
             </View>
 
             <View className='space-y-[20px] p-[25px]'>
-                <View className='p-[13px] bg-white rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
+                <View className='p-[13px] bg-white rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}>
                     <Text className='text-2xl font-rbold text-blue'>Balance</Text>
                     <Text className='text-5xl font-rbold mb-3 mt-2 text-blue'>₦ {formatPrice(user?.balance)}</Text>
 
                     <Button title='Fund' onClick={() => setModalVisible(true)} />
                 </View>
 
-                <View className='p-[13px] bg-white rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
+                <View className='p-[13px] bg-white rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}>
                     <View className='flex flex-row items-center justify-start'>
                         <Image 
                             source={transactions}

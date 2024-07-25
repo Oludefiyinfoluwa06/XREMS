@@ -23,7 +23,7 @@ const AllProperties = () => {
                         <View className='flex items-center justify-start flex-row mb-3 px-[20px] pt-[20px]'>
                             <TouchableOpacity
                                 className='flex items-center justify-center p-[13px] rounded-lg bg-white mr-3'
-                                style={{ backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}
+                                style={{ backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}
                                 onPress={() => router.back()}
                             >
                                 <Image
@@ -37,7 +37,7 @@ const AllProperties = () => {
                     )}
                     renderItem={({ item }) => (
                         <View className='px-[20px] mb-4'>
-                            <View className='bg-transparentWhite p-3 rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}>
+                            <View className='bg-transparentWhite p-3 rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}>
                                 <TouchableOpacity onPress={() => router.push(`/properties/${item._id}`)}>
                                     <View className='relative'>
                                         <Image

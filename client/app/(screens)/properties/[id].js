@@ -78,11 +78,11 @@ const HouseDetails = () => {
             {error ? (
                 <Text>Error</Text>
             ) : houseDetails !== null ? (
-                <ScrollView className='p-[20px] bg-white h-full' refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-                    <View className='flex items-center justify-start flex-row'>
+                <ScrollView className='bg-white h-full' refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+                    <View className='flex items-center justify-start flex-row p-[20px]'>
                         <TouchableOpacity
                             className='flex items-center justify-center p-[13px] rounded-lg bg-white'
-                            style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 5 }}
+                            style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}
                             onPress={() => router.back()}
                         >
                             <Image
@@ -100,7 +100,7 @@ const HouseDetails = () => {
                             renderItem={({ item }) => (
                                 <Image
                                     source={{ uri: item }}
-                                    className={`${houseDetails?.property.img.length === 1 ? 'w-[398px]' : 'w-[350px]'} h-[200px] mr-3 rounded-lg`}
+                                    className={`${houseDetails?.property.img.length === 1 ? 'w-[398px]' : 'w-[350px]'} h-[200px] ml-[20px] rounded-lg`}
                                 />
                             )}
                             keyExtractor={(item, index) => index.toString()}
@@ -108,7 +108,7 @@ const HouseDetails = () => {
                             contentContainerStyle={{ marginVertical: 10 }}
                         />
 
-                        <View className='flex flex-row items-center justify-between mt-[20px]'>
+                        <View className='px-[20px] flex flex-row items-center justify-between mt-[20px]'>
                             <Text className='font-rbold text-lg text-blue'>{houseDetails?.property.type}</Text>
                             <TouchableOpacity onPress={saveBookmark}>
                                 <Image
@@ -118,7 +118,7 @@ const HouseDetails = () => {
                                 />
                             </TouchableOpacity>
                         </View>
-                        <View className='flex flex-row items-center justify-start mt-[10px]'>
+                        <View className='px-[20px] flex flex-row items-center justify-start mt-[10px]'>
                             <Image
                                 source={location}
                                 resizeMode='cover'
@@ -127,53 +127,55 @@ const HouseDetails = () => {
                             <Text className='font-rregular text-md'>{houseDetails?.property.location}</Text>
                         </View>
                             
-                        <View className='flex flex-row items-center justify-start mt-[10px]'>
+                        <View className='px-[20px] flex flex-row items-center justify-start mt-[10px]'>
                             <Text className='font-rregular text-lg text-blue mr-[10px]'>₦ {formatPrice(houseDetails?.property.price)}</Text>
                             <TouchableOpacity onPress={() => router.push(`/reviews/${params.id}`)}>
                                 <Text className='font-rregular text-md text-gray'>{houseDetails?.property.reviews.length} Reviews</Text>
                             </TouchableOpacity>
                         </View>
 
-                        <View className='p-[.3px] bg-gray my-[20px]' />
+                        <View className='p-[.3px] bg-gray my-[20px] mx-[20px]' />
 
-                        <View>
-                            <Text className='font-rbold text-lg text-blue'>Description</Text>
+                        <View className='px-[20px]'>
                             <View>
-                                <Text className='mt-2 font-rregular'>{isExpanded ? houseDetails?.property.description : `${houseDetails?.property.description.substring(0, 100)}...`}</Text>
-                                <TouchableOpacity onPress={toggleExpansion}>
-                                    <Text className='text-blue font-rbold'>
-                                        {isExpanded ? 'View Less' : 'View More'}
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
-
-                            <View className='my-[10px] flex flex-row items-center justify-between'>
-                                <View className='flex flex-row items-center justify-start'>
-                                    <Image
-                                        source={houseDetails !== null ? { uri: houseDetails.agent.profileImg } : user}
-                                        resizeMode='cover'
-                                        className='w-[40px] h-[40px] mr-2 rounded-full'
-                                    />
-                                    <View>
-                                        <Text className='text-blue font-rbold text-lg'>{houseDetails?.agent?.fullname}</Text>
-                                        <Text className='text-blue font-rregular'>Agent</Text>
-                                    </View>
+                                <Text className='font-rbold text-lg text-blue'>Description</Text>
+                                <View>
+                                    <Text className='mt-2 font-rregular'>{isExpanded ? houseDetails?.property.description : `${houseDetails?.property.description.substring(0, 100)}...`}</Text>
+                                    <TouchableOpacity onPress={toggleExpansion}>
+                                        <Text className='text-blue font-rbold'>
+                                            {isExpanded ? 'View Less' : 'View More'}
+                                        </Text>
+                                    </TouchableOpacity>
                                 </View>
-                                <TouchableOpacity className='bg-lightGray p-3 rounded-lg' onPress={() => router.push(`chat/${houseDetails?.agent?._id}`)}>
-                                    <Image
-                                        source={chat}
-                                        resizeMode='cover'
-                                        className='w-[24px] h-[24px]'
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
 
-                        <Button
-                            title={`${houseDetails?.property.isBought ? 'Sold' : 'Buy'}`}
-                            isBought={houseDetails?.property.isBought}
-                            onClick={() => setModalVisible(true)}
-                        />
+                                <View className='my-[10px] flex flex-row items-center justify-between'>
+                                    <View className='flex flex-row items-center justify-start'>
+                                        <Image
+                                            source={houseDetails !== null ? { uri: houseDetails.agent.profileImg } : user}
+                                            resizeMode='cover'
+                                            className='w-[40px] h-[40px] mr-2 rounded-full'
+                                        />
+                                        <View>
+                                            <Text className='text-blue font-rbold text-lg'>{houseDetails?.agent?.fullname}</Text>
+                                            <Text className='text-blue font-rregular'>Agent</Text>
+                                        </View>
+                                    </View>
+                                    <TouchableOpacity className='bg-lightGray p-3 rounded-lg' onPress={() => router.push(`chat/${houseDetails?.agent?._id}`)}>
+                                        <Image
+                                            source={chat}
+                                            resizeMode='cover'
+                                            className='w-[24px] h-[24px]'
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+
+                            <Button
+                                title={`${houseDetails?.property.isBought ? 'Sold' : 'Buy'}`}
+                                isBought={houseDetails?.property.isBought}
+                                onClick={() => setModalVisible(true)}
+                            />
+                        </View>
                     </View>
                     
                     <Modal

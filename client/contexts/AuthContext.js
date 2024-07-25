@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
                 return setError(response.data.error);
             } else {
                 await AsyncStorage.setItem('token', response.data.token);
+                await AsyncStorage.setItem('isAdmin', JSON.stringify(response.data.isAdmin));
                 
                 if (response.data.isAdmin) {
                     router.replace('/admin/dashboard');
@@ -54,6 +55,7 @@ export const AuthProvider = ({ children }) => {
                 return setError(response.data.error);
             } else {
                 await AsyncStorage.setItem('token', response.data.token);
+                await AsyncStorage.setItem('isAdmin', JSON.stringify(response.data.isAdmin));
                 
                 if (response.data.isAdmin) {
                     router.replace('/admin/dashboard');
@@ -99,6 +101,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('isAdmin');
         router.replace('/choose');
     }
 
