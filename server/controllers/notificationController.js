@@ -1,3 +1,5 @@
+const { getProfileBucket, getPropertyBucket } = require("../helpers/getBuckets");
+const { getPictures } = require("../helpers/getPictures");
 const Notification = require("../models/notification");
 
 const getUnreadNotifications = async (req, res) => {
@@ -32,7 +34,20 @@ const getNotifications = async (req, res) => {
             );
         }
 
-        return res.json({ notifications });
+        const notificationsWithImages = await Promise.all(notifications.map(async (notification) => {
+            let img;
+            if (notification.type === 'user') {
+                img = await getPictures(getProfileBucket(), notification.img);
+            } else {
+                img = await getPictures(getPropertyBucket(), notification.img);
+            }
+            return {
+                ...notification.toObject(),
+                img,
+            };
+        }));
+
+        return res.json({ notifications: notificationsWithImages });
     } catch (error) {
         console.log(error);
         return res.json({ error: 'An error occurred while getting notifications' });

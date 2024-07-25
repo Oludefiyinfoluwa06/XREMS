@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
-import { angleBack, user } from '../../constants';
+import { angleBack } from '../../constants';
 import Button from '../../components/Button';
 import { useAuth } from '../../contexts/AuthContext';
-import { camera } from '../../assets/icons/admin';
+import { camera, profile } from '../../assets/icons/admin';
 
 const EditProfile = () => {
     const [fullname, setFullname] = useState('');
@@ -59,14 +58,14 @@ const EditProfile = () => {
             <ScrollView>
                 <View className='flex items-center justify-start flex-row p-[20px]'>
                     <TouchableOpacity
-                        className='flex items-center justify-center p-[13px] rounded-lg bg-white'
+                        className='flex items-center justify-center p-[13px] rounded-lg bg-white mr-2'
                         style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}
                         onPress={() => router.back()}
                     >
                         <Image
                             source={angleBack}
                             resizeMode='contain'
-                            className='w-[24px] h-[24px] mr-2'
+                            className='w-[24px] h-[24px]'
                         />
                     </TouchableOpacity>
 
@@ -77,7 +76,7 @@ const EditProfile = () => {
                     <TouchableOpacity className='flex items-center justify-center flex-col mt-[30px]' onPress={pickImage}>
                         <View className='bg-white rounded-full relative w-[90px] h-[90px]'>
                             <Image
-                                source={image !== null && image !== '' ? { uri: image } : user}
+                                source={image !== null && image !== '' ? { uri: image } : profile}
                                 resizeMode='cover'
                                 className='w-full h-full absolute top-0 left-0 rounded-full'
                             />

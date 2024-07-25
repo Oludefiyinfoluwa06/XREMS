@@ -68,18 +68,30 @@ const Notifications = () => {
                 ListEmptyComponent={<EmptyList icon={noNotification} text='No notifications' />}
                 renderItem={({ item }) => (
                     <TouchableOpacity className='py-[20px] flex flex-row items-end justify-between space-x-[10px] border-b border-[#C2C2C2]' onPress={() => router.push(`${item?.link}`)}>
-                        <View className='flex flex-row items-center justify-start'>
+                        <View className='flex flex-row items-center justify-start flex-1'>
                             <Image
                                 source={{ uri: item?.img }}
                                 resizeMode='cover'
                                 className='w-[40px] h-[40px] rounded-full mr-2'
                             />
-                            <View className='flex items-start justify-center'>
+                            <View className='flex items-start justify-center flex-shrink'>
                                 <Text className='text-blue font-rbold text-lg'>{item?.title}</Text>
-                                <Text className='text-blue font-rregular text-md'>{item?.content}</Text>
-                           </View>
+                                <Text
+                                    className='text-blue font-rregular text-md'
+                                    numberOfLines={1}
+                                    ellipsizeMode='tail'
+                                >
+                                    {item?.content}
+                                </Text>
+                            </View>
                         </View>
-                        <Text className='font-rbold text-blue text-md'>{formatTimestamp(item?.createdAt)}</Text>
+                        <Text
+                            className='font-rbold text-blue text-md flex-shrink-0 max-w-[100px] text-right'
+                            numberOfLines={1}
+                            ellipsizeMode='tail'
+                        >
+                            {formatTimestamp(item?.createdAt)}
+                        </Text>
                     </TouchableOpacity>
                 )}
             />: (

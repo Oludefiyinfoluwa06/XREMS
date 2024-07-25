@@ -78,9 +78,10 @@ export const PropertyProvider = ({ children }) => {
             });
 
             if (response.data.error) {
-                console.log(response.data.error);
                 return setError(response.data.error);
             }
+
+            if (response.data.properties) return setAllProperties(response.data.properties);
 
             setAllProperties(response.data.allPropertiesWithImages);
             setFeaturedProperties(response.data.featuredPropertiesWithImages);
@@ -126,15 +127,16 @@ export const PropertyProvider = ({ children }) => {
                     'Authorization': `Bearer ${token}`
                 }
             });
-
+            
             if (response.data.error) {
-                if (response.data.error === 'No properties') return setTotalProperties(response.data.error.totalProperties);
+                if (response.data.error === 'No properties') return setTotalProperties(response.data.totalProperties);
 
                 setError(response.data.error);
             }
 
             setProperties(response.data.propertiesWithImage);
             setTotalPropertiesAddedPastMonth(response.data.totalPropertiesAddedPastMonth)
+            console.log(response.data.totalProperties);
             setTotalProperties(response.data.totalProperties);
             if (response.data.error) return setError(response.data.error);
         } catch (error) {

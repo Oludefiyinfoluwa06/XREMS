@@ -7,6 +7,7 @@ const notificationSchema = new mongoose.Schema({
     content: String,
     link: String,
     read: Boolean,
+    type: String,
 }, { timestamps: true });
 
 const Notification = mongoose.model('notifications', notificationSchema);

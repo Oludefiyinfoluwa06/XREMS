@@ -52,7 +52,8 @@ const uploadProperty = async (req, res) => {
                 title: 'New property upload',
                 content: `Agent ${agent.fullname} uploaded a property located at ${property.location}`,
                 link: `/properties/${property._id}`,
-                read: false
+                read: false,
+                type: 'property'
             });
 
             await newNotification.save();
@@ -70,6 +71,10 @@ const getAllProperties = async (req, res) => {
         const limit = parseInt(req.query.limit) || 10;
 
         const properties = await Property.find().sort({ createdAt: -1 }).lean(false);
+
+        if (!properties) return res.json({ error: 'There are no properties' });
+
+        if (properties.length === 0) return res.json({ properties });
 
         const fetchPropertyImages = async (properties) => {
             return Promise.all(properties.map(async (property) => {
@@ -211,7 +216,11 @@ const fetchUserDetails = async (req, res) => {
         
         if (!agent) return res.json({ error: 'Could not get agent details' });
 
-        return res.json({ agent });
+        if (agent.profileImg === "") return res.json({ agent });
+
+        const img = await getPictures(getProfileBucket(), agent.profileImg);
+
+        return res.json({ agent: { ...agent.toObject(), profileImg: img } });
     } catch (error) {
         console.log(error);
         return res.json({ error: 'An error occurred while getting agent\'s details' })

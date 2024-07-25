@@ -70,20 +70,20 @@ export const WalletProvider = ({ children }) => {
         }
     }
 
-    const withdraw = async (amount, bankDetails) => {
+    const withdraw = async (amount, password, bankCode, accountNumber) => {
         setWalletLoading(true);
 
         try {
             const token = await AsyncStorage.getItem('token');
-            const response = await axios.post(`${config.backendUrl}/wallet/withdrawal`, { amount, bankDetails }, {
+            const response = await axios.post(`${config.backendUrl}/wallet/withdrawal`, { amount, password, bankCode, accountNumber }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
             });
 
-            console.log(response);
-            // if (response.data.error) return setWalletError(response.data.error);
+            console.log(response.data);
+            if (response.data.error) return setWalletError(response.data.error);
 
             // router.push('/admin/dashboard');
         } catch (error) {

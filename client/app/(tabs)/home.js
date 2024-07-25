@@ -17,7 +17,7 @@ import EmptyList from '../../components/EmptyList';
 const Home = () => {
     const [refreshing, setRefreshing] = useState(false);
     const { getUser, user } = useAuth();
-    const { getAllProperties, featuredProperties, topPlace, newProperties } = useProperty();
+    const { getAllProperties, featuredProperties, topPlace, newProperties, allProperties } = useProperty();
     const { getUnreadNotifications, notificationCount, notifications } = useNotification();
 
     useEffect(() => {
@@ -91,7 +91,7 @@ const Home = () => {
 
                 <SearchBar />
                 {
-                    featuredProperties?.length < 1 || topPlace?.length < 1 || newProperties?.length < 1 ? (
+                    allProperties?.length === 0 ? (
                         <EmptyList icon={noHome} text='No properties' />
                     ) : (
                         <View>

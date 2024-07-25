@@ -14,7 +14,7 @@ const SplashScreen = () => {
             const isAdmin = await AsyncStorage.getItem('isAdmin');
             
             setTimeout(() => {
-                if (token === null && isAdmin === null) {
+                if (token === null || isAdmin === null) {
                     return router.replace('/choose');
                 }
 

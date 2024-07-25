@@ -88,13 +88,15 @@ const updateProfile = async (req, res) => {
 
         const emailExists = await User.findOne({ email });
 
-        if (emailExists.email !== email) return res.json({ error: 'Email exists already' });
+        if (emailExists) {
+            if (emailExists.email !== email) return res.json({ error: 'Email exists already' });
 
-        const user = await User.findByIdAndUpdate(userId, { fullname, email, profileImg: req.file.id, isAdmin }, { new: true });
-
-        if (!user) return res.json({ error: 'Could not update user' });
-
-        return res.json({ message: 'Profile updated successfully', token, isAdmin: user.isAdmin });
+            const user = await User.findByIdAndUpdate(userId, { fullname, email, profileImg: req.file.id, isAdmin }, { new: true });
+    
+            if (!user) return res.json({ error: 'Could not update user' });
+    
+            return res.json({ message: 'Profile updated successfully', isAdmin: user.isAdmin });
+        }
     } catch (error) {
         console.log(error);
         return res.json({ error: "An error occurred, try again" });
@@ -167,9 +169,11 @@ const getUser = async (req, res) => {
 
     if (!user) return res.json({ error: 'User not found' });
 
+    if (user.profileImg === "") return res.json({ user });
+
     const img = await getPictures(getProfileBucket(), user.profileImg);
     
-    return res.json({ user:  { ...user.toObject(), profileImg: img } });
+    return res.json({ user: { ...user.toObject(), profileImg: img } });
 }
 
 module.exports = {

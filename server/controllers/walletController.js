@@ -7,8 +7,6 @@ const bcrypt = require('bcrypt');
 const Flutterwave = require('flutterwave-node-v3');
 const getDateAMonthAgo = require('../helpers/getDateAMonthAgo');
 const getPreviousWeekDates = require('../helpers/getPreviousWeekDates');
-const { getPropertyBucket } = require('../helpers/getBuckets');
-const { getPictures } = require('../helpers/getPictures');
 const Notification = require('../models/notification');
 
 const flw = new Flutterwave(process.env.FLUTTERWAVE_PUBLIC_KEY, process.env.FLUTTERWAVE_SECRET_KEY);
@@ -59,9 +57,10 @@ const walletTopup = async (req, res) => {
                 img: user.profileImg,
                 user: user._id,
                 title: 'Wallet top up',
-                content: `You just topped up your wallet with ₦${amount}`,
+                content: `You topped up your wallet with ₦${amount}`,
                 link: '/wallet',
-                read: false
+                read: false,
+                type: 'user'
             });
 
             await newNotification.save();
@@ -129,26 +128,26 @@ const payment = async (req, res) => {
 
         if (!userTransaction || !agentTransaction) return res.json({ error: 'Could not save transaction' });
 
-        const img = await getPictures(getPropertyBucket(), property.img[0]);
-
         const newUserNotification = new Notification({
-            img,
+            img: property.img[0],
             user: updatedUser._id,
             title: 'Payment',
             content: `You made a payment to agent ${updatedAgent._id} for a property located at ${property.location}`,
             link: '/wallet',
-            read: false
+            read: false,
+            type: 'property'
         });
 
         await newUserNotification.save();
 
         const newAgentNotification = new Notification({
-            img,
+            img: property.img[0],
             user: updatedAgent._id,
             title: 'Payment',
             content: `${updatedUser._id} made a payment to you for a property located at ${property.location}`,
             link: '/admin/wallet',
-            read: false
+            read: false,
+            type: 'property'
         });
 
         await newAgentNotification.save();
@@ -161,19 +160,28 @@ const payment = async (req, res) => {
 }
 
 const walletWithdrawal = async (req, res) => {
-    const { amount, bankDetails } = req.body;
     try {
-        const user = await User.findById(req.user.id);
+        const { amount, password, bankCode, accountNumber } = req.body;
 
+        if (!amount || !password || !bankCode || !accountNumber) return res.json({ error: 'Input fields cannot be empty' });
+
+        const user = await User.findById(req.user.id);
+        
         if (!user) return res.json({ error: "User not found" });
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch) return res.json({ error: 'Enter a correct password' });
 
         if (!user.isAdmin) return res.json({ error: "You cannot withdraw if you're not an agent" });
 
-        if (parseFloat(amount) > user.balance) return res.json({ error: "Cannot withdraw due to insufficient balance" });
+        const numberAmount = parseFloat(amount.replace(/,/g, ''));
+
+        if (numberAmount > user.balance) return res.json({ error: "Cannot withdraw due to insufficient balance" });
 
         const response = await flw.Transfer.initiate({
-            "account_bank": bankDetails.bankCode,
-            "account_number": bankDetails.accountNumber,
+            "account_bank": bankCode,
+            "account_number": accountNumber,
             "amount": amount,
             "narration": "Withdrawal",
             "currency": "NGN",
@@ -204,7 +212,8 @@ const walletWithdrawal = async (req, res) => {
                 title: 'Withdrawal',
                 content: `Withdrawal of ₦${amount} was successful`,
                 link: '/admin/wallet',
-                read: false
+                read: false,
+                type: 'user'
             });
 
             await newNotification.save();

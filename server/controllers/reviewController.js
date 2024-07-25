@@ -57,7 +57,8 @@ const addReview = async (req, res) => {
             title: 'New review',
             content: `${user.fullname} sent a review about your property in ${property.location}`,
             link: `/admin/reviews/${property._id}`,
-            read: false
+            read: false,
+            type: 'user'
         });
 
         await newNotification.save();

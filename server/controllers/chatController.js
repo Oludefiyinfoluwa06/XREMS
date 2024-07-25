@@ -53,7 +53,8 @@ const sendMessage = async (req, res) => {
             title: 'New message',
             content: `${sender.fullname} sent you a message`,
             link: receipient.isAdmin ? `/admin/messages/${sender._id}` : `/messages/${sender._id}` ,
-            read: false
+            read: false,
+            type: 'user'
         });
 
         await newNotification.save();

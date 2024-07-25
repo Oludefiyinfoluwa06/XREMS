@@ -93,14 +93,14 @@ const Wallet = () => {
             </View>
 
             <View className='space-y-[20px] p-[25px]'>
-                <View className='p-[13px] bg-white rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}>
+                <View className='p-[13px] bg-white rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 10 }}>
                     <Text className='text-2xl font-rbold text-blue'>Balance</Text>
                     <Text className='text-5xl font-rbold mb-3 mt-2 text-blue'>₦ {formatPrice(user?.balance)}</Text>
 
                     <Button title='Fund' onClick={() => setModalVisible(true)} />
                 </View>
 
-                <View className='p-[13px] bg-white rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 200 }}>
+                <View className='p-[13px] bg-white rounded-xl' style={{ padding: 20, backgroundColor: '#fff', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.8, shadowRadius: 2, elevation: 10 }}>
                     <View className='flex flex-row items-center justify-start'>
                         <Image 
                             source={transactions}
@@ -111,7 +111,7 @@ const Wallet = () => {
                     </View>
 
                     <View className='w-full mt-4'>
-                        {transactionHistory.map(transaction => (
+                        {transactionHistory.length > 0 ? transactionHistory.map(transaction => (
                             <View key={transaction?._id} className='flex flex-row items-center justify-between mb-3 w-full'>
                                 <View className='flex flex-row items-center justify-start'>
                                     <Image
@@ -129,7 +129,11 @@ const Wallet = () => {
                                     <Text className='text-blue font-rregular text-md'>{formatTimestamp(transaction?.date)}</Text>
                                 </View>
                             </View>
-                        ))}
+                        )) : (
+                            <View className=''>
+                                <Text className='font-rbold text-[20px] text-blue'>No transaction history</Text>
+                            </View>
+                        )}
                     </View>
                 </View>
             </View>
