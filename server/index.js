@@ -12,8 +12,8 @@ const chatRoute = require('./routes/chatRoute');
 const transactionRoute = require('./routes/transactionRoute');
 const notificationRoute = require('./routes/notificationRoute');
 
-const port = process.env.PORT || 5000;
 const app = express();
+const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -23,8 +23,6 @@ app.use(methodOverride('_method'));
 mongoose.connect(process.env.dbURI)
     .then(() => {
         console.log('DB connected successfully');
-
-        app.listen(port, () => console.log(`Server running on port: http://localhost:${port}!`));
     })
     .catch(err => console.log(err, 'Connection unsuccessful'));
 
@@ -44,3 +42,9 @@ app.use('/review', reviewRoute);
 app.use('/chat', chatRoute);
 app.use('/transaction', transactionRoute);
 app.use('/notification', notificationRoute);
+
+module.exports = app;
+
+if (require.main === module) {
+    app.listen(port, () => console.log(`Server running on port: http://localhost:${port}!`));
+}
