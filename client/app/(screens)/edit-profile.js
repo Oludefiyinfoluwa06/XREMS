@@ -21,7 +21,7 @@ const EditProfile = () => {
         setFullname(user?.fullname);
         setEmail(user?.email);
         setImage(user?.profileImg);
-    }, [user]);
+    }, []);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({

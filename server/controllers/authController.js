@@ -90,9 +90,7 @@ const updateProfile = async (req, res) => {
 
         if (emailExists.email !== email) return res.json({ error: 'Email exists already' });
 
-        const img = await getPictures(getProfileBucket(), req.file.id);
-
-        const user = await User.findByIdAndUpdate(userId, { fullname, email, profileImg: img, isAdmin }, { new: true });
+        const user = await User.findByIdAndUpdate(userId, { fullname, email, profileImg: req.file.id, isAdmin }, { new: true });
 
         if (!user) return res.json({ error: 'Could not update user' });
 
@@ -168,8 +166,10 @@ const getUser = async (req, res) => {
     const user = await User.findById(userId);
 
     if (!user) return res.json({ error: 'User not found' });
+
+    const img = await getPictures(getProfileBucket(), user.profileImg);
     
-    return res.json({ user });
+    return res.json({ user:  { ...user.toObject(), profileImg: img } });
 }
 
 module.exports = {

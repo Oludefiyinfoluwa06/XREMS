@@ -10,8 +10,9 @@ import TopPlace from '../../components/home/TopPlace';
 import { useProperty } from '../../contexts/PropertyContext';
 import NewProperties from '../../components/home/NewProperties';
 import { useAuth } from '../../contexts/AuthContext';
-import { profile } from '../../assets/icons/admin';
+import { noHome, profile } from '../../assets/icons/admin';
 import { useNotification } from '../../contexts/NotificationContext';
+import EmptyList from '../../components/EmptyList';
 
 const Home = () => {
     const [refreshing, setRefreshing] = useState(false);
@@ -89,9 +90,18 @@ const Home = () => {
                 </View>
 
                 <SearchBar />
-                <FeaturedUnits featuredProperties={featuredProperties} />
-                <TopPlace topPlace={topPlace} />
-                <NewProperties newProperties={newProperties} />
+                {
+                    featuredProperties?.length < 1 || topPlace?.length < 1 || newProperties?.length < 1 ? (
+                        <EmptyList icon={noHome} text='No properties' />
+                    ) : (
+                        <View>
+                            <FeaturedUnits featuredProperties={featuredProperties} />
+                            <TopPlace topPlace={topPlace} />
+                            <NewProperties newProperties={newProperties} />
+                        </View>
+                    )
+                }
+                
                 <View className='mt-[20px]' />
             </ScrollView>
 
