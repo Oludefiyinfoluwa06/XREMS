@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 const { getPictures } = require('../helpers/getPictures');
 const { getProfileBucket } = require('../helpers/getBuckets');
 const User = require('../models/user');
@@ -103,7 +104,7 @@ const updateProfile = async (req, res) => {
     }
 }
 
-const receiveOtp = async () => {
+const receiveOtp = async (req, res) => {
     try {
         const { email } = req.body;
     
@@ -137,7 +138,7 @@ const receiveOtp = async () => {
                 return res.json({ error: 'An error occured' });
             }
 
-            return res.json({ message: 'OTP sent succesfully', otp });
+            return res.json({ message: 'OTP sent succesfully', otp, isAdmin: user.isAdmin });
         });
     } catch (error) {
         console.log(error);
@@ -145,7 +146,7 @@ const receiveOtp = async () => {
     }
 }
 
-const resetPassword = async () => {
+const resetPassword = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email) return res.json({ error: 'Enter an email' });
@@ -157,9 +158,13 @@ const resetPassword = async () => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
+    const user = await User.findOne({ email });
+
+    if (!user) return res.json({ error: 'Email does not exist' });
+
     await User.findOneAndUpdate({ email }, { password: hash }, { new: true });
 
-    return res.json({ message: 'Password updated successfully' });
+    return res.json({ message: 'Password updated successfully', isAdmin: user.isAdmin });
 }
 
 const getUser = async (req, res) => {

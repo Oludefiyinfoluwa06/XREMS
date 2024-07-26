@@ -12,9 +12,9 @@ import { useProperty } from '../../../contexts/PropertyContext';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useWallet } from '../../../contexts/WalletContext';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import Success from '../../../components/admin/Success';
 
 const Wallet = () => {
-    const [modalVisible, setModalVisible] = useState(false);
     const [amount, setAmount] = useState('');
     const [password, setPassword] = useState('');
     const [bankCode, setBankCode] = useState('');
@@ -22,7 +22,7 @@ const Wallet = () => {
     const [banks, setBanks] = useState([]);
     const { formatPrice } = useProperty();
     const { getUser, user } = useAuth();
-    const { walletLoading, walletError, setWalletError, getTransactionHistory, transactionHistory, withdraw } = useWallet();
+    const { modalVisible, setModalVisible, successModalVisible, message, walletLoading, walletError, setWalletError, getTransactionHistory, transactionHistory, withdraw } = useWallet();
 
     useEffect(() => {
         getUser();
@@ -77,6 +77,11 @@ const Wallet = () => {
 
     const handleWithdraw = async () => {
         await withdraw(amount, password, bankCode, accountNumber);
+
+        setAmount('');
+        setPassword('');
+        setBankCode('');
+        setAccountNumber('');
     }
 
     const sortedData = banks.sort((a, b) => a.name.localeCompare(b.name));
@@ -276,6 +281,8 @@ const Wallet = () => {
                     </View>
                 </View>
             </Modal>
+
+            <Success successModalVisible={successModalVisible} message={message} />
             
             <StatusBar backgroundColor='#FFFFFF' />
         </SafeAreaView>

@@ -135,8 +135,7 @@ export const PropertyProvider = ({ children }) => {
             }
 
             setProperties(response.data.propertiesWithImage);
-            setTotalPropertiesAddedPastMonth(response.data.totalPropertiesAddedPastMonth)
-            console.log(response.data.totalProperties);
+            setTotalPropertiesAddedPastMonth(response.data.totalPropertiesAddedPastMonth);
             setTotalProperties(response.data.totalProperties);
             if (response.data.error) return setError(response.data.error);
         } catch (error) {

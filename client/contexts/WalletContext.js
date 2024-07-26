@@ -82,10 +82,16 @@ export const WalletProvider = ({ children }) => {
                 }
             });
 
-            console.log(response.data);
             if (response.data.error) return setWalletError(response.data.error);
 
-            // router.push('/admin/dashboard');
+            setModalVisible(false);
+
+            setMessage(response.data.message);
+            setSuccessModalVisible(true);
+
+            setTimeout(() => {
+                setSuccessModalVisible(false);
+            }, 3000);
         } catch (error) {
             console.log(error);
         } finally {

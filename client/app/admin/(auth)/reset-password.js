@@ -2,26 +2,22 @@ import { useState } from 'react';
 import { router } from 'expo-router';
 import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { angleBack } from '../../constants';
-import Button from '../../components/Button';
+import { angleBack } from '../../../constants';
+import Button from '../../../components/Button';
+import { useAuth } from '../../../contexts/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ResetPassword = () => {
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
     const [newPassword, setNewPassword] = useState('');
 
-    const [vCode, setVCode] = useState('');
-
     const { resetPassword, error, setError, loading } = useAuth();
 
     const handleResetPassword = async () => {
         const otp = await AsyncStorage.getItem('otp');
 
-        otp === null ? router.replace('/admin/forgot-password') : setVCode(JSON.parse(otp));
-
-        if (vCode === '') return router.replace('/admin/forgot-password');
-
-        if (code !== vCode) return setError('Enter the correct verification code');
+        if (code !== otp) return setError('Enter the correct verification code');
 
         await AsyncStorage.removeItem('otp');
 
@@ -51,7 +47,7 @@ const ResetPassword = () => {
             {error && <View className='w-full p-3 rounded-[50px] bg-errorBg mt-2'>
                 <Text className='font-rregular text-errorText'>{error}</Text>
             </View>}
-
+            
             <View className='mb-3'>
                 <Text className="text-blue text-center mt-[15px] mb-[8px] text-[15px] font-rbold">Verification code has been sent successfully</Text>
 

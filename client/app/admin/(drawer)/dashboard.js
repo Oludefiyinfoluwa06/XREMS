@@ -35,7 +35,7 @@ const Dashboard = () => {
 
                 <ImageBackground
                     source={require('../../../assets/images/bg-1.png')}
-                    resizeMode='stretch'
+                    resizeMode='cover'
                     className='w-full h-[170px]'
                 >
                     <View className='h-full p-[25px]'>

@@ -4,6 +4,7 @@ import { View, Text, RefreshControl, FlatList, Image, TouchableOpacity } from 'r
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { noReviews, angleBack, user } from '../../../../constants';
 import { useProperty } from '../../../../contexts/PropertyContext';
+import EmptyList from '../../../../components/EmptyList';
 
 const Reviews = () => {
     const [refreshing, setRefreshing] = useState(false);

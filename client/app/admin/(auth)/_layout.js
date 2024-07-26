@@ -11,14 +11,14 @@ const AdminAuthLayout = () => {
                 name='sign-in'
                 options={{ headerShown: false }}
             />
-            {/* <Stack.Screen
+            <Stack.Screen
                 name='forgot-password'
                 options={{ headerShown: false }}
             />
             <Stack.Screen
                 name='reset-password'
                 options={{ headerShown: false }}
-            /> */}
+            />
         </Stack>
     );
 }
