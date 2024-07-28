@@ -14,15 +14,11 @@
       "permissions": [
         "android.permission.INTERNET",
         "android.permission.RECORD_AUDIO"
-      ],
-      "package": "com.oftotech.xrh"
+      ]
     },
     "extra": {
       "router": {
         "origin": false
-      },
-      "eas": {
-        "projectId": "3465fc17-5586-4621-ac70-cceb71a54095"
       }
     }
   }
