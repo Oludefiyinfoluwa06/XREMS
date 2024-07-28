@@ -5,33 +5,21 @@ import { router } from 'expo-router';
 const settings = [
     {
         id: 1,
-        icon: support,
-        title: 'Support us',
-        route: 'support-us'
+        icon: aboutUs,
+        title: 'About us',
+        route: 'https://xrh-web.vercel.app'
     },
     {
         id: 2,
-        icon: helpCenter,
-        title: 'Help center',
-        route: 'help-center'
+        icon: privacyPolicy,
+        title: 'Privacy policy',
+        route: 'https://xrh-web.vercel.app'
     },
     {
         id: 3,
-        icon: privacyPolicy,
-        title: 'Privacy policy',
-        route: 'https://www.termsfeed.com/live/3ee0f5e0-c00b-4916-91ab-f5aba29eb386'
-    },
-    {
-        id: 4,
         icon: termsAndConditions,
         title: 'Terms & conditions',
-        route: 'https://www.freeprivacypolicy.com/live/3e12d71d-1238-4cf3-a75a-b1266671deba'
-    },
-    {
-        id: 5,
-        icon: aboutUs,
-        title: 'About us',
-        route: 'about-us'
+        route: 'https://xrh-web.vercel.app'
     },
 ]
 
