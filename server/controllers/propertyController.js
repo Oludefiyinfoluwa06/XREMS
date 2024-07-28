@@ -1,5 +1,5 @@
 const Property = require('../models/property');
-const { getPropertyBucket } = require('../helpers/getBuckets');
+const { getPropertyBucket, getProfileBucket } = require('../helpers/getBuckets');
 const { getPictures } = require('../helpers/getPictures');
 const getDateAMonthAgo = require('../helpers/getDateAMonthAgo');
 const getRandomProperties = require('../helpers/getRandomProperties');

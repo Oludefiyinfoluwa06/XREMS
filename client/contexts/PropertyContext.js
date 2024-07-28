@@ -80,7 +80,7 @@ export const PropertyProvider = ({ children }) => {
             if (response.data.error) {
                 return setError(response.data.error);
             }
-
+            
             if (response.data.properties) return setAllProperties(response.data.properties);
 
             setAllProperties(response.data.allPropertiesWithImages);

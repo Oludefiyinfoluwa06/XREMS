@@ -1,4 +1,4 @@
 export const config = {
-  // backendUrl: 'http://192.168.129.68:5000'
-  backendUrl: 'https://xrh-server.vercel.app'
+  backendUrl: 'http://192.168.93.68:5000'
+  // backendUrl: 'https://xrh-server.vercel.app'
 };

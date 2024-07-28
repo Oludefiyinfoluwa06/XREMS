@@ -14,16 +14,16 @@
       "permissions": [
         "android.permission.INTERNET",
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "package": "com.oftotech.rems"
     },
     "extra": {
       "router": {
         "origin": false
       },
       "eas": {
-        "projectId": "f4371c7f-2f07-40fb-b8b0-e4c19a42303f"
+        "projectId": "3465fc17-5586-4621-ac70-cceb71a54095"
       }
-    },
-    "owner": "xceloft"
+    }
   }
 }
