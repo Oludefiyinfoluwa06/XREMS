@@ -8,14 +8,14 @@
       "expo-router",
       "expo-image-picker"
     ],
-    "name": "rems",
-    "slug": "rems",
+    "name": "Xceloft Realty Hub",
+    "slug": "xrh",
     "android": {
       "permissions": [
         "android.permission.INTERNET",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.oftotech.rems"
+      "package": "com.oftotech.xrh"
     },
     "extra": {
       "router": {
