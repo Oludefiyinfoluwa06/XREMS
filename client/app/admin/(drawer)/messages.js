@@ -4,9 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useNavigation } from 'expo-router';
 import { noMessages } from '../../../constants';
 import EmptyList from '../../../components/EmptyList';
-import SearchBar from '../../../components/SearchBar';
 import { useChat } from '../../../contexts/ChatContext';
-import { menuIcon, profile2 } from '../../../assets/icons/admin';
+import { menuIcon, profile, profile2 } from '../../../assets/icons/admin';
 import { DrawerActions } from '@react-navigation/native';
 import { useAuth } from '../../../contexts/AuthContext';
 
@@ -65,7 +64,7 @@ const Messages = () => {
             <TouchableOpacity className='py-[20px] mx-[20px] flex flex-row items-center justify-between border-b border-[#C2C2C2]' onPress={() => router.push(`/admin/chat/${item._id}`)}>
               <View className='flex flex-row items-center justify-start'>
                 <Image
-                  source={item?.profileImg ? { uri: item.profileImg } : user}
+                  source={item?.profileImage && item.profileImage !== '' ? { uri: item.profileImage } : profile}
                   resizeMode='cover'
                   className='w-[40px] h-[40px] rounded-full mr-2'
                 />

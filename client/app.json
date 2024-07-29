@@ -14,11 +14,16 @@
       "permissions": [
         "android.permission.INTERNET",
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "package": "com.oftotech.xrh"
     },
+    "icon": "./assets/images/logo.png",
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "e4df814d-eebd-47a7-a0d7-8379b10cc9a2"
       }
     }
   }

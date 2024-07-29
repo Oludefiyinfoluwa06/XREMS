@@ -1,3 +1,5 @@
+const { getProfileBucket } = require('../helpers/getBuckets');
+const { getPictures } = require('../helpers/getPictures');
 const Chat = require('../models/chat');
 const Notification = require('../models/notification');
 const User = require('../models/user');
@@ -14,15 +16,18 @@ const getUsers = async (req, res) => {
 
         const usersWithUnreadCount = await Promise.all(users.map(async (user) => {
             const unreadCount = await Chat.countDocuments({ sender: user._id, receipient: loggedInUserId, read: false });
-            return { ...user.toObject(), unreadCount };
+            const profileImageId = user.profileImg;
+            const profileImage = await getPictures(getProfileBucket(), profileImageId);
+
+            return { ...user.toObject(), unreadCount, profileImage };
         }));
+
 
         res.json({ users: usersWithUnreadCount });
     } catch (error) {
         res.json({ error: 'An error occurred while fetching users.' });
     }
 }
-
 
 const sendMessage = async (req, res) => {
     try {

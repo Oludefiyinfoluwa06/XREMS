@@ -151,7 +151,7 @@ const HouseDetails = () => {
                                 <View className='my-[10px] flex flex-row items-center justify-between'>
                                     <View className='flex flex-row items-center justify-start'>
                                         <Image
-                                            source={houseDetails !== null ? { uri: houseDetails.agent.profileImg } : user}
+                                            source={houseDetails !== null && houseDetails.agent.profileImg !== '' ? { uri: houseDetails.agent.profileImg } : user}
                                             resizeMode='cover'
                                             className='w-[40px] h-[40px] mr-2 rounded-full'
                                         />

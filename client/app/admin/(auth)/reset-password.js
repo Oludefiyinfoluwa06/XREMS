@@ -81,6 +81,7 @@ const ResetPassword = () => {
                     placeholder='Enter new password'
                     className='p-[5px] px-[10px] w-full border border-gray rounded-[50px]'
                     value={newPassword}
+                    secureTextEntry
                     onChangeText={(value) => {
                         setNewPassword(value);
                         setError('');

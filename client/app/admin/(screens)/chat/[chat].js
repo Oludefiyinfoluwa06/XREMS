@@ -8,6 +8,7 @@ import { useProperty } from '../../../../contexts/PropertyContext';
 import { useChat } from '../../../../contexts/ChatContext';
 import EmptyList from '../../../../components/EmptyList';
 import { useAuth } from '../../../../contexts/AuthContext';
+import { profile } from '../../../../assets/icons/admin';
 
 const Chat = () => {
     const [newMessage, setNewMessage] = useState('');
@@ -67,7 +68,7 @@ const Chat = () => {
                 </TouchableOpacity>
                 <View className='flex items-center justify-start flex-row'>
                     <Image
-                        source={userDetails?.profileImg ? { uri: userDetails.profileImg } : user}
+                        source={userDetails?.profileImg ? { uri: userDetails.profileImg } : profile}
                         resizeMode='cover'
                         className='w-[40px] h-[40px] mr-2 rounded-full'
                     />
