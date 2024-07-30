@@ -135,7 +135,9 @@ const getPropertyDetails = async (req, res) => {
 
         if (!agent) return res.json({ error: 'Could not get agent details' });
 
-        return res.json({ property: { ...property.toObject(), img: images }, agent });
+        const profileImg = await getPictures(getProfileBucket(), agent.profileImg);
+
+        return res.json({ property: { ...property.toObject(), img: images }, agent: { ...agent.toObject(), profileImg } });
     } catch (error) {
         console.log(error);
         res.json({ error: 'Error occurred while getting property details' });

@@ -98,6 +98,12 @@ const updateProfile = async (req, res) => {
     
             return res.json({ message: 'Profile updated successfully', isAdmin: user.isAdmin });
         }
+
+        const user = await User.findByIdAndUpdate(userId, { fullname, email, profileImg: req.file.id, isAdmin }, { new: true });
+
+        if (!user) return res.json({ error: 'Could not update user' });
+
+        return res.json({ message: 'Profile updated successfully', isAdmin: user.isAdmin });
     } catch (error) {
         console.log(error);
         return res.json({ error: "An error occurred, try again" });

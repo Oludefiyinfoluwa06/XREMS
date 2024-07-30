@@ -17,15 +17,13 @@ const walletTopup = async (req, res) => {
 
         if (!amount || !name || !cardNumber || !cvv || !expiryMonth || !expiryYear) return res.json({ error: 'Input field(s) cannot be empty' });
 
-        const numberAmount = parseFloat(amount.replace(/,/g, ''));
-
         const details = {
             "card_number": cardNumber,
             "cvv": cvv,
             "expiry_month": expiryMonth,
             "expiry_year": expiryYear,
             "currency": "NGN",
-            "amount": numberAmount,
+            "amount": parseFloat(amount),
             "fullname": name,
             "email": email,
             "tx_ref": "MC-" + Date.now(),
@@ -165,6 +163,11 @@ const walletWithdrawal = async (req, res) => {
 
         if (!amount || !password || !bankCode || !accountNumber) return res.json({ error: 'Input fields cannot be empty' });
 
+        console.log(amount);
+        console.log(bankCode);
+        console.log(accountNumber);
+        console.log(password);
+
         const user = await User.findById(req.user.id);
         
         if (!user) return res.json({ error: "User not found" });
@@ -177,7 +180,7 @@ const walletWithdrawal = async (req, res) => {
 
         const numberAmount = parseFloat(amount.replace(/,/g, ''));
 
-        if (numberAmount > user.balance) return res.json({ error: "Cannot withdraw due to insufficient balance" });
+        if (amount > user.balance) return res.json({ error: "Cannot withdraw due to insufficient balance" });
 
         const response = await flw.Transfer.initiate({
             "account_bank": bankCode,
@@ -223,6 +226,7 @@ const walletWithdrawal = async (req, res) => {
             return res.json({ error: 'Withdrawal failed' });
         }
     } catch (error) {
+        console.log(error);
         res.json({ error: "An error occurred, try again" });
     }
 }

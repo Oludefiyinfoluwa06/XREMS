@@ -248,7 +248,7 @@ const Wallet = () => {
                                 placeholder='Amount'
                                 placeholderTextColor={'#C2C2C2'}
                                 className='p-[5px] px-[10px] w-full border border-gray rounded-lg font-rregular'
-                                value={formatAmount(amount)}
+                                value={amount}
                                 onChangeText={(value) => {
                                     setAmount(value);
                                     setWalletError('');
